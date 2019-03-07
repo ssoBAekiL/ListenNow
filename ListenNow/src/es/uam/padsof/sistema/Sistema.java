@@ -35,7 +35,7 @@ public class Sistema {
 	 * Indica el numero maximo de reproducciones que un usuario no registrado puede realizar.
 	 * Este parametro puede ser modificado por el administrador
 	 */
-	private int nRepAnonimas;
+	private int nRepAnonimas;bhefhehcdbscbddbls
 
 	/**
 	 * Indica el numero maximo de reproducciones que un usuario registrado no premium puede realizar.
