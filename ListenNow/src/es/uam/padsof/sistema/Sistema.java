@@ -9,14 +9,6 @@ import java.util.*;
 public class Sistema {
 
 	/**
-	 * Default constructor
-	 */
-	public Sistema() {
-		
-		
-	}
-
-	/**
 	 * Contador de lar reproducciones utilizadas por los usuarios no registrados
 	 */
 	private int reproducciones;
@@ -89,7 +81,18 @@ public class Sistema {
 	 */
 	private Usuario usuarioEnSesion;
 	
+	/**
+	 * 
+	 */
+	public final static Sistema Sistema = new Sistema();
 
+	/**
+	 * Default constructor
+	 */
+	private Sistema() {
+		
+	}
+	
 	/**
 	 * 
 	 */
