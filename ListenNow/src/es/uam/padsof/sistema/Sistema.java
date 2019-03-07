@@ -9,17 +9,6 @@ import java.util.*;
 public class Sistema {
 
 	/**
-<<<<<<< HEAD
-=======
-	 * Default constructor
-	 */
-	public Sistema() {
-		
-		dhdhhdhdhdh
-	}
-
-	/**
->>>>>>> branch 'master' of https://github.com/ssoBAekiL/ListenNow.git
 	 * Contador de lar reproducciones utilizadas por los usuarios no registrados
 	 */
 	private int reproducciones;
