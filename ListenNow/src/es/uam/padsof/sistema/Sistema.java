@@ -9,6 +9,17 @@ import java.util.*;
 public class Sistema {
 
 	/**
+<<<<<<< HEAD
+=======
+	 * Default constructor
+	 */
+	public Sistema() {
+		
+		dhdhhdhdhdh
+	}
+
+	/**
+>>>>>>> branch 'master' of https://github.com/ssoBAekiL/ListenNow.git
 	 * Contador de lar reproducciones utilizadas por los usuarios no registrados
 	 */
 	private int reproducciones;
@@ -27,7 +38,9 @@ public class Sistema {
 	 * Indica el numero maximo de reproducciones que un usuario no registrado puede realizar.
 	 * Este parametro puede ser modificado por el administrador
 	 */
-	private int nRepAnonimas;bhefhehcdbscbddbls
+	private int nRepAnonimas;
+	
+	
 
 	/**
 	 * Indica el numero maximo de reproducciones que un usuario registrado no premium puede realizar.
