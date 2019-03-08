@@ -1,6 +1,8 @@
 package es.uam.padsof.sistema;
 
 import java.util.*;
+import es.uam.padsof.objetoreproducible.*;
+import es.uam.padsof.usuario.*;
 
 public class Notificacion {
 	
@@ -10,6 +12,7 @@ public class Notificacion {
 	private ArrayList<String> texto = new ArrayList<String>();
 	private Cancion cancionNotificada;
 	private Album albumNotificado;
+	private ArrayList<UsuarioRegistrado> usuariosNotificados = new ArrayList<UsuarioRegistrado>();
 	
 	public Notificacion (TipoNotificacion tipo, Cancion cancionNotificada) {
 		this.tipo = tipo;
