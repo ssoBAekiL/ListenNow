@@ -1,7 +1,11 @@
+package es.uam.padsof.objetoreproducible;
+
 import java.util.ArrayList;
 
+import es.uam.padsof.usuario.*;
+
 /**
- * @author Julián Espada, Pablo Borrelli y Carlos Miret
+ * @author Juliï¿½n Espada, Pablo Borrelli y Carlos Miret
  *
  * Esta clase se encarga de gestionar el objeto Album
  */
@@ -11,12 +15,14 @@ public class Album extends ObjetoReproducible{
 	/** Canciones del album*/
 	private ArrayList<Cancion> canciones;
 	
+	public ArrayList<Comentario> comentarios;
+	
 	/**
 	 * 
-	 * @param nCan Es el número de canciones totales que tiene el album
-	 * @param canciones Es el array que tendrá las canciones de dicho álbum
+	 * @param nCan Es el nï¿½mero de canciones totales que tiene el album
+	 * @param canciones Es el array que tendrï¿½ las canciones de dicho ï¿½lbum
 	 * 
-	 * Este método es el constructor del objeto Album
+	 * Este mï¿½todo es el constructor del objeto Album
 	 */
 	public Album (ArrayList<Cancion> canciones, String autor) {
 		this.canciones=canciones;
@@ -24,9 +30,9 @@ public class Album extends ObjetoReproducible{
 	
 	/**
 	 * 
-	 * @return canciones.size() Es un método que se encarga de devolver el tamaño del array canciones
+	 * @return canciones.size() Es un mï¿½todo que se encarga de devolver el tamaï¿½o del array canciones
 	 * 
-	 * Este método devuelve el número de canciones que tiene el álbum
+	 * Este mï¿½todo devuelve el nï¿½mero de canciones que tiene el ï¿½lbum
 	 */
 	public int getnCanciones() {
 		return canciones.size();
@@ -35,9 +41,9 @@ public class Album extends ObjetoReproducible{
 	
 	/**
 	 * 
-	 * @return canciones Es el array que tiene todas las canciones de un álbum
+	 * @return canciones Es el array que tiene todas las canciones de un ï¿½lbum
 	 * 
-	 * Este método se encarga de devolver el array con las canciones que tendrá un álbum
+	 * Este mï¿½todo se encarga de devolver el array con las canciones que tendrï¿½ un ï¿½lbum
 	 */
 	public ArrayList<Cancion> getCanciones() {
 		return canciones;
@@ -45,7 +51,7 @@ public class Album extends ObjetoReproducible{
 	
 	/**
 	 * 
-	 * @param canciones Es el nuevo array que tendrá el álbum a modificar
+	 * @param canciones Es el nuevo array que tendrï¿½ el ï¿½lbum a modificar
 	 */
 	public void setCanciones(ArrayList<Cancion> canciones) {
 		this.canciones = canciones;
@@ -53,9 +59,9 @@ public class Album extends ObjetoReproducible{
 	
 	/**
 	 * 
-	 * @param c Canción a añadir
+	 * @param c Canciï¿½n a aï¿½adir
 	 * 
-	 * Este método se encargará de añadir una canción al álbum
+	 * Este mï¿½todo se encargarï¿½ de aï¿½adir una canciï¿½n al ï¿½lbum
 	 */
 	public void aniadirCancionAlbum(Cancion c) {
 		int i=0;
@@ -71,9 +77,9 @@ public class Album extends ObjetoReproducible{
 	
 	/**
 	 * 
-	 * @param c Canción a borrar
+	 * @param c Canciï¿½n a borrar
 	 * 
-	 * Este método se encarga de borrar la canción que se le pasa como argumento del álbum
+	 * Este mï¿½todo se encarga de borrar la canciï¿½n que se le pasa como argumento del ï¿½lbum
 	 */
 	public void borrarCancionAlbum(Cancion c) {
 		canciones.remove(c);
@@ -82,9 +88,9 @@ public class Album extends ObjetoReproducible{
 	
 	/**
 	 * 
-	 * @param c Canciones a añadir
+	 * @param c Canciones a aï¿½adir
 	 * 
-	 * Este método se encarga de añadir masivamente varias canciones al álbum
+	 * Este mï¿½todo se encarga de aï¿½adir masivamente varias canciones al ï¿½lbum
 	 */
 	public void aniadirCancionesAlbum(Cancion...c) {
 		int i=0;
@@ -107,7 +113,11 @@ public class Album extends ObjetoReproducible{
 		}
 		return;
 	}
+
+	public ArrayList<Comentario> getComentarios() {
+		return comentarios;
+	}
 	
-	/* IMPORTANTE COMPROBAR SI YA EXISTE LA CANCION EN EL ALBUM AL AÑADIR O SI NO EXISTE AL BORRAR O SI NO ES DEL AUTOR*/
+	/* IMPORTANTE COMPROBAR SI YA EXISTE LA CANCION EN EL ALBUM AL Aï¿½ADIR O SI NO EXISTE AL BORRAR O SI NO ES DEL AUTOR*/
 	
 }

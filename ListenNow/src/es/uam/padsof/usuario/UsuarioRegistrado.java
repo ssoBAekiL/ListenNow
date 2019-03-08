@@ -281,6 +281,58 @@ public class UsuarioRegistrado {
 			this.esPremium=true;
 	}
 
+
+	/**
+	 * Metodo que da la capacidad al usuario de anadir un comentario a una cancion
+	 * @param cancion
+	 * @param comentario
+	 */
+	public void anadirComentarioAcancion(Cancion cancion, Comentario comentario) {
+		cancion.getComentarios().add(comentario);
+	}
+	
+	/**
+	 * Metodo que da la capacidad al usuario de anadir un comentario a una cancion
+	 * @param cancion
+	 * @param comentario
+	 */
+	public void anadirComentarioAalbum(Album album, Comentario comentario) {
+		album.getComentarios().add(comentario);
+	}
+
+	/**
+	 * Metodo que permite a un usuario valorar un comentario
+	 * @param valoracion
+	 */
+	public void valorarComentario(Comentario comentario, int valoracion) {
+		comentario.setValoracion(valoracion);
+	}
+
+	/**
+	 * Metodo que permite a un usuario notificar ccomo plagio una cancion
+	 * @param cancion
+	 */
+	public void notificarPlagio(Cancion cancion) {
+		cancion.setNotificada(true);
+	}
+
+	/**
+	 * Metodo que permite al usuario crear un Album y por consiguiente almacenarlo en el conjunto de diferentes albunes de dicho usuario
+	 * @param album
+	 */
+	public void anadirAlbum(Album album) {
+		this.albunes.add(album);
+	}
+
+	/**
+	 * Metodo que da la capacidad a un usuario a borrar un album
+	 * @param album
+	 */
+	public void borrarAlbum(Album album) {
+		Sistema.sistema.borrarReproducible(album);
+	}
+
+
 	/**
 	 * Metodo que se encarga de anadir una cancion al conjunto de canciones del usuario
 	 * @param cancion
@@ -294,70 +346,16 @@ public class UsuarioRegistrado {
 	 * @param cancion
 	 */
 	public void borrarCancion(Cancion cancion) {
-		Sistema.sistema.borrarReproducible(cancion);; //sistema.borrarReproducible(cancion);????????preguntamosssss
+		Sistema.sistema.borrarReproducible(cancion); //sistema.borrarReproducible(cancion);????????preguntamosssss
 	}
 	
-
-
-	/**
-	 * Metodo que da la capacidad al usuario de anadir un comentario a una cancion
-	 * @param cancion
-	 * @param comentario
-	 */
-	public void anadirComentarioAcancion(Cancion cancion, String comentario) {
-		
-		
-	}
 	
-	/**
-	 * Metodo que da la capacidad al usuario de anadir un comentario a una cancion
-	 * @param cancion
-	 * @param comentario
-	 */
-	public void anadirComentarioAalbum(Album album, String comentario) {
-		// TODO implement here
-	}
-
-	/**
-	 * Metodo que permite a un usuario valorar un comentario
-	 * @param valoracion
-	 */
-	public void valorarComentario(int valoracion) {
-		// TODO implement here
-		
-	}
-
-	/**
-	 * Metodo que permite a un usuario notificar ccomo plagio una cancion
-	 * @param cancion
-	 */
-	public void notificarPlagio(Cancion cancion) {
-		// TODO implement here
-		
-	}
-
-	/**
-	 * Metodo que permite al usuario crear un Album y por consiguiente almacenarlo en el conjunto de diferentes albunes de dicho usuario
-	 * @param album
-	 */
-	public void crearAlbum(Album album) {
-		albunes.add(album);
-	}
-
-	/**
-	 * Metodo que da la capacidad a un usuario a borrar un album
-	 * @param album
-	 */
-	public void borrarAlbum(Album album) {
-		Sistema.sistema.borrarReproducible(album);
-	}
-
 	/**
 	 * Metodo que da la capacidad a un usuario de crear una lista de reproducciones propia
 	 * @param album
 	 */
-	public void crearListaReproduccion(ListaReproducciones lista) {
-		// TODO implement here
+	public void anadirListaReproduccion(ListaReproducciones lista) {
+		this.lista_reproducciones.add(lista);
 	}
 
 	/**
@@ -365,7 +363,7 @@ public class UsuarioRegistrado {
 	 * @param album
 	 */
 	public void borrarListaReproduccion(ListaReproducciones lista) {
-		// TODO implement here
+		Sistema.sistema.borrarReproducible(lista); //sistema.borrarReproducible(cancion);????????preguntamosssss
 	}
 	
 	/*************************************************************************************************/

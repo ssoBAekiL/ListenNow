@@ -1,5 +1,9 @@
 package es.uam.padsof.objetoreproducible;
 
+import java.util.ArrayList;
+
+import es.uam.padsof.usuario.Comentario;
+
 /**
  * @author Juli�n Espada, Pablo Borrelli y Carlos Miret
  * 
@@ -13,6 +17,8 @@ public class Cancion extends ObjetoReproducible{
 	private boolean mas18;
 	private boolean validar;
 	private boolean plagio;
+	private boolean notificada;
+	private ArrayList<Comentario> comentarios;
 	
 	/**
 	 * 
@@ -25,13 +31,15 @@ public class Cancion extends ObjetoReproducible{
 	 * 
 	 * Este m�todo es el constructor del objeto Cancion
 	 */
-	public Cancion (int id, String ruta, int nrep, boolean m18, boolean val, boolean plag) {
+	public Cancion (int id, String ruta, int nrep) {
 		this.id=id;
 		this.rutaFichero=ruta;
 		this.nreproducciones=nrep;
-		this.mas18=m18;
-		this.validar=val;
-		this.plagio=plag;
+		this.mas18=false;
+		this.validar=false;
+		this.notificada=false;
+		this.plagio=false;
+		this.comentarios=null;
 	}
 
 	/**
@@ -156,6 +164,38 @@ public class Cancion extends ObjetoReproducible{
 	public void setPlagio(boolean plagio) {
 		this.plagio = plagio;
 	}
+
+	/**
+	 * @return the comentarios
+	 */
+	public ArrayList<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	/**
+	 * @param comentarios the comentarios to set
+	 */
+	public void setComentarios(ArrayList<Comentario> comentarios) {
+		this.comentarios = comentarios;
+	}
+
+	/**
+	 * @return the notificada
+	 */
+	public boolean isNotificada() {
+		return notificada;
+	}
+
+	/**
+	 * @param notificada the notificada to set
+	 */
+	public void setNotificada(boolean notificada) {
+		this.notificada = notificada;
+	}
+	
+	
+	
+	
 
 	
 }

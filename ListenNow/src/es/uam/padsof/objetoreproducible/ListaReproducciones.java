@@ -48,7 +48,7 @@ public class ListaReproducciones extends ObjetoReproducible{
 	}
 
 	/**
-	 * Devuelve el array de albumes que tendrá la lista
+	 * Devuelve el array de albumes que tendrï¿½ la lista
 	 *
 	 * @return ListaAlbumes El array de albumes de la lista
 	 */
@@ -68,7 +68,7 @@ public class ListaReproducciones extends ObjetoReproducible{
 	/**
 	 * Devuelve las listas de reproduccion que tiene a su vez la lista de reproduccion principal.
 	 *
-	 * @return Listas El array de listas de reproducciones que tendrá la lista de reproduccion principal
+	 * @return Listas El array de listas de reproducciones que tendrï¿½ la lista de reproduccion principal
 	 */
 	public ArrayList<ListaReproducciones> getListas() {
 		return Listas;
@@ -84,7 +84,7 @@ public class ListaReproducciones extends ObjetoReproducible{
 	}
 	
 	/**
-	 * Añade una cancion a la lista de reproduccion 
+	 * Aï¿½ade una cancion a la lista de reproduccion 
 	 * 
 	 * @param c La cancion nueva a introducir en la lista de reproduccion
 	 */
@@ -100,7 +100,7 @@ public class ListaReproducciones extends ObjetoReproducible{
 	}
 	
 	/**
-	 * Añade un album a la lista de reproduccion 
+	 * Aï¿½ade un album a la lista de reproduccion 
 	 * 
 	 * @param a El album nuevo a introducir en la lista de reproduccion
 	 */
@@ -116,7 +116,7 @@ public class ListaReproducciones extends ObjetoReproducible{
 	}
 	
 	/**
-	 * Añade una lista a la lista de reproduccion 
+	 * Aï¿½ade una lista a la lista de reproduccion 
 	 * 
 	 * @param l
 	 */
@@ -158,6 +158,6 @@ public class ListaReproducciones extends ObjetoReproducible{
 		Listas.remove(l);
 		return;
 	}
-	
+
 	
 }
