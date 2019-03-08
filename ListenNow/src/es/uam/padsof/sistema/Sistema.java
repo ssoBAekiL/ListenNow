@@ -219,14 +219,14 @@ public class Sistema {
 	 * @param usuario
 	 */
 	public void recompensaPremium(UsuarioRegistrado usuario) {
-		Calendar fecha = Calendar.getInstance();
+		LocalDate fecha = LocalDate.now();
 		int reproducciones = 0;
 		for (Cancion c: usuario.getCanciones()) {
 			reproducciones += c.getNreproducciones();
 		}
 		if (reproducciones >= nRepRecompensa && usuario.EsPremium() == false) {
 			usuario.setEsPremium(true);
-			usuario.setFechaPremium(fecha.getTime());
+			usuario.setFechaPremium(fecha);
 		}
 	}
 
