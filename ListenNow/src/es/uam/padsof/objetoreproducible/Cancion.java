@@ -1,5 +1,5 @@
 /**
- * @author Julián Espada, Pablo Borrelli y Carlos Miret
+ * @author Juliï¿½n Espada, Pablo Borrelli y Carlos Miret
  * 
  * Esta clase se encarga de gestionar el objeto Cancion 
  */
@@ -14,14 +14,14 @@ public class Cancion extends ObjetoReproducible{
 	
 	/**
 	 * 
-	 * @param id Este es el id que tendrá la canción
-	 * @param ruta Este es el nombre de la ruta del fichero que contendrá la canción
-	 * @param nrep Este es el número de reproducciones de la canción
-	 * @param m18 Este es el boolean que marcará si la canción es apta para mayores de 18
-	 * @param val Este es el boolean que marcará la canción como válida o no
-	 * @param plag Este es el boolean que marcará la canción como plagio
+	 * @param id Este es el id que tendrï¿½ la canciï¿½n
+	 * @param ruta Este es el nombre de la ruta del fichero que contendrï¿½ la canciï¿½n
+	 * @param nrep Este es el nï¿½mero de reproducciones de la canciï¿½n
+	 * @param m18 Este es el boolean que marcarï¿½ si la canciï¿½n es apta para mayores de 18
+	 * @param val Este es el boolean que marcarï¿½ la canciï¿½n como vï¿½lida o no
+	 * @param plag Este es el boolean que marcarï¿½ la canciï¿½n como plagio
 	 * 
-	 * Este método es el constructor del objeto Cancion
+	 * Este mï¿½todo es el constructor del objeto Cancion
 	 */
 	public Cancion (int id, String ruta, int nrep, boolean m18, boolean val, boolean plag) {
 		this.id=id;
@@ -44,10 +44,10 @@ public class Cancion extends ObjetoReproducible{
 
 	/**
 	 * 
-	 * @param id El id nuevo que queremo que tenga la canción
+	 * @param id El id nuevo que queremo que tenga la canciï¿½n
 	 * @return void
 	 * 
-	 * Esta clase modificará el id de la canción
+	 * Esta clase modificarï¿½ el id de la canciï¿½n
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -57,7 +57,7 @@ public class Cancion extends ObjetoReproducible{
 	 * 
 	 * @return rutaFichero 
 	 * 
-	 * Este método se encarga de devolver la ruta del fichero donde se encuentra la canción
+	 * Este mï¿½todo se encarga de devolver la ruta del fichero donde se encuentra la canciï¿½n
 	 */
 	public String getRutaFichero() {
 		return rutaFichero;
@@ -65,10 +65,10 @@ public class Cancion extends ObjetoReproducible{
 
 	/**
 	 * 
-	 * @param rutaFichero Es la ruta del nuevo fichero al que va a pertenecer la canción
+	 * @param rutaFichero Es la ruta del nuevo fichero al que va a pertenecer la canciï¿½n
 	 * @return void
 	 * 
-	 * Este método modificará la ruta del fichero donde se encontrará la canción
+	 * Este mï¿½todo modificarï¿½ la ruta del fichero donde se encontrarï¿½ la canciï¿½n
 	 */
 	public void setRutaFichero(String rutaFichero) {
 		this.rutaFichero = rutaFichero;
@@ -78,7 +78,7 @@ public class Cancion extends ObjetoReproducible{
 	 * 
 	 * @return nreproducciones
 	 * 
-	 * Este método devuelve el número de reproducciones de la canción
+	 * Este mï¿½todo devuelve el nï¿½mero de reproducciones de la canciï¿½n
 	 */
 	public int getNreproducciones() {
 		return nreproducciones;
@@ -86,10 +86,10 @@ public class Cancion extends ObjetoReproducible{
 
 	/**
 	 * 
-	 * @param nreproducciones Este es el nuevo número de reproducciones para la canción
+	 * @param nreproducciones Este es el nuevo nï¿½mero de reproducciones para la canciï¿½n
 	 * @return void
 	 * 
-	 * Este método se encarga de modificar el número de reproducciones de la canción
+	 * Este mï¿½todo se encarga de modificar el nï¿½mero de reproducciones de la canciï¿½n
 	 */
 	public void setNreproducciones(int nreproducciones) {
 		this.nreproducciones = nreproducciones;
@@ -99,7 +99,7 @@ public class Cancion extends ObjetoReproducible{
 	 * 
 	 * @return mas18
 	 * 
-	 * Este método devuelve el boolean que tiene la canción que indica si es apto para mayores de 18
+	 * Este mï¿½todo devuelve el boolean que tiene la canciï¿½n que indica si es apto para mayores de 18
 	 */
 	public boolean isMas18() {
 		return mas18;
@@ -107,9 +107,9 @@ public class Cancion extends ObjetoReproducible{
 
 	/**
 	 * 
-	 * @param mas18 el nuevo boolean que tendrá el atributo mas18 de la cancion
+	 * @param mas18 el nuevo boolean que tendrï¿½ el atributo mas18 de la cancion
 	 * 
-	 * Este método modifica el boolean mas18 de la clase Cancion
+	 * Este mï¿½todo modifica el boolean mas18 de la clase Cancion
 	 */
 	public void setMas18(boolean mas18) {
 		this.mas18 = mas18;
@@ -119,7 +119,7 @@ public class Cancion extends ObjetoReproducible{
 	 * 
 	 * @return validar 
 	 * 
-	 * Este método devuelve el boolean de la cancion que indica si está validada o no
+	 * Este mï¿½todo devuelve el boolean de la cancion que indica si estï¿½ validada o no
 	 */
 	public boolean isValidar() {
 		return validar;
@@ -139,7 +139,7 @@ public class Cancion extends ObjetoReproducible{
 	 * 
 	 * @return plagio 
 	 * 
-	 * Este método devuelve el boolean plagio de la cancion que indica si la canción es un plagio o no
+	 * Este mï¿½todo devuelve el boolean plagio de la cancion que indica si la canciï¿½n es un plagio o no
 	 */
 	public boolean isPlagio() {
 		return plagio;
@@ -147,12 +147,13 @@ public class Cancion extends ObjetoReproducible{
 
 	/**
 	 * 
-	 * @param plagio Este es el nuevo boolean plagio que tendrá la canción
+	 * @param plagio Este es el nuevo boolean plagio que tendrï¿½ la canciï¿½n
 	 * 
-	 * Este método modifica el boolean plagio de la canción por el que se pasa por argumento
+	 * Este mï¿½todo modifica el boolean plagio de la canciï¿½n por el que se pasa por argumento
 	 */
 	public void setPlagio(boolean plagio) {
 		this.plagio = plagio;
-	} 
+	}
+
 	
 }
