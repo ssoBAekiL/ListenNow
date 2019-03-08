@@ -1,81 +1,163 @@
-
 import java.util.*;
 
 /**
+ * @author Julian Espada, Carlos Miret y Pablo Borrelli
  * 
+ * Esta clase se encarga de gestionar el objeto ListaReproducciones
  */
-public class ListaReproducciones extends ObjetoReproducible {
-
+public class ListaReproducciones extends ObjetoReproducible{
+	
+	/** The Lista canciones. */
+	private ArrayList <Cancion> ListaCanciones;
+	
+	/** The Lista albumes. */
+	private ArrayList <Album> ListaAlbumes;
+	
+	/** The Listas. */
+	private ArrayList <ListaReproducciones> Listas;
+	
 	/**
-	 * Default constructor
+	 * Instantiates a new lista reproducciones.
+	 *
+	 * @param c Array de canciones
+	 * @param a Array de albumes
+	 * @param l Array de lista de reproducciones
 	 */
-	public ListaReproducciones() {
+	public ListaReproducciones (ArrayList<Cancion> c, ArrayList<Album> a, ArrayList<ListaReproducciones> l) {
+		this.ListaCanciones=c;
+		this.ListaAlbumes=a;
+		this.Listas=l;
 	}
 
 	/**
+	 * Devuelve las canciones.
+	 *
+	 * @return ListaCanciones Las canciones que tiene la lista de reproduccion
+	 */
+	public ArrayList<Cancion> getListaCanciones() {
+		return ListaCanciones;
+	}
+
+	/**
+	 * Modifica la lista de canciones.
+	 *
+	 * @param listaCanciones La nueva lista de canciones
+	 */
+	public void setListaCanciones(ArrayList<Cancion> listaCanciones) {
+		ListaCanciones = listaCanciones;
+	}
+
+	/**
+	 * Devuelve el array de albumes que tendrá la lista
+	 *
+	 * @return ListaAlbumes El array de albumes de la lista
+	 */
+	public ArrayList<Album> getListaAlbumes() {
+		return ListaAlbumes;
+	}
+
+	/**
+	 * Modifica el array de albumes de la lista.
+	 *
+	 * @param listaAlbumes Es el nuevo array de albumes 
+	 */
+	public void setListaAlbumes(ArrayList<Album> listaAlbumes) {
+		ListaAlbumes = listaAlbumes;
+	}
+
+	/**
+	 * Devuelve las listas de reproduccion que tiene a su vez la lista de reproduccion principal.
+	 *
+	 * @return Listas El array de listas de reproducciones que tendrá la lista de reproduccion principal
+	 */
+	public ArrayList<ListaReproducciones> getListas() {
+		return Listas;
+	}
+
+	/**
+	 * Modifica la lista de reproduccion.
+	 *
+	 * @param listas El nuevo array de lista de reproduccion
+	 */
+	public void setListas(ArrayList<ListaReproducciones> listas) {
+		Listas = listas;
+	}
+	
+	/**
+	 * Añade una cancion a la lista de reproduccion 
 	 * 
+	 * @param c La cancion nueva a introducir en la lista de reproduccion
 	 */
-	private Time duracion;
-
+	public void aniadirCancionALista(Cancion c) {
+		int i;
+		for(i=0; i<ListaCanciones.size(); i++) {
+			if(ListaCanciones.get(i)==c) {
+				return;
+			}
+		}
+		ListaCanciones.add(c);
+		return;
+	}
+	
 	/**
+	 * Añade un album a la lista de reproduccion 
 	 * 
+	 * @param a El album nuevo a introducir en la lista de reproduccion
 	 */
-	private int nCanciones;
-
+	public void aniadirAlbumALista(Album a) {
+		int i;
+		for(i=0; i<ListaAlbumes.size(); i++) {
+			if(ListaAlbumes.get(i)==a) {
+				return;
+			}
+		}
+		ListaAlbumes.add(a);
+		return;
+	}
+	
 	/**
+	 * Añade una lista a la lista de reproduccion 
 	 * 
+	 * @param l
 	 */
-	private int nAlbunes;
-
+	public void aniadirListaALista(ListaReproducciones l) {
+		int i;
+		for(i=0; i<Listas.size(); i++) {
+			if(Listas.get(i)==l) {
+				return;
+			}
+		}
+		Listas.add(l);
+		return;
+	}
+	
 	/**
+	 * Elimina una cancion de una lista de reproduccion
 	 * 
+	 * @param c Cancion a borrar
 	 */
-	private int nListas;
-
-
-
-
-
-	/**
-	 * @param cancion
-	 */
-	public void anadirCancionALista(Cancion cancion) {
-		// TODO implement here
+	public void borrarCancionALista(Cancion c) {
+		ListaCanciones.remove(c);
+		return;
 	}
-
+	
 	/**
-	 * @param album
+	 * Elimina un album de una lista de reproduccion
+	 * @param a Album a borrar
 	 */
-	public void anadirAlbumALista(Album album) {
-		// TODO implement here
+	public void borrarAlbumALista(Album a) {
+		ListaAlbumes.remove(a);
+		return;
 	}
-
+	
 	/**
-	 * @param lista
+	 * Elimina una lista a una lista de reproduccion
+	 * @param l Lista a borrar
 	 */
-	public void anadirListaALista(Lista lista) {
-		// TODO implement here
+	public void borrarListaALista(ListaReproducciones l) {
+		Listas.remove(l);
+		return;
 	}
-
-	/**
-	 * @param cancion
-	 */
-	public void borrarCancionALista(Cancion cancion) {
-		// TODO implement here
-	}
-
-	/**
-	 * @param album
-	 */
-	public void borrarAlbumALista(Album album) {
-		// TODO implement here
-	}
-
-	/**
-	 * @param lista
-	 */
-	public void borrarListaALista(Lista lista) {
-		// TODO implement here
-	}
-
+	
+	
 }
