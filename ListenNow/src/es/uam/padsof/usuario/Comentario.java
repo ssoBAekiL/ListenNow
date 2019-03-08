@@ -1,17 +1,11 @@
-
+package es.uam.padsof.usuario;
 import java.util.*;
 
 /**
  * 
  */
 public class Comentario {
-
-	/**
-	 * Default constructor
-	 */
-	public Comentario() {
-	}
-
+	
 	/**
 	 * 
 	 */
@@ -31,6 +25,18 @@ public class Comentario {
 	 * 
 	 */
 	private int valoracion;
+
+	/**
+	 * Default constructor
+	 */
+	public Comentario(String texto, UsuarioRegistrado autor, Date fecha, int valoracion) {
+		this.texto=texto;
+		this.autor=autor;
+		this.fecha=fecha;
+		this.valoracion=valoracion;
+	}
+
+
 
 
 

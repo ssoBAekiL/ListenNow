@@ -1,4 +1,6 @@
 package es.uam.padsof.usuario;
+import java.time.LocalDate;
+import java.time.LocalLocalDate;
 import java.util.*;
 
 import es.uam.padsof.objetoreproducible.*;
@@ -7,6 +9,10 @@ import es.uam.padsof.sistema.*;
 /**
  * Esta clase proporciona funcionalidades referentes a un usuario al igual que sus caracter�sticas principales
  * @author Carlos Miret, Pablo Borrelli y Julian Espada
+ *
+ */
+/**
+ * @author carlosmiret
  *
  */
 public class UsuarioRegistrado {
@@ -18,8 +24,8 @@ public class UsuarioRegistrado {
 	 * sino que ser,a inicializados a null en el cuerpo de este constructor
 	 * A�ADIR GENERATE ELEMENT COMMENT EN ESTE CONSTRUCTOR
 	 */
-
-	public UsuarioRegistrado(String nombre, String contrasena, boolean esPremium, Date fechaPremium,int reproducciones, boolean bloqueado) {
+	//constructor de Usuario comun
+	public UsuarioRegistrado(String nombre, String contrasena, boolean esPremium, LocalLocalDate fechaPremium,int reproducciones, boolean bloqueado) {
 		this.nombre=nombre;
 		this.contrasena=contrasena;
 		this.esPremium=esPremium;
@@ -28,10 +34,18 @@ public class UsuarioRegistrado {
 		this.seguidores=null;
 		this.canciones=null;
 		this.albunes=null;
-		this.lista_reproducciones=null;//preguntarrrrrrrrrrr
+		this.lista_reproducciones=null;
 		this.reproducciones=reproducciones;
 		this.bloqueado=bloqueado;
 	}
+	
+//	public UsuarioResgistrado() { para usuarios ya verdaderamente registrados
+//		
+//	}
+	
+//	public UsuarioRegistrado() { constructor para un admin
+//		
+//	}
 
 	/**
 	 * Nombre
@@ -51,12 +65,18 @@ public class UsuarioRegistrado {
 	/**
 	 * fechaPremium
 	 */
-	private Date fechaPremium;
+	private LocalDate fechaPremium;
 
 	/**
 	 * seguidos
 	 */
 	private ArrayList<UsuarioRegistrado> seguidos;
+	
+	
+	/**
+	 * ADMIN
+	 */
+	private boolean isAdmin;
 
 	/**
 	 * seguidores
@@ -68,6 +88,13 @@ public class UsuarioRegistrado {
 	 */
 	private ArrayList<Cancion> canciones;
 	
+	/**
+	 * @return the isAdmin
+	 */
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
 	/**
 	 * albunes
 	 */
@@ -145,7 +172,7 @@ public class UsuarioRegistrado {
 	 * Funcion getter FECHAPREMIUM
 	 * @return fecha en la que el usuario contrato la opcion premium
 	 */
-	public Date getFechaPremium() {
+	public LocalDate getFechaPremium() {
 		return fechaPremium;
 	}
 
@@ -153,7 +180,7 @@ public class UsuarioRegistrado {
 	 * Funcion setter FECHAPREMIUM
 	 * @param fechaPremium
 	 */
-	public void setFechaPremium(Date fechaPremium) {
+	public void setFechaPremium(LocalDate fechaPremium) {
 		this.fechaPremium = fechaPremium;
 	}
 
@@ -251,8 +278,7 @@ public class UsuarioRegistrado {
 	 * Metodo cuya funcionaidad es contratar premium
 	 */
 	public void contratarPremium() {
-		    Calendar c = Calendar.getInstance();
-		    this.fechaPremium=c.getTime();
+		    this.fechaPremium=LocalDate.now();
 			this.esPremium=true;
 	}
 
@@ -269,7 +295,7 @@ public class UsuarioRegistrado {
 	 * @param cancion
 	 */
 	public void borrarCancion(Cancion cancion) {
-		Sistema.sistema.anadirReproducible(reproducible); //sistema.borrarReproducible(cancion);????????preguntamosssss
+		Sistema.sistema.borrarReproducible(cancion);; //sistema.borrarReproducible(cancion);????????preguntamosssss
 	}
 	
 
@@ -280,6 +306,7 @@ public class UsuarioRegistrado {
 	 * @param comentario
 	 */
 	public void anadirComentarioAcancion(Cancion cancion, String comentario) {
+		
 		
 	}
 	
@@ -298,6 +325,7 @@ public class UsuarioRegistrado {
 	 */
 	public void valorarComentario(int valoracion) {
 		// TODO implement here
+		
 	}
 
 	/**
@@ -306,6 +334,7 @@ public class UsuarioRegistrado {
 	 */
 	public void notificarPlagio(Cancion cancion) {
 		// TODO implement here
+		
 	}
 
 	/**
@@ -353,7 +382,10 @@ public class UsuarioRegistrado {
 	 * @param cancion
 	 */
 	public void validarCancion(Cancion cancion) {
-		// TODO implement here
+		if(this.isAdmin=true) {
+			cancion.setValidar(true);
+			Sistema.sistema.getCancionesValidadas().add(cancion);//????????
+		}
 	}
 
 	/**
@@ -361,7 +393,10 @@ public class UsuarioRegistrado {
 	 * @param cancion
 	 */
 	public void validarCancion18(Cancion cancion) {
-		// TODO implement here
+		if(this.isAdmin=true) {
+			cancion.setMas18(true);
+			Sistema.sistema.getCancionesValidadas().add(cancion);
+		}
 	}
 
 	/**
@@ -369,7 +404,8 @@ public class UsuarioRegistrado {
 	 * @param cancion
 	 */
 	public void verificarPlagio(Cancion cancion) {
-		// TODO implement here
+		if(this.isAdmin=true)
+			cancion.setPlagio(true);
 	}
 
 	/**
@@ -377,7 +413,8 @@ public class UsuarioRegistrado {
 	 * @param cancion
 	 */
 	public void rechazarCancion(Cancion cancion) {
-		// TODO implement here
+		if(this.isAdmin=true)
+			Sistema.sistema.getCancionesRechazadas().add(cancion);//?????
 	}
 
 	/**
@@ -385,7 +422,7 @@ public class UsuarioRegistrado {
 	 * @param limite
 	 */
 	public void modificarNRepAnonimas(int limite) {
-			sistema.setNRepAnonimas(limite);
+			Sistema.sistema.setnRepAnonimas(limite);
 	}
 
 	/**
@@ -393,7 +430,7 @@ public class UsuarioRegistrado {
 	 * @param limite
 	 */
 	public void modificarNRepPremium(int limite) {
-			Sistema.sistema.setNRepPremium(limite);//�??????????????????????????????????????????????????????????????????????????????????????????????????
+			Sistema.sistema.setnRepRecompensa(limite);//�??????????????????????????????????????????????????????????????????????????????????????????????????
 	}
 
 	/**
@@ -401,7 +438,7 @@ public class UsuarioRegistrado {
 	 * @param limite
 	 */
 	public void modificarNRepRecompensa(int limite) {
-			Sistema.sistema.setNRepRecompensa(limite);
+			Sistema.sistema.setnRepRecompensa(limite);
 	}
 
 }

@@ -158,6 +158,7 @@ public class Sistema {
 	public void registrarse(UsuarioRegistrado usuario) {
 		usuarios.add(usuario);
 	}
+	
 
 	/**
 	 * @param usuario 
@@ -288,6 +289,36 @@ public class Sistema {
 	public void setnRepRecompensa(int nRepRecompensa) {
 		this.nRepRecompensa = nRepRecompensa;
 	}
+
+	/**
+	 * @return the cancionesValidadas
+	 */
+	public ArrayList<Cancion> getCancionesValidadas() {
+		return cancionesValidadas;
+	}
+
+	/**
+	 * @param cancionesValidadas the cancionesValidadas to set
+	 */
+	public void setCancionesValidadas(ArrayList<Cancion> cancionesValidadas) {
+		this.cancionesValidadas = cancionesValidadas;
+	}
+
+	/**
+	 * @return the cancionesRechazadas
+	 */
+	public ArrayList<Cancion> getCancionesRechazadas() {
+		return cancionesRechazadas;
+	}
+
+	/**
+	 * @param cancionesRechazadas the cancionesRechazadas to set
+	 */
+	public void setCancionesRechazadas(ArrayList<Cancion> cancionesRechazadas) {
+		this.cancionesRechazadas = cancionesRechazadas;
+	}
+	
+	
 	
 
 }

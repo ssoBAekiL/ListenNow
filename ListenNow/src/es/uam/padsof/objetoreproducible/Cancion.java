@@ -1,3 +1,5 @@
+package es.uam.padsof.objetoreproducible;
+
 /**
  * @author Juli�n Espada, Pablo Borrelli y Carlos Miret
  * 
