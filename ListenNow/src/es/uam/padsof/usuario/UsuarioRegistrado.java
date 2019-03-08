@@ -383,7 +383,7 @@ public class UsuarioRegistrado {
 	public void validarCancion(Cancion cancion) {
 		if(this.isAdmin=true) {
 			cancion.setValidar(true);
-			Sistema.sistema.getCancionesValidadas().add(cancion);//????????
+			Sistema.sistema.getCancionesValidadas().add(cancion);//?? ??????
 		}
 	}
 
