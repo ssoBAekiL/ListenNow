@@ -289,6 +289,5 @@ public class Sistema {
 		this.nRepRecompensa = nRepRecompensa;
 	}
 	
-	
 
 }
