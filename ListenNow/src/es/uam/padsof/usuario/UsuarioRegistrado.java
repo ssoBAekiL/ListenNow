@@ -1,9 +1,11 @@
 package es.uam.padsof.usuario;
 import java.util.*;
 
+import es.uam.padsof.sistema.Sistema;
+
 
 /**
- * Esta clase proporciona funcionalidades referentes a un usuario al igual que sus características principales
+ * Esta clase proporciona funcionalidades referentes a un usuario al igual que sus caracterï¿½sticas principales
  * @author Carlos Miret, Pablo Borrelli y Julian Espada
  *
  */
@@ -12,9 +14,9 @@ public class UsuarioRegistrado {
     /************sistema se pone aqui??????, como accedo a sistema siendo el admin**************/
 	/**
 	 * Metodo constructor de la clase UsuarioRegistrado. Es importante destacar que al construir un objeto 
-	 * UsuarioRegistrado, este no tendrá seguidores ni seguidos, por lo que no se incluyen en los parámetros de esta funcion,
+	 * UsuarioRegistrado, este no tendrï¿½ seguidores ni seguidos, por lo que no se incluyen en los parï¿½metros de esta funcion,
 	 * sino que ser,a inicializados a null en el cuerpo de este constructor
-	 * AÑADIR GENERATE ELEMENT COMMENT EN ESTE CONSTRUCTOR
+	 * Aï¿½ADIR GENERATE ELEMENT COMMENT EN ESTE CONSTRUCTOR
 	 */
 
 	public UsuarioRegistrado(String nombre, String contrasena, boolean esPremium, Date fechaPremium,int reproducciones, boolean bloqueado) {
@@ -179,13 +181,6 @@ public class UsuarioRegistrado {
 		return seguidores;
 	}
 
-	/**
-	 * Funcion setter SEGUIDORES
-	 * @param seguidores
-	 */
-	public void setSeguidores(ArrayList<UsuarioRegistrado> seguidores) {
-		this.seguidores = seguidores;
-	}
 
 	/**
 	 * Funcion getter REPRODUCCIONES
@@ -194,14 +189,7 @@ public class UsuarioRegistrado {
 	public int getReproducciones() {
 		return reproducciones;
 	}
-
-	/**
-	 * Funcion setter REPRODUCCIONES
-	 * @param reproducciones
-	 */
-	public void setReproducciones(int reproducciones) {
-		this.reproducciones = reproducciones;
-	}
+	
 
 	/**
 	 * Funcion getter BLOQUEADO
@@ -273,7 +261,7 @@ public class UsuarioRegistrado {
 	 * @param cancion
 	 */
 	public void anadirCancion(Cancion cancion) {
-		
+		canciones.add(cancion);
 	}
 
 	/**
@@ -281,7 +269,7 @@ public class UsuarioRegistrado {
 	 * @param cancion
 	 */
 	public void borrarCancion(Cancion cancion) {
-		sistema.borrarReproducible(cancion);
+		Sistema.sistema.anadirReproducible(reproducible); //sistema.borrarReproducible(cancion);????????preguntamosssss
 	}
 	
 
@@ -292,7 +280,7 @@ public class UsuarioRegistrado {
 	 * @param comentario
 	 */
 	public void anadirComentarioAcancion(Cancion cancion, String comentario) {
-				
+		
 	}
 	
 	/**
@@ -325,7 +313,7 @@ public class UsuarioRegistrado {
 	 * @param album
 	 */
 	public void crearAlbum(Album album) {
-		// TODO implement here
+		albunes.add(album);
 	}
 
 	/**
@@ -406,7 +394,7 @@ public class UsuarioRegistrado {
 	 * @param limite
 	 */
 	public void modificarNRepPremium(int limite) {
-			sistema.setNRepPremium(limite);//¿??????????????????????????????????????????????????????????????????????????????????????????????????
+			sistema.setNRepPremium(limite);//ï¿½??????????????????????????????????????????????????????????????????????????????????????????????????
 	}
 
 	/**
