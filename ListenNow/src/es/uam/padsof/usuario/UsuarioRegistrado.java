@@ -414,7 +414,7 @@ public class UsuarioRegistrado {
 	 */
 	public void rechazarCancion(Cancion cancion) {
 		if(this.isAdmin=true)
-			Sistema.sistema.getCancionesRechazadas().add(cancion);//??????
+			Sistema.sistema.getCancionesRechazadas().add(cancion);//?????
 	}
 
 	/**
