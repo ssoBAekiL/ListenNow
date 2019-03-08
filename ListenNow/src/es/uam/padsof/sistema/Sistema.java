@@ -265,4 +265,30 @@ public class Sistema {
 		// TODO implement here
 	}
 
+	public int getnRepAnonimas() {
+		return nRepAnonimas;
+	}
+
+	public void setnRepAnonimas(int nRepAnonimas) {
+		this.nRepAnonimas = nRepAnonimas;
+	}
+
+	public int getnRepRegistrado() {
+		return nRepRegistrado;
+	}
+
+	public void setnRepRegistrado(int nRepRegistrado) {
+		this.nRepRegistrado = nRepRegistrado;
+	}
+
+	public int getnRepRecompensa() {
+		return nRepRecompensa;
+	}
+
+	public void setnRepRecompensa(int nRepRecompensa) {
+		this.nRepRecompensa = nRepRecompensa;
+	}
+	
+	
+
 }
