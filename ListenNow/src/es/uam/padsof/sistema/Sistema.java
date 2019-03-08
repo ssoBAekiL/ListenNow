@@ -1,7 +1,8 @@
 package es.uam.padsof.sistema;
 
 import java.util.*;
-
+import es.uam.padsof.objetoreproducible.*;
+import es.uam.padsof.usuario.*;
 
 /**
  * 
@@ -46,7 +47,7 @@ public class Sistema {
 	/**
 	 * Lista de usuarios registrados
 	 */
-	private ArrayList<Usuario> usuarios =  new ArrayList<Usuario>();
+	private ArrayList<UsuarioRegistrado> usuarios =  new ArrayList<UsuarioRegistrado>();
 	
 	/**
 	 * Lista de canciones en el sistema que tienen que ser validadas
@@ -76,12 +77,12 @@ public class Sistema {
 	/**
 	 * Contiene al usuario administrador
 	 */
-	private Usuario admin = null;
+	private UsuarioRegistrado admin = null;
 	
 	/**
 	 * Contiene al usuario que esta utilizando la sesion
 	 */
-	private Usuario usuarioEnSesion;
+	private UsuarioRegistrado usuarioEnSesion;
 	
 	/**
 	 * 
@@ -131,7 +132,7 @@ public class Sistema {
 	 * @return
 	 */
 	public ArrayList<Cancion> buscarAutor(String autor) {
-		for (Usuario u: usuarios)
+		for (UsuarioRegistrado u: usuarios)
 			if (u.getNombre() == autor)
 				return u.getCanciones();
 		return null;
@@ -165,7 +166,7 @@ public class Sistema {
 	public boolean login(String usuario, String contrasena) {
 		if(admin.getNombre() == usuario && admin.getContrasena() == contrasena)
 			adminConectado = true;
-		for (Usuario u: usuarios) {
+		for (UsuarioRegistrado u: usuarios) {
 			if (usuarios.getNombre() == usuario && usuarios.getContrasena() == contrasena) {
 				usuarioEnSesion = u;
 				conectado = true;
@@ -190,9 +191,9 @@ public class Sistema {
 	 */
 	public void anadirReproducible(ObjetoReproducible reproducible) {
 		if (reproducible instanceof Cancion)
-			cancionesValidar.add(reproducible);
+			cancionesValidar.add((Cancion) reproducible);
 		else if (reproducible instanceof Album)
-			albums.add(reproducible);
+			albums.add((Album) reproducible);
 	}
 
 	/**
@@ -231,8 +232,7 @@ public class Sistema {
 	 * 
 	 */
 	public void caducaPremium() {
-		Calendar fecha = Calendar.getInstance();
-		for (Usuario u: usuarios) {
+		for (UsuarioRegistrado u: usuarios) {
 			if ()
 		}
 	}
