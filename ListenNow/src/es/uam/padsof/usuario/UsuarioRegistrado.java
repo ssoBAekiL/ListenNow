@@ -1,6 +1,5 @@
 package es.uam.padsof.usuario;
 import java.time.LocalDate;
-import java.time.LocalLocalDate;
 import java.util.*;
 
 import es.uam.padsof.objetoreproducible.*;
@@ -25,7 +24,7 @@ public class UsuarioRegistrado {
 	 * A�ADIR GENERATE ELEMENT COMMENT EN ESTE CONSTRUCTOR
 	 */
 	//constructor de Usuario comun
-	public UsuarioRegistrado(String nombre, String contrasena, boolean esPremium, LocalLocalDate fechaPremium,int reproducciones, boolean bloqueado) {
+	public UsuarioRegistrado(String nombre, String contrasena, boolean esPremium, LocalDate fechaPremium,int reproducciones, boolean bloqueado) {
 		this.nombre=nombre;
 		this.contrasena=contrasena;
 		this.esPremium=esPremium;
@@ -403,9 +402,11 @@ public class UsuarioRegistrado {
 	 * Metodo que permite al usuario admin verificar un plagio
 	 * @param cancion
 	 */
-	public void verificarPlagio(Cancion cancion) {
-		if(this.isAdmin=true)
+	public void aceptarPlagio(Cancion cancion) {
+		if(this.isAdmin=true) {
 			cancion.setPlagio(true);
+			rechazarCancion(cancion);
+		}
 	}
 
 	/**
