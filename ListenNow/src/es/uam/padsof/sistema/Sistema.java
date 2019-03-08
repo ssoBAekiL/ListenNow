@@ -10,6 +10,17 @@ import es.uam.padsof.usuario.*;
 public class Sistema {
 
 	/**
+	 * 
+	 */
+	public final static Sistema sistema = new Sistema();
+
+	/**
+	 * Default constructor
+	 */
+	private Sistema() {
+		
+	}
+	/**
 	 * Contador de lar reproducciones utilizadas por los usuarios no registrados
 	 */
 	private int reproducciones;
@@ -84,17 +95,6 @@ public class Sistema {
 	 */
 	private UsuarioRegistrado usuarioEnSesion;
 	
-	/**
-	 * 
-	 */
-	public final static Sistema Sistema = new Sistema();
-
-	/**
-	 * Default constructor
-	 */
-	private Sistema() {
-		
-	}
 	
 	/**
 	 * 
