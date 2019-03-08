@@ -1,5 +1,6 @@
 package es.uam.padsof.sistema;
 
+import java.time.LocalDate;
 import java.util.*;
 import es.uam.padsof.objetoreproducible.*;
 import es.uam.padsof.usuario.*;
@@ -221,9 +222,9 @@ public class Sistema {
 		Calendar fecha = Calendar.getInstance();
 		int reproducciones = 0;
 		for (Cancion c: usuario.getCanciones()) {
-			reproducciones += c.getReproducciones;
+			reproducciones += c.getNreproducciones();
 		}
-		if (reproducciones >= nRepRecompensa && usuario.getEsPremium() == false) {
+		if (reproducciones >= nRepRecompensa && usuario.EsPremium() == false) {
 			usuario.setEsPremium(true);
 			usuario.setFechaPremium(fecha.getTime());
 		}
@@ -233,8 +234,11 @@ public class Sistema {
 	 * 
 	 */
 	public void caducaPremium() {
+		LocalDate fecha = LocalDate.now().minusDays(30);
 		for (UsuarioRegistrado u: usuarios) {
-			if ()
+			if(fecha.isBefore(u.getFechaPremium())) {
+				u.setEsPremium(false);
+			}
 		}
 	}
 
