@@ -166,17 +166,20 @@ public class Sistema {
 	 * @param contrasena
 	 */
 	public boolean login(String usuario, String contrasena) {
-		if(admin.getNombre() == usuario && admin.getContrasena() == contrasena)
+		if(admin.getNombre() == usuario && admin.getContrasena() == contrasena) {
 			adminConectado = true;
-		for (UsuarioRegistrado u: usuarios) {
-			if (usuarios.getNombre() == usuario && usuarios.getContrasena() == contrasena) {
-				usuarioEnSesion = u;
-				conectado = true;
-				return true;
-				}
-			else
-				return false;
+			return true;
 		}
+		else {
+			for (UsuarioRegistrado u: usuarios) {
+				if (u.getNombre() == usuario && u.getContrasena() == contrasena) {
+					usuarioEnSesion = u;
+					conectado = true;
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -321,8 +324,5 @@ public class Sistema {
 	public void setCancionesRechazadas(ArrayList<Cancion> cancionesRechazadas) {
 		this.cancionesRechazadas = cancionesRechazadas;
 	}
-	
-	
-	
 
 }
