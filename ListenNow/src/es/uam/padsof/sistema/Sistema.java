@@ -1,9 +1,12 @@
 package es.uam.padsof.sistema;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.*;
 import es.uam.padsof.objetoreproducible.*;
 import es.uam.padsof.usuario.*;
+import pads.musicPlayer.Mp3Player;
+import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 /**
  * 
@@ -112,6 +115,8 @@ public class Sistema {
 	private UsuarioRegistrado usuarioEnSesion;
 	
 	
+	
+	
 	/**
 	 * 
 	 */
@@ -157,15 +162,21 @@ public class Sistema {
 	/**
 	 * @param reproducible
 	 */
-	public void reproducirObjeto(ObjetoReproducible reproducible) {
+	public void reproducirObjeto(ObjetoReproducible reproducible) throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		// TODO implement here
+		if (Mp3Player.isValidMp3File(ObjetoReproducible.getRutaArchivo())) {
+			Mp3Player player = new Mp3Player();
+			player.play();
+			Thread.sleep(Mp3Player.getDuration(ObjetoReproducible.getRutaArchivo()*1000));
+			player.stop();
+		}
 	}
 
 	/**
 	 * @param reproducible
 	 */
 	public void pararReproduccion(ObjetoReproducible reproducible) {
-		// TODO implement here
+		
 	}
 
 	/**
