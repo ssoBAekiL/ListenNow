@@ -13,14 +13,29 @@ public class Sistema {
 	/**
 	 * 
 	 */
-	public final static Sistema sistema = new Sistema();
+	public static Sistema sistema = null;
 
+	//tener lista con usuarios potenciales y una refrencia a usuario ; inicio sesion en sistema, recorro los usuarios y si coinccide con algun usuario y si no compruebo con usua
+	//administrador
 	/**
 	 * Default constructor
 	 */
-	private Sistema() {
-		
-	}
+	private Sistema() {/*puede estar vacio*/}
+	
+	
+	//nombre de la clase.getInstance//Esta compartido por todasse puede obtener desde cualquier pare del codigo. estatico, se reserva memoria automatica, va a existir antes de su instanciacion
+    private synchronized static void createInstance() {
+        if (sistema == null) { 
+            sistema = new Sistema();
+        }
+    }
+
+    public static Sistema getInstance() {
+        if (sistema == null) createInstance();
+        return sistema;
+    }	
+	//garantizamos que solo exista una instancia del sistema
+	
 	/**
 	 * Contador de lar reproducciones utilizadas por los usuarios no registrados
 	 */

@@ -16,15 +16,9 @@ import es.uam.padsof.sistema.*;
  */
 public class UsuarioRegistrado {
 
-    /************sistema se pone aqui??????, como accedo a sistema siendo el admin**************/
-	/**
-	 * Metodo constructor de la clase UsuarioRegistrado. Es importante destacar que al construir un objeto 
-	 * UsuarioRegistrado, este no tendr� seguidores ni seguidos, por lo que no se incluyen en los par�metros de esta funcion,
-	 * sino que ser,a inicializados a null en el cuerpo de este constructor
-	 * A�ADIR GENERATE ELEMENT COMMENT EN ESTE CONSTRUCTOR
-	 */
+
 	//constructor de Usuario comun
-	public UsuarioRegistrado(String nombre, String contrasena, boolean esPremium, LocalDate fechaPremium,int reproducciones, boolean bloqueado) {
+	public UsuarioRegistrado(String nombre, String contrasena, boolean esPremium, LocalDate fechaPremium,int reproducciones, boolean bloqueado, boolean isAdmin) {
 		this.nombre=nombre;
 		this.contrasena=contrasena;
 		this.esPremium=esPremium;
