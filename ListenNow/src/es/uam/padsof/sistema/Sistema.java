@@ -2,6 +2,8 @@ package es.uam.padsof.sistema;
 
 import java.time.LocalDate;
 import java.util.*;
+
+import es.uam.ads.p3.Camino;
 import es.uam.padsof.objetoreproducible.*;
 import es.uam.padsof.usuario.*;
 
@@ -11,7 +13,7 @@ import es.uam.padsof.usuario.*;
 public class Sistema {
 
 	/**
-	 * 
+	 * Variable Sistema
 	 */
 	public static Sistema sistema = null;
 
@@ -74,7 +76,7 @@ public class Sistema {
 	/**
 	 * Lista de usuarios registrados
 	 */
-	private ArrayList<UsuarioRegistrado> usuarios =  new ArrayList<UsuarioRegistrado>();
+	private static ArrayList<UsuarioRegistrado> usuarios =  new ArrayList<UsuarioRegistrado>();
 	
 	/**
 	 * Lista de canciones en el sistema que tienen que ser validadas
@@ -338,6 +340,15 @@ public class Sistema {
 	 */
 	public void setCancionesRechazadas(ArrayList<Cancion> cancionesRechazadas) {
 		this.cancionesRechazadas = cancionesRechazadas;
+	}
+	
+	public UsuarioRegistrado getUsuario(int i) {
+		return usuarios.get(i);
+	}
+
+
+	public static int getNumUsuarios() {
+		return usuarios.size();
 	}
 
 }

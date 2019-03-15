@@ -2,6 +2,7 @@ package es.uam.padsof.objetoreproducible;
 
 import java.util.ArrayList;
 
+import es.uam.padsof.sistema.Sistema;
 import es.uam.padsof.usuario.Comentario;
 
 /**
@@ -193,8 +194,18 @@ public class Cancion extends ObjetoReproducible{
 		this.notificada = notificada;
 	}
 	
-	
-	
+	/**
+	 * Metodo que permite al usuario admin validar + 18 una cancion pasada por parametro
+	 * @param cancion
+	 */
+	public void validarCancion18() {
+		for(int i=0;i<Sistema.getNumUsuarios();i++) {
+			if(Sistema.getInstance().getUsuario(i).isAdmin()==true) {
+				this.setMas18(true);
+				Sistema.getInstance().getCancionesValidadas().add(cancion);
+			}
+		}
+	}
 	
 
 	

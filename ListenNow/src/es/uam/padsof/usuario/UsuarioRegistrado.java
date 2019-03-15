@@ -16,7 +16,6 @@ import es.uam.padsof.sistema.*;
  */
 public class UsuarioRegistrado {
 
-
 	//constructor de Usuario comun
 	public UsuarioRegistrado(String nombre, String contrasena, boolean esPremium, LocalDate fechaPremium,int reproducciones, boolean bloqueado, boolean isAdmin) {
 		this.nombre=nombre;
@@ -30,15 +29,34 @@ public class UsuarioRegistrado {
 		this.lista_reproducciones=null;
 		this.reproducciones=reproducciones;
 		this.bloqueado=bloqueado;
+		this.isAdmin=false;
 	}
 	
-//	public UsuarioResgistrado() { para usuarios ya verdaderamente registrados
-//		
-//	}
-	
-//	public UsuarioRegistrado() { constructor para un admin
-//		
-//	}
+	//constructor de Usuario admin
+	/**
+	 * CONSTRUCTOR DE USUARIO ADMIN
+	 * @param nombre
+	 * @param contrasena
+	 * @param esPremium
+	 * @param fechaPremium
+	 * @param reproducciones
+	 * @param bloqueado
+	 */
+	public UsuarioRegistrado(String nombre, String contrasena, boolean esPremium, LocalDate fechaPremium,int reproducciones, boolean bloqueado) {
+		this.nombre=nombre;
+		this.contrasena=contrasena;
+		this.esPremium=esPremium;
+		this.fechaPremium=fechaPremium;
+		this.seguidos=null;      					//todo se guarda en archivo
+		this.seguidores=null;
+		this.canciones=null;
+		this.albunes=null;
+		this.lista_reproducciones=null;
+		this.reproducciones=reproducciones;
+		this.bloqueado=bloqueado;
+		this.isAdmin=true;
+	}
+
 
 	/**
 	 * Nombre
@@ -268,6 +286,7 @@ public class UsuarioRegistrado {
 
 
 	/**
+	 * 
 	 * Metodo cuya funcionaidad es contratar premium
 	 */
 	public void contratarPremium() {
@@ -279,7 +298,7 @@ public class UsuarioRegistrado {
 	/**
 	 * Metodo que da la capacidad al usuario de anadir un comentario a una cancion
 	 * @param cancion
-	 * @param comentario
+	 * @param comentario tipo comentario
 	 */
 	public void anadirComentarioAcancion(Cancion cancion, Comentario comentario) {
 		cancion.getComentarios().add(comentario);
@@ -323,7 +342,8 @@ public class UsuarioRegistrado {
 	 * @param album
 	 */
 	public void borrarAlbum(Album album) {
-		Sistema.sistema.borrarReproducible(album);
+		if(this.isAdmin==true)
+			Sistema.sistema.borrarReproducible(album);
 	}
 
 
@@ -340,7 +360,8 @@ public class UsuarioRegistrado {
 	 * @param cancion
 	 */
 	public void borrarCancion(Cancion cancion) {
-		Sistema.sistema.borrarReproducible(cancion); //sistema.borrarReproducible(cancion);????????preguntamosssss
+		if(this.isAdmin==true)
+			Sistema.sistema.borrarReproducible(cancion); //sistema.borrarReproducible(cancion);????????preguntamosssss
 	}
 	
 	
@@ -375,20 +396,11 @@ public class UsuarioRegistrado {
 	public void validarCancion(Cancion cancion) {
 		if(this.isAdmin=true) {
 			cancion.setValidar(true);
-			Sistema.sistema.getCancionesValidadas().add(cancion);//?? ??????
+			Sistema.getInstance().getCancionesValidadas().add(cancion);
 		}
 	}
 
-	/**
-	 * Metodo que permite al usuario admin validar + 18 una cancion pasada por parametro
-	 * @param cancion
-	 */
-	public void validarCancion18(Cancion cancion) {
-		if(this.isAdmin=true) {
-			cancion.setMas18(true);
-			Sistema.sistema.getCancionesValidadas().add(cancion);
-		}
-	}
+
 
 	/**
 	 * Metodo que permite al usuario admin verificar un plagio
@@ -407,7 +419,7 @@ public class UsuarioRegistrado {
 	 */
 	public void rechazarCancion(Cancion cancion) {
 		if(this.isAdmin=true)
-			Sistema.sistema.getCancionesRechazadas().add(cancion);//?????
+			Sistema.getInstance().getCancionesRechazadas().add(cancion);
 	}
 
 	/**
