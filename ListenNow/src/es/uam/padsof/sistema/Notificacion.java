@@ -31,7 +31,7 @@ public class Notificacion {
 		this.albumNotificado = albumNotificado;
 	}
 	
-	public String toString() {
+	public String mostrarNotificacion() {
 		return "NOTIFICACION: " + texto;
 	}
 	
