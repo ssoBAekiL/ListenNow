@@ -29,5 +29,9 @@ public class Notificacion {
 			texto.add("El usuario " + albumNotificado.getAutor() + " ha añadido un nuevo album con titulo: " + albumNotificado.getTitulo() + ". ");
 		this.albumNotificado = albumNotificado;
 	}
+	
+	public String toString() {
+		return "NOTIFICACION: " + texto;
+	}
 
 }

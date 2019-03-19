@@ -97,10 +97,6 @@ public class Sistema {
 	 */
 	private ArrayList<Cancion> cancionesValidadas =  new ArrayList<Cancion>();
 	
-	/**
-	 * Lista de canciones que han sido rechazadas por el administrador
-	 */
-	private ArrayList<Cancion> cancionesRechazadas =  new ArrayList<Cancion>();
 	
 	/**
 	 * Lista de notificaciones para el usuario que ha realizado el login
@@ -163,24 +159,6 @@ public class Sistema {
 		return null;
 	}
 
-	/**
-	 * @param reproducible
-	 */
-	public void reproducirObjeto(ObjetoReproducible reproducible) throws FileNotFoundException, Mp3PlayerException, InterruptedException {
-		if (Mp3Player.isValidMp3File(ObjetoReproducible.getRutaArchivo())) {
-			Mp3Player player = new Mp3Player();
-			player.play();
-			Thread.sleep(Mp3Player.getDuration(ObjetoReproducible.getRutaArchivo()*1000));
-			player.stop();
-		}
-	}
-
-	/**
-	 * @param reproducible
-	 */
-	public void pararReproduccion(ObjetoReproducible reproducible) {
-		
-	}
 
 	/**
 	 * @param usuario
@@ -195,17 +173,13 @@ public class Sistema {
 	 * @param contrasena
 	 */
 	public boolean login(String usuario, String contrasena) {
-		if(admin.getNombre() == usuario && admin.getContrasena() == contrasena) {
-			adminConectado = true;
-			return true;
-		}
-		else {
-			for (UsuarioRegistrado u: usuarios) {
-				if (u.getNombre() == usuario && u.getContrasena() == contrasena) {
-					usuarioEnSesion = u;
-					conectado = true;
-					return true;
-				}
+		for (UsuarioRegistrado u: usuarios) {
+			if (u.getNombre() == usuario && u.getContrasena() == contrasena) {
+				usuarioEnSesion = u;
+				conectado = true;
+				if (u.isAdmin() == true)
+					adminConectado = true;
+				return true;
 			}
 		}
 		return false;
@@ -239,8 +213,6 @@ public class Sistema {
 				cancionesValidadas.remove(reproducible);
 			else if (cancionesValidar.contains(reproducible))
 				cancionesValidar.remove(reproducible);
-			else if (cancionesRechazadas.contains(reproducible))
-				cancionesRechazadas.remove(reproducible);
 		}
 		else if (reproducible instanceof Album) {
 			albums.remove(reproducible);
@@ -338,20 +310,6 @@ public class Sistema {
 	 */
 	public void setCancionesValidadas(ArrayList<Cancion> cancionesValidadas) {
 		this.cancionesValidadas = cancionesValidadas;
-	}
-
-	/**
-	 * @return the cancionesRechazadas
-	 */
-	public ArrayList<Cancion> getCancionesRechazadas() {
-		return cancionesRechazadas;
-	}
-
-	/**
-	 * @param cancionesRechazadas the cancionesRechazadas to set
-	 */
-	public void setCancionesRechazadas(ArrayList<Cancion> cancionesRechazadas) {
-		this.cancionesRechazadas = cancionesRechazadas;
 	}
 	
 	public UsuarioRegistrado getUsuario(int i) {
