@@ -1,5 +1,7 @@
-package es.uam.padsof.usuario;
+package es.uam.padsof.objetocomentado;
 import java.util.*;
+
+import es.uam.padsof.usuario.UsuarioRegistrado;
 
 /**
  * 

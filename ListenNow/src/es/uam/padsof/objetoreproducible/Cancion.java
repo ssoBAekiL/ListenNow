@@ -2,8 +2,8 @@ package es.uam.padsof.objetoreproducible;
 
 import java.util.ArrayList;
 
+import es.uam.padsof.objetocomentado.Comentario;
 import es.uam.padsof.sistema.Sistema;
-import es.uam.padsof.usuario.Comentario;
 
 /**
  * @author Juli�n Espada, Pablo Borrelli y Carlos Miret
@@ -15,10 +15,12 @@ public class Cancion extends ObjetoReproducible{
 	private String rutaFichero;
 	/*private time duracion; */
 	private int nreproducciones;
+	private boolean pendiente_verificacion;
+	private boolean aceptada;
 	private boolean mas18;
-	private boolean validar;
-	private boolean plagio;
-	private boolean notificada;
+	private boolean rechazada;
+	private boolean marcada_plagio;
+	private boolean notificada_plagio;
 	private ArrayList<Comentario> comentarios;
 	
 	/**
@@ -196,18 +198,33 @@ public class Cancion extends ObjetoReproducible{
 	
 	/**
 	 * Metodo que permite al usuario admin validar + 18 una cancion pasada por parametro
-	 * @param cancion
 	 */
 	public void validarCancion18() {
 		for(int i=0;i<Sistema.getNumUsuarios();i++) {
 			if(Sistema.getInstance().getUsuario(i).isAdmin()==true) {
 				this.setMas18(true);
-				Sistema.getInstance().getCancionesValidadas().add(cancion);
+				Sistema.getInstance().getCancionesValidadas().add(this);
+			}
+		}
+	}
+	
+	
+	/**
+	 * Metodo que permite al usuario admin validar una cancion
+	 * @param cancion
+	 */
+	public void validarCancion() {
+		for(int i=0;i<Sistema.getNumUsuarios();i++) {
+			if(Sistema.getInstance().getUsuario(i).isAdmin()==true) {
+				this.setValidar(true);
+				Sistema.getInstance().getCancionesValidadas().add(this);
 			}
 		}
 	}
 
-	
+	public void anadirComentario(Comentario String) {
+		comentarios.add(String);
+	}
 
 	
 }

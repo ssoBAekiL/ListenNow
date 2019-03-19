@@ -2,6 +2,7 @@ package es.uam.padsof.usuario;
 import java.time.LocalDate;
 import java.util.*;
 
+import es.uam.padsof.objetocomentado.Comentario;
 import es.uam.padsof.objetoreproducible.*;
 import es.uam.padsof.sistema.*;
 
@@ -361,7 +362,7 @@ public class UsuarioRegistrado {
 	 */
 	public void borrarCancion(Cancion cancion) {
 		if(this.isAdmin==true)
-			Sistema.sistema.borrarReproducible(cancion); //sistema.borrarReproducible(cancion);????????preguntamosssss
+			Sistema.getInstance().borrarReproducible(cancion); //sistema.borrarReproducible(cancion);????????preguntamosssss
 	}
 	
 	
@@ -378,72 +379,8 @@ public class UsuarioRegistrado {
 	 * @param album
 	 */
 	public void borrarListaReproduccion(ListaReproducciones lista) {
-		Sistema.sistema.borrarReproducible(lista); //sistema.borrarReproducible(cancion);????????preguntamosssss
-	}
-	
-	/*************************************************************************************************/
-	/*************************************************************************************************/
-	/*************************************************************************************************/
-	/******************************METODOS PROPIOS DEL ADMINISTRADOR**********************************/
-	/*************************************************************************************************/
-	/*************************************************************************************************/
-	/*************************************************************************************************/
-	
-	/**
-	 * Metodo que permite al usuario admin validar una cancion
-	 * @param cancion
-	 */
-	public void validarCancion(Cancion cancion) {
-		if(this.isAdmin=true) {
-			cancion.setValidar(true);
-			Sistema.getInstance().getCancionesValidadas().add(cancion);
-		}
+		Sistema.getInstance().borrarReproducible(lista); //sistema.borrarReproducible(cancion);????????preguntamosssss
 	}
 
-
-
-	/**
-	 * Metodo que permite al usuario admin verificar un plagio
-	 * @param cancion
-	 */
-	public void aceptarPlagio(Cancion cancion) {
-		if(this.isAdmin=true) {
-			cancion.setPlagio(true);
-			rechazarCancion(cancion);
-		}
-	}
-
-	/**
-	 * Metodo que permite al usuario admin rechazar una cancion
-	 * @param cancion
-	 */
-	public void rechazarCancion(Cancion cancion) {
-		if(this.isAdmin=true)
-			Sistema.getInstance().getCancionesRechazadas().add(cancion);
-	}
-
-	/**
-	 * Metodo que permite al usuario admin modificar el numero de reproducciones anonimas almacenadas en sistema
-	 * @param limite
-	 */
-	public void modificarNRepAnonimas(int limite) {
-			Sistema.sistema.setnRepAnonimas(limite);
-	}
-
-	/**
-	 * Metodo que permite al usuario admin modificar el numero de reproducciones premium almacenadas en sistema
-	 * @param limite
-	 */
-	public void modificarNRepPremium(int limite) {
-			Sistema.sistema.setnRepRecompensa(limite);//�??????????????????????????????????????????????????????????????????????????????????????????????????
-	}
-
-	/**
-	 * Metodo que permite al usuario admin modificar el numero de reproducciones recompensa almacenadas en sistema
-	 * @param limite
-	 */
-	public void modificarNRepRecompensa(int limite) {
-			Sistema.sistema.setnRepRecompensa(limite);
-	}
 
 }

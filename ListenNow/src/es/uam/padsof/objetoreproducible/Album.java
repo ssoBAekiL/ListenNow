@@ -2,6 +2,7 @@ package es.uam.padsof.objetoreproducible;
 
 import java.util.ArrayList;
 
+import es.uam.padsof.objetocomentado.Comentario;
 import es.uam.padsof.usuario.*;
 
 /**

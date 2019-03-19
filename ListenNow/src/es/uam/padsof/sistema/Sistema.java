@@ -95,11 +95,7 @@ public class Sistema {
 	 * Lista de canciones que han sido validadas por el administrador
 	 */
 	private ArrayList<Cancion> cancionesValidadas =  new ArrayList<Cancion>();
-	
-	/**
-	 * Lista de canciones que han sido rechazadas por el administrador
-	 */
-	private ArrayList<Cancion> cancionesRechazadas =  new ArrayList<Cancion>();
+
 	
 	/**
 	 * Lista de notificaciones para el usuario que ha realizado el login
