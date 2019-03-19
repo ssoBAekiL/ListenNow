@@ -272,6 +272,9 @@ public class Sistema {
 	 */
 	public void mostrarNotificacion() {
 		// TODO implement here
+		for (Notificacion n: notificaciones) {
+			if(n.getUsuariosNotificados().contains(u))
+		}
 	}
 
 	public int getnRepAnonimas() {
