@@ -14,20 +14,29 @@ public class Notificacion {
 	private Album albumNotificado;
 	private ArrayList<UsuarioRegistrado> usuariosNotificados = new ArrayList<UsuarioRegistrado>();
 	
-	public Notificacion (TipoNotificacion tipo, Cancion cancionNotificada) {
+	public Notificacion (TipoNotificacion tipo, Cancion cancionNotificada, ArrayList<UsuarioRegistrado> usuariosNotificados) {
 		this.tipo = tipo;
-		if (tipo == tipo.PLAGIO)
+		if (tipo == TipoNotificacion.PLAGIO)
 			texto.add("La cancion " + cancionNotificada.getTitulo() + " ha sido notificada por plagio. ");
-		else if (tipo == tipo.NUEVACANCION)
+		else if (tipo == TipoNotificacion.NUEVACANCION)
 			texto.add("El usuario " + cancionNotificada.getAutor() + " ha añadido una nueva cancion con titulo: " + cancionNotificada.getTitulo() + ". ");
 		
 		this.cancionNotificada = cancionNotificada;
+		this.usuariosNotificados = usuariosNotificados;
 	}
 	public Notificacion (TipoNotificacion tipo, Album albumNotificado) {
 		this.tipo = tipo;
-		if (tipo == tipo.NUEVOALBUM)
+		if (tipo == TipoNotificacion.NUEVOALBUM)
 			texto.add("El usuario " + albumNotificado.getAutor() + " ha añadido un nuevo album con titulo: " + albumNotificado.getTitulo() + ". ");
 		this.albumNotificado = albumNotificado;
+	}
+	
+	public String toString() {
+		return "NOTIFICACION: " + texto;
+	}
+	
+	public ArrayList<UsuarioRegistrado> getUsuariosNotificados() {
+		return usuariosNotificados;
 	}
 
 }
