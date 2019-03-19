@@ -1,5 +1,7 @@
 package es.uam.padsof.usuario;
 import java.time.LocalDate;
+import es.uam.eps.padsof.telecard.*;
+
 import java.util.*;
 
 import es.uam.padsof.objetocomentado.Comentario;
@@ -12,7 +14,8 @@ import es.uam.padsof.sistema.*;
  *
  */
 /**
- * @author carlosmiret
+ * 
+ * @author Carlos Miret, Pablo Borrelli y Julian Espada
  *
  */
 public class UsuarioRegistrado {
@@ -59,6 +62,11 @@ public class UsuarioRegistrado {
 	}
 
 
+	/**
+	 * 
+	 */
+	private String numTarjeta;
+	
 	/**
 	 * Nombre
 	 */
@@ -291,28 +299,16 @@ public class UsuarioRegistrado {
 	 * Metodo cuya funcionaidad es contratar premium
 	 */
 	public void contratarPremium() {
+			try {
+				TeleChargeAndPaySystem.charge(this.numTarjeta,"Contratacion Premium",10);
+			} catch (OrderRejectedException e) {
+				e.printStackTrace();
+			}
 		    this.fechaPremium=LocalDate.now();
 			this.esPremium=true;
 	}
 
 
-	/**
-	 * Metodo que da la capacidad al usuario de anadir un comentario a una cancion
-	 * @param cancion
-	 * @param comentario tipo comentario
-	 */
-	public void anadirComentarioAcancion(Cancion cancion, Comentario comentario) {
-		cancion.getComentarios().add(comentario);
-	}
-	
-	/**
-	 * Metodo que da la capacidad al usuario de anadir un comentario a una cancion
-	 * @param cancion
-	 * @param comentario
-	 */
-	public void anadirComentarioAalbum(Album album, Comentario comentario) {
-		album.getComentarios().add(comentario);
-	}
 
 	/**
 	 * Metodo que permite a un usuario valorar un comentario

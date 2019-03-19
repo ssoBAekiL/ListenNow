@@ -4,12 +4,11 @@ import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.*;
 
-import es.uam.ads.p3.Camino;
 import es.uam.padsof.objetoreproducible.*;
 import es.uam.padsof.usuario.*;
 import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
-import java.io.*
+import java.io.*;
 
 /**
  * 
@@ -95,17 +94,12 @@ public class Sistema {
 	/**
 	 * Lista de canciones que han sido validadas por el administrador
 	 */
-	private ArrayList<Cancion> cancionesValidadas =  new ArrayList<Cancion>();
-<<<<<<< HEAD
+	private ArrayList<Cancion> cancionesValidadas;
 
-=======
-	
->>>>>>> branch 'master' of https://github.com/ssoBAekiL/ListenNow.git
-	
 	/**
 	 * Lista de notificaciones para el usuario que ha realizado el login
 	 */
-	private ArrayList<Notificacion> notificaciones =  new ArrayList<Notificacion>();
+	private ArrayList<Notificacion> notificaciones;
 	
 	/**
 	 * Contiene al usuario administrador

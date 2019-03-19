@@ -7,7 +7,6 @@ import es.uam.padsof.usuario.UsuarioRegistrado;
  * 
  */
 public class Comentario {
-	
 	/**
 	 * 
 	 */
@@ -95,7 +94,13 @@ public class Comentario {
 		this.valoracion = valoracion;
 	}
 
-
+	/**
+	 * Metodo que permite a un usuario valorar un comentario
+	 * @param valoracion
+	 */
+	public void valorarComentario(int valoracion) {
+		comentario.setValoracion(valoracion);
+	}
 
 
 

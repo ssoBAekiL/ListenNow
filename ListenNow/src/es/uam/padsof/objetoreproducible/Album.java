@@ -3,6 +3,7 @@ package es.uam.padsof.objetoreproducible;
 import java.util.ArrayList;
 
 import es.uam.padsof.objetocomentado.Comentario;
+import es.uam.padsof.objetocomentado.ObjetoComentable;
 import es.uam.padsof.usuario.*;
 
 /**
@@ -10,7 +11,7 @@ import es.uam.padsof.usuario.*;
  *
  * Esta clase se encarga de gestionar el objeto Album
  */
-public class Album extends ObjetoReproducible{
+public class Album extends ObjetoComentable{
 	/*private time duracion;*/
 	
 	/** Canciones del album*/

@@ -3,6 +3,7 @@ package es.uam.padsof.objetoreproducible;
 import java.util.ArrayList;
 
 import es.uam.padsof.objetocomentado.Comentario;
+import es.uam.padsof.objetocomentado.ObjetoComentable;
 import es.uam.padsof.sistema.Sistema;
 
 /**
@@ -10,7 +11,7 @@ import es.uam.padsof.sistema.Sistema;
  * 
  * Esta clase se encarga de gestionar el objeto Cancion 
  */
-public class Cancion extends ObjetoReproducible{
+public class Cancion extends ObjetoComentable{
 	private int id;
 	private String rutaFichero;
 	/*private time duracion; */
@@ -21,7 +22,6 @@ public class Cancion extends ObjetoReproducible{
 	private boolean rechazada;
 	private boolean marcada_plagio;
 	private boolean notificada_plagio;
-	private ArrayList<Comentario> comentarios;
 	
 	/**
 	 * 
@@ -222,9 +222,7 @@ public class Cancion extends ObjetoReproducible{
 		}
 	}
 
-	public void anadirComentario(Comentario String) {
-		comentarios.add(String);
-	}
+
 
 	
 }

@@ -3,10 +3,12 @@ package es.uam.padsof.objetoreproducible;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+import es.uam.padsof.objetocomentado.ObjetoComentable;
 import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
-public abstract class ObjetoReproducible {
+
+public abstract class ObjetoReproducible{
 	
 	private Mp3Player player;
 	
