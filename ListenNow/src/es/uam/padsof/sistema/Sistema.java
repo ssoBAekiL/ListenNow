@@ -7,6 +7,7 @@ import es.uam.padsof.objetoreproducible.*;
 import es.uam.padsof.usuario.*;
 import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
+import java.io.*
 
 /**
  * 
@@ -33,11 +34,11 @@ public class Sistema {
         }
     }
 
+	//garantizamos que solo exista una instancia del sistema
     public static Sistema getInstance() {
         if (sistema == null) createInstance();
         return sistema;
     }	
-	//garantizamos que solo exista una instancia del sistema
 	
 	/**
 	 * Contador de lar reproducciones utilizadas por los usuarios no registrados
@@ -114,6 +115,7 @@ public class Sistema {
 	 */
 	private UsuarioRegistrado usuarioEnSesion;
 	
+	private Mp3Player player = new Mp3Player();
 	
 	
 	
@@ -163,7 +165,6 @@ public class Sistema {
 	 * @param reproducible
 	 */
 	public void reproducirObjeto(ObjetoReproducible reproducible) throws FileNotFoundException, Mp3PlayerException, InterruptedException {
-		// TODO implement here
 		if (Mp3Player.isValidMp3File(ObjetoReproducible.getRutaArchivo())) {
 			Mp3Player player = new Mp3Player();
 			player.play();
