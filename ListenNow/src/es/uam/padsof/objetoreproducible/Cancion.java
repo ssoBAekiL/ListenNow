@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import es.uam.padsof.objetocomentado.Comentario;
 import es.uam.padsof.objetocomentado.ObjetoComentable;
 import es.uam.padsof.sistema.Sistema;
+import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
 
 /**
  * @author Juli�n Espada, Pablo Borrelli y Carlos Miret
@@ -39,9 +40,11 @@ public class Cancion extends ObjetoComentable{
 		this.rutaFichero=ruta;
 		this.nreproducciones=nrep;
 		this.mas18=false;
-		this.validar=false;
-		this.notificada=false;
-		this.plagio=false;
+		this.aceptada=false;
+		this.pendiente_verificacion=false;
+		this.rechazada=false;
+		this.marcada_plagio=false;
+		this.notificada_plagio=false;
 		this.comentarios=null;
 	}
 
@@ -199,13 +202,18 @@ public class Cancion extends ObjetoComentable{
 	/**
 	 * Metodo que permite al usuario admin validar + 18 una cancion pasada por parametro
 	 */
-	public void validarCancion18() {
-		for(int i=0;i<Sistema.getNumUsuarios();i++) {
+	public boolean validarCancion18() {
+		/*for(int i=0;i<Sistema.getNumUsuarios();i++) {
 			if(Sistema.getInstance().getUsuario(i).isAdmin()==true) {
 				this.setMas18(true);
 				Sistema.getInstance().getCancionesValidadas().add(this);
 			}
+		}*/
+		if(validarCancion() == true) {
+			mas18 = true;
+			return true;
 		}
+		return false;
 	}
 	
 	
@@ -213,13 +221,23 @@ public class Cancion extends ObjetoComentable{
 	 * Metodo que permite al usuario admin validar una cancion
 	 * @param cancion
 	 */
-	public void validarCancion() {
-		for(int i=0;i<Sistema.getNumUsuarios();i++) {
+	public boolean validarCancion() {
+		/*for(int i=0;i<Sistema.getNumUsuarios();i++) {
 			if(Sistema.getInstance().getUsuario(i).isAdmin()==true) {
 				this.setValidar(true);
 				Sistema.getInstance().getCancionesValidadas().add(this);
 			}
+		}*/
+		if(Sistema.getInstance().esAdmin() == true && Sistema.getInstance().getCancionesValidar().contains(this)) {
+			Sistema.getInstance().getCancionesValidar().remove(this);
+			Sistema.getInstance().getCancionesValidadas().add(this);
+			aceptada = true;
+			pendiente_verificacion = false;
+			Sistema.getInstance().setNotificaciones(TipoNotificacion.NUEVACANCION, this, autor.getSeguidores);
+			autor.setCanciones(this);
+			return true;
 		}
+		return false;
 	}
 
 

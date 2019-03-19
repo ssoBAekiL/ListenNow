@@ -7,6 +7,7 @@ import java.util.*;
 import es.uam.padsof.objetocomentado.Comentario;
 import es.uam.padsof.objetoreproducible.*;
 import es.uam.padsof.sistema.*;
+import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
 
 /**
  * Esta clase proporciona funcionalidades referentes a un usuario al igual que sus caracter�sticas principales
@@ -349,7 +350,7 @@ public class UsuarioRegistrado {
 	 * @param cancion
 	 */
 	public void anadirCancion(Cancion cancion) {
-		canciones.add(cancion);
+		Sistema.getInstance().anadirReproducible(cancion);
 	}
 
 	/**
@@ -357,7 +358,7 @@ public class UsuarioRegistrado {
 	 * @param cancion
 	 */
 	public void borrarCancion(Cancion cancion) {
-		if(this.isAdmin==true)
+		if(isAdmin==true)
 			Sistema.getInstance().borrarReproducible(cancion); //sistema.borrarReproducible(cancion);????????preguntamosssss
 	}
 	
@@ -377,6 +378,5 @@ public class UsuarioRegistrado {
 	public void borrarListaReproduccion(ListaReproducciones lista) {
 		Sistema.getInstance().borrarReproducible(lista); //sistema.borrarReproducible(cancion);????????preguntamosssss
 	}
-
 
 }
