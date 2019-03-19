@@ -3,35 +3,37 @@ package es.uam.padsof.objetoreproducible;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-import es.uam.padsof.objetocomentado.ObjetoComentable;
 import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
-
-public abstract class ObjetoReproducible{
+public abstract class ObjetoReproducible {
 	
-	private Mp3Player player;
+	protected Mp3Player player;
+	protected String ruta;
+	protected String titulo;
+	protected String autor;
 	
-	public ObjetoReproducible() throws FileNotFoundException, Mp3PlayerException {
+	public ObjetoReproducible(String titulo, String autor) throws FileNotFoundException, Mp3PlayerException {
+		titulo = titulo;
+		autor = autor;
 		player  = new Mp3Player();
 	}
+		
 	
 	/**
 	 * @param reproducible
 	 */
-	public void reproducirObjeto(ObjetoReproducible reproducible) throws FileNotFoundException, Mp3PlayerException, InterruptedException {
-		if (player.isValidMp3File(reproducible.getRutaFichero())) {
-			player.play();
-			Thread.sleep(Mp3Player.getDuration(reproducible.getRutaFichero()*1000));
-			player.stop();
-		}
-	}
+	public abstract void reproducir()throws FileNotFoundException, Mp3PlayerException, InterruptedException; 
+		
 
 	/**
 	 * @param reproducible
 	 */
-	public void pararReproduccion(ObjetoReproducible reproducible) {
-		
+	public void pararReproduccion()throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+		if(Mp3Player.isValidMp3File(ruta)==true) {
+			player.add(ruta);
+			player.stop();
+		}
 	}
 	
 }

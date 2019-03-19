@@ -1,28 +1,31 @@
 package es.uam.padsof.objetoreproducible;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
-import es.uam.padsof.objetocomentado.Comentario;
-import es.uam.padsof.objetocomentado.ObjetoComentable;
 import es.uam.padsof.sistema.Sistema;
-import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
+import es.uam.padsof.usuario.Comentario;
+import pads.musicPlayer.Mp3Player;
+import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 /**
  * @author Juli�n Espada, Pablo Borrelli y Carlos Miret
  * 
  * Esta clase se encarga de gestionar el objeto Cancion 
  */
-public class Cancion extends ObjetoComentable{
+public class Cancion extends ObjetoReproducible{
 	private int id;
-	private String rutaFichero;
 	/*private time duracion; */
 	private int nreproducciones;
+	private String ruta;
+	private boolean mas18;
+	private boolean notificada_plagio;
+	private ArrayList<Comentario> comentarios;
 	private boolean pendiente_verificacion;
 	private boolean aceptada;
-	private boolean mas18;
 	private boolean rechazada;
 	private boolean marcada_plagio;
-	private boolean notificada_plagio;
 	
 	/**
 	 * 
@@ -35,17 +38,18 @@ public class Cancion extends ObjetoComentable{
 	 * 
 	 * Este m�todo es el constructor del objeto Cancion
 	 */
-	public Cancion (int id, String ruta, int nrep) {
-		this.id=id;
-		this.rutaFichero=ruta;
+	public Cancion (String titulo, String autor, String ruta, int nrep)throws IOException, Mp3PlayerException {
+		super(titulo, autor);
+		this.id=Sistema.getInstance().getNumeroCanciones()+1;
 		this.nreproducciones=nrep;
 		this.mas18=false;
-		this.aceptada=false;
-		this.pendiente_verificacion=false;
-		this.rechazada=false;
-		this.marcada_plagio=false;
-		this.notificada_plagio=false;
-		this.comentarios=null;
+		this.setAceptada(false);
+		this.setNotificada_plagio(false);
+		this.setPendiente_verificacion(false);
+		this.comentarios=new ArrayList<Comentario>();
+		this.setRechazada(false);
+		this.setMarcada_plagio(false);
+		this.ruta=ruta;
 	}
 
 	/**
@@ -67,27 +71,6 @@ public class Cancion extends ObjetoComentable{
 	 */
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	/**
-	 * 
-	 * @return rutaFichero 
-	 * 
-	 * Este m�todo se encarga de devolver la ruta del fichero donde se encuentra la canci�n
-	 */
-	public String getRutaFichero() {
-		return rutaFichero;
-	}
-
-	/**
-	 * 
-	 * @param rutaFichero Es la ruta del nuevo fichero al que va a pertenecer la canci�n
-	 * @return void
-	 * 
-	 * Este m�todo modificar� la ruta del fichero donde se encontrar� la canci�n
-	 */
-	public void setRutaFichero(String rutaFichero) {
-		this.rutaFichero = rutaFichero;
 	}
 
 	/**
@@ -130,47 +113,7 @@ public class Cancion extends ObjetoComentable{
 	public void setMas18(boolean mas18) {
 		this.mas18 = mas18;
 	}
-
-	/**
-	 * 
-	 * @return validar 
-	 * 
-	 * Este m�todo devuelve el boolean de la cancion que indica si est� validada o no
-	 */
-	public boolean isValidar() {
-		return validar;
-	}
-
-	/**
-	 * 
-	 * @param validar Este es el nuevo boolean validar por el que cambiaremos
-	 * 
-	 * 
-	 */
-	public void setValidar(boolean validar) {
-		this.validar = validar;
-	}
-
-	/**
-	 * 
-	 * @return plagio 
-	 * 
-	 * Este m�todo devuelve el boolean plagio de la cancion que indica si la canci�n es un plagio o no
-	 */
-	public boolean isPlagio() {
-		return plagio;
-	}
-
-	/**
-	 * 
-	 * @param plagio Este es el nuevo boolean plagio que tendr� la canci�n
-	 * 
-	 * Este m�todo modifica el boolean plagio de la canci�n por el que se pasa por argumento
-	 */
-	public void setPlagio(boolean plagio) {
-		this.plagio = plagio;
-	}
-
+	
 	/**
 	 * @return the comentarios
 	 */
@@ -184,63 +127,68 @@ public class Cancion extends ObjetoComentable{
 	public void setComentarios(ArrayList<Comentario> comentarios) {
 		this.comentarios = comentarios;
 	}
-
-	/**
-	 * @return the notificada
-	 */
-	public boolean isNotificada() {
-		return notificada;
-	}
-
-	/**
-	 * @param notificada the notificada to set
-	 */
-	public void setNotificada(boolean notificada) {
-		this.notificada = notificada;
-	}
 	
 	/**
 	 * Metodo que permite al usuario admin validar + 18 una cancion pasada por parametro
-	 */
-	public boolean validarCancion18() {
-		/*for(int i=0;i<Sistema.getNumUsuarios();i++) {
-			if(Sistema.getInstance().getUsuario(i).isAdmin()==true) {
-				this.setMas18(true);
-				Sistema.getInstance().getCancionesValidadas().add(this);
-			}
-		}*/
-		if(validarCancion() == true) {
-			mas18 = true;
-			return true;
-		}
-		return false;
-	}
-	
-	
-	/**
-	 * Metodo que permite al usuario admin validar una cancion
 	 * @param cancion
 	 */
-	public boolean validarCancion() {
-		/*for(int i=0;i<Sistema.getNumUsuarios();i++) {
+	public void validarCancion18(Cancion cancion) {
+		for(int i=0;i<Sistema.getNumUsuarios();i++) {
 			if(Sistema.getInstance().getUsuario(i).isAdmin()==true) {
-				this.setValidar(true);
-				Sistema.getInstance().getCancionesValidadas().add(this);
+				this.setMas18(true);
+				Sistema.getInstance().getCancionesValidadas().add(cancion);
 			}
-		}*/
-		if(Sistema.getInstance().esAdmin() == true && Sistema.getInstance().getCancionesValidar().contains(this)) {
-			Sistema.getInstance().getCancionesValidar().remove(this);
-			Sistema.getInstance().getCancionesValidadas().add(this);
-			aceptada = true;
-			pendiente_verificacion = false;
-			Sistema.getInstance().setNotificaciones(TipoNotificacion.NUEVACANCION, this, autor.getSeguidores);
-			autor.setCanciones(this);
-			return true;
 		}
-		return false;
+		return;
 	}
 
+	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
+		if(Mp3Player.isValidMp3File(ruta)==true) {
+			player.add(ruta);
+			player.play();
+			Thread.sleep((long)Mp3Player.getDuration(ruta)*1000);
+		}
+	}
 
+	public boolean isNotificada_plagio() {
+		return notificada_plagio;
+	}
+
+	public void setNotificada_plagio(boolean notificada_plagio) {
+		this.notificada_plagio = notificada_plagio;
+	}
+
+	public boolean isPendiente_verificacion() {
+		return pendiente_verificacion;
+	}
+
+	public void setPendiente_verificacion(boolean pendiente_verificacion) {
+		this.pendiente_verificacion = pendiente_verificacion;
+	}
+
+	public boolean isAceptada() {
+		return aceptada;
+	}
+
+	public void setAceptada(boolean aceptada) {
+		this.aceptada = aceptada;
+	}
+
+	public boolean isMarcada_plagio() {
+		return marcada_plagio;
+	}
+
+	public void setMarcada_plagio(boolean marcada_plagio) {
+		this.marcada_plagio = marcada_plagio;
+	}
+
+	public boolean isRechazada() {
+		return rechazada;
+	}
+
+	public void setRechazada(boolean rechazada) {
+		this.rechazada = rechazada;
+	}
 
 	
 }

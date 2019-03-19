@@ -1,9 +1,8 @@
 package es.uam.padsof.objetoreproducible;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
-import es.uam.padsof.objetocomentado.Comentario;
-import es.uam.padsof.objetocomentado.ObjetoComentable;
+import pads.musicPlayer.exceptions.Mp3PlayerException;
 import es.uam.padsof.usuario.*;
 
 /**
@@ -11,7 +10,7 @@ import es.uam.padsof.usuario.*;
  *
  * Esta clase se encarga de gestionar el objeto Album
  */
-public class Album extends ObjetoComentable{
+public class Album extends ObjetoReproducible{
 	/*private time duracion;*/
 	
 	/** Canciones del album*/
@@ -26,7 +25,8 @@ public class Album extends ObjetoComentable{
 	 * 
 	 * Este m�todo es el constructor del objeto Album
 	 */
-	public Album (ArrayList<Cancion> canciones, String autor) {
+	public Album (String ruta, String titulo, String autor, ArrayList<Cancion> canciones)throws Mp3PlayerException, FileNotFoundException {
+		super(ruta, titulo, autor);
 		this.canciones=canciones;
 	}
 	
@@ -119,6 +119,8 @@ public class Album extends ObjetoComentable{
 	public ArrayList<Comentario> getComentarios() {
 		return comentarios;
 	}
+	
+	public void reproducir();
 	
 	/* IMPORTANTE COMPROBAR SI YA EXISTE LA CANCION EN EL ALBUM AL A�ADIR O SI NO EXISTE AL BORRAR O SI NO ES DEL AUTOR*/
 	

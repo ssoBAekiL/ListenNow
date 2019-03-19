@@ -1,4 +1,9 @@
+package es.uam.padsof.objetoreproducible;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
+
+import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 /**
  * @author Julian Espada, Carlos Miret y Pablo Borrelli
@@ -23,7 +28,8 @@ public class ListaReproducciones extends ObjetoReproducible{
 	 * @param a Array de albumes
 	 * @param l Array de lista de reproducciones
 	 */
-	public ListaReproducciones (ArrayList<Cancion> c, ArrayList<Album> a, ArrayList<ListaReproducciones> l) {
+	public ListaReproducciones (String titulo, String autor, ArrayList<Cancion> c, ArrayList<Album> a, ArrayList<ListaReproducciones> l)throws IOException, Mp3PlayerException {
+		super(ruta, titulo, autor);
 		this.ListaCanciones=c;
 		this.ListaAlbumes=a;
 		this.Listas=l;
@@ -157,6 +163,16 @@ public class ListaReproducciones extends ObjetoReproducible{
 	public void borrarListaALista(ListaReproducciones l) {
 		Listas.remove(l);
 		return;
+	}
+	
+	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
+		for(Cancion c: this.ListaCanciones) {
+			c.reproducirObjeto();
+		}
+		
+		for(Album a: this.ListaAlbumes) {
+			a.reproducirObjeto();
+		}
 	}
 
 	
