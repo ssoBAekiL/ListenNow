@@ -1,12 +1,9 @@
 package es.uam.padsof.objetoreproducible;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import es.uam.padsof.sistema.Sistema;
-import es.uam.padsof.usuario.Comentario;
-import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 /**
@@ -14,7 +11,7 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  * 
  * Esta clase se encarga de gestionar el objeto Cancion 
  */
-public class Cancion extends ObjetoReproducible{
+public class Cancion extends ObjetoComentable{
 	private int id;
 	/*private time duracion; */
 	private int nreproducciones;
@@ -39,7 +36,7 @@ public class Cancion extends ObjetoReproducible{
 	 * Este m�todo es el constructor del objeto Cancion
 	 */
 	public Cancion (String titulo, String autor, String ruta, int nrep)throws IOException, Mp3PlayerException {
-		super(titulo, autor);
+		super(titulo, autor,ruta);
 		this.id=Sistema.getInstance().getNumeroCanciones()+1;
 		this.nreproducciones=nrep;
 		this.mas18=false;
@@ -51,6 +48,8 @@ public class Cancion extends ObjetoReproducible{
 		this.setMarcada_plagio(false);
 		this.ruta=ruta;
 	}
+	
+	
 
 	/**
 	 * 
@@ -134,13 +133,14 @@ public class Cancion extends ObjetoReproducible{
 	 */
 	public void validarCancion18(Cancion cancion) {
 		for(int i=0;i<Sistema.getNumUsuarios();i++) {
-			if(Sistema.getInstance().getUsuario(i).isAdmin()==true) {
+			if(Sistema.getInstance().getUsuarioItera(i).isAdmin()==true) {
 				this.setMas18(true);
 				Sistema.getInstance().getCancionesValidadas().add(cancion);
 			}
 		}
 		return;
 	}
+	
 
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
 		if(Mp3Player.isValidMp3File(ruta)==true) {
@@ -189,6 +189,8 @@ public class Cancion extends ObjetoReproducible{
 	public void setRechazada(boolean rechazada) {
 		this.rechazada = rechazada;
 	}
+
+
 
 	
 }

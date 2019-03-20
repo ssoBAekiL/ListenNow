@@ -10,7 +10,7 @@ import es.uam.padsof.usuario.*;
  *
  * Esta clase se encarga de gestionar el objeto Album
  */
-public class Album extends ObjetoReproducible{
+public class Album extends ObjetoComentable{
 	/*private time duracion;*/
 	
 	/** Canciones del album*/

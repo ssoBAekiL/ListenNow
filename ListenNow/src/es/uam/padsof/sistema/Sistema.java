@@ -95,11 +95,8 @@ public class Sistema {
 	/**
 	 * Lista de canciones que han sido validadas por el administrador
 	 */
-<<<<<<< HEAD
-	private ArrayList<Cancion> cancionesValidadas;
-=======
-	private ArrayList<Cancion> cancionesValidadas =  new ArrayList<Cancion>();
->>>>>>> branch 'master' of https://github.com/ssoBAekiL/ListenNow.git
+
+	private ArrayList<Cancion> cancionesValidadas =  /*?? inicializo?*/new ArrayList<Cancion>();
 
 	/**
 	 * Lista de notificaciones para el usuario que ha realizado el login
@@ -177,7 +174,7 @@ public class Sistema {
 	 */
 	public boolean login(String usuario, String contrasena) {
 		for (UsuarioRegistrado u: usuarios) {
-			if (u.getNombre() == usuario && u.getContrasena() == contrasena) {
+			if (u.getNombre().equals(usuario) && u.getContrasena() == contrasena) {
 				usuarioEnSesion = u;
 				conectado = true;
 				if (u.isAdmin() == true)
@@ -248,6 +245,9 @@ public class Sistema {
 			}
 		}
 	}
+	
+	
+	
 
 	/**
 	 * @param usuario
@@ -318,10 +318,27 @@ public class Sistema {
 		this.cancionesValidadas = cancionesValidadas;
 	}
 	
-	public UsuarioRegistrado getUsuario(int i) {
+	
+	
+	/**
+	 * Metodo que devuelve un usuario registrado dentro del Sistema de la aplicacion
+	 * @param i
+	 * @return 
+	 */
+	public UsuarioRegistrado getUsuarioItera(int i) {
 		return usuarios.get(i);
 	}
-
+	
+	/**
+	 * Metodo que devuelve un usuario registrado dentro del Sistema de la aplicacion
+	 * @param i
+	 * @return 
+	 */
+	public Cancion getCancionItera(int i) {
+		return this.cancionesValidadas.get(i);
+	}
+	
+	
 
 	public static int getNumUsuarios() {
 		return usuarios.size();

@@ -4,7 +4,6 @@ import es.uam.eps.padsof.telecard.*;
 
 import java.util.*;
 
-import es.uam.padsof.objetocomentado.Comentario;
 import es.uam.padsof.objetoreproducible.*;
 import es.uam.padsof.sistema.*;
 import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
@@ -21,47 +20,41 @@ import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
  */
 public class UsuarioRegistrado {
 
-	//constructor de Usuario comun
-	public UsuarioRegistrado(String nombre, String contrasena, boolean esPremium, LocalDate fechaPremium,int reproducciones, boolean bloqueado, boolean isAdmin) {
-		this.nombre=nombre;
-		this.contrasena=contrasena;
-		this.esPremium=esPremium;
-		this.fechaPremium=fechaPremium;
-		this.seguidos=null;      					//todo se guarda en archivo
-		this.seguidores=null;
-		this.canciones=null;
-		this.albunes=null;
-		this.lista_reproducciones=null;
-		this.reproducciones=reproducciones;
-		this.bloqueado=bloqueado;
-		this.isAdmin=false;
-	}
-	
-	//constructor de Usuario admin
+
 	/**
-	 * CONSTRUCTOR DE USUARIO ADMIN
+	 * Metodo constructor de UsuarioRegistrado
+	 * @param numTarjeta
 	 * @param nombre
 	 * @param contrasena
 	 * @param esPremium
 	 * @param fechaPremium
+	 * @param seguidos
+	 * @param isAdmin
+	 * @param seguidores
+	 * @param canciones
+	 * @param albunes
+	 * @param lista_reproducciones
 	 * @param reproducciones
 	 * @param bloqueado
 	 */
-	public UsuarioRegistrado(String nombre, String contrasena, boolean esPremium, LocalDate fechaPremium,int reproducciones, boolean bloqueado) {
-		this.nombre=nombre;
-		this.contrasena=contrasena;
-		this.esPremium=esPremium;
-		this.fechaPremium=fechaPremium;
-		this.seguidos=null;      					//todo se guarda en archivo
-		this.seguidores=null;
-		this.canciones=null;
-		this.albunes=null;
-		this.lista_reproducciones=null;
-		this.reproducciones=reproducciones;
-		this.bloqueado=bloqueado;
-		this.isAdmin=true;
+	public UsuarioRegistrado(String numTarjeta, String nombre, String contrasena, boolean esPremium,
+			LocalDate fechaPremium, ArrayList<UsuarioRegistrado> seguidos, boolean isAdmin,
+			ArrayList<UsuarioRegistrado> seguidores, ArrayList<Cancion> canciones, ArrayList<Album> albunes,
+			ArrayList<ListaReproducciones> lista_reproducciones, int reproducciones, boolean bloqueado) {
+		this.numTarjeta = numTarjeta;
+		this.nombre = nombre;
+		this.contrasena = contrasena;
+		this.esPremium = esPremium;
+		this.fechaPremium = fechaPremium;
+		this.seguidos = seguidos;
+		this.isAdmin = isAdmin;
+		this.seguidores = seguidores;
+		this.canciones = canciones;
+		this.albunes = albunes;
+		this.lista_reproducciones = lista_reproducciones;
+		this.reproducciones = reproducciones;
+		this.bloqueado = bloqueado;
 	}
-
 
 	/**
 	 * 
@@ -308,32 +301,18 @@ public class UsuarioRegistrado {
 		    this.fechaPremium=LocalDate.now();
 			this.esPremium=true;
 	}
+	
+	
 
-
-
-	/**
-	 * Metodo que permite a un usuario valorar un comentario
-	 * @param valoracion
-	 */
-	public void valorarComentario(Comentario comentario, int valoracion) {
-		comentario.setValoracion(valoracion);
-	}
 
 	/**
 	 * Metodo que permite a un usuario notificar ccomo plagio una cancion
 	 * @param cancion
 	 */
 	public void notificarPlagio(Cancion cancion) {
-		cancion.setNotificada(true);
+		cancion.setNotificada_plagio(true);
 	}
 
-	/**
-	 * Metodo que permite al usuario crear un Album y por consiguiente almacenarlo en el conjunto de diferentes albunes de dicho usuario
-	 * @param album
-	 */
-	public void anadirAlbum(Album album) {
-		this.albunes.add(album);
-	}
 
 	/**
 	 * Metodo que da la capacidad a un usuario a borrar un album
@@ -349,18 +328,12 @@ public class UsuarioRegistrado {
 	 * Metodo que se encarga de anadir una cancion al conjunto de canciones del usuario
 	 * @param cancion
 	 */
-	public void anadirCancion(Cancion cancion) {
-		Sistema.getInstance().anadirReproducible(cancion);
-	}
-
-	/**
-	 * Metodo que se encarga de anadir una cancion al conjunto de canciones del usuario
-	 * @param cancion
-	 */
 	public void borrarCancion(Cancion cancion) {
-		if(isAdmin==true)
-			Sistema.getInstance().borrarReproducible(cancion); //sistema.borrarReproducible(cancion);????????preguntamosssss
+		if(isAdmin==true) {
+			Sistema.getInstance().borrarReproducible(cancion); 
+		}
 	}
+	
 	
 	
 	/**
@@ -378,5 +351,26 @@ public class UsuarioRegistrado {
 	public void borrarListaReproduccion(ListaReproducciones lista) {
 		Sistema.getInstance().borrarReproducible(lista); //sistema.borrarReproducible(cancion);????????preguntamosssss
 	}
+	
+	/**
+	 * Metodo que permite a un usuario, seguir a otro
+	 * @param UsuarioRegistrado seguido
+	 * @return true en caso de poder realizar la accion de forma correcta
+	 */
+	public boolean follows(UsuarioRegistrado seguido) {
+		for(int i=0;i<Sistema.getNumUsuarios();i++) {
+			/*COMPROBACION DE EXISTENCIA DEL USUARIO EN EL SISTEMA*/
+			if(Sistema.getInstance().getUsuarioItera(i).equals(seguido)) {
+				this.seguidos.add(seguido);
+				seguido.seguidores.add(this);
+				Notificacion n=new Notificacion(TipoNotificacion.NUEVOSEGUIDOR, seguido);
+				n.mostrarNotificacion();
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 
 }

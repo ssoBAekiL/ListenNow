@@ -1,4 +1,4 @@
-package es.uam.padsof.objetocomentado;
+package es.uam.padsof.objetoreproducible;
 import java.util.*;
 
 import es.uam.padsof.usuario.UsuarioRegistrado;
@@ -26,6 +26,8 @@ public class Comentario {
 	 * 
 	 */
 	private int valoracion;
+	
+
 
 	/**
 	 * Default constructor
@@ -94,15 +96,7 @@ public class Comentario {
 		this.valoracion = valoracion;
 	}
 
-	/**
-	 * Metodo que permite a un usuario valorar un comentario
-	 * @param valoracion
-	 */
-	public void valorarComentario(int valoracion) {
-		comentario.setValoracion(valoracion);
-	}
-
-
+    
 
 
 }
