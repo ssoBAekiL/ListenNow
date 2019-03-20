@@ -120,7 +120,19 @@ public class Album extends ObjetoComentable{
 		return comentarios;
 	}
 	
-	public void reproducir();
+	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+		for(int i=0;i<this.getGetTamanioAlbum();i++) {
+			this.getCancionItera(i).reproducir();
+		}
+	}
+	
+	public Cancion getCancionItera(int i) {
+		return this.canciones.get(i);
+	}
+	
+	public int getGetTamanioAlbum() {
+		return this.canciones.size();
+	}
 	
 	/* IMPORTANTE COMPROBAR SI YA EXISTE LA CANCION EN EL ALBUM AL A�ADIR O SI NO EXISTE AL BORRAR O SI NO ES DEL AUTOR*/
 	

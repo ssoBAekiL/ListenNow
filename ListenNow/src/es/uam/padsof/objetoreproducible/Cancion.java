@@ -1,9 +1,11 @@
 package es.uam.padsof.objetoreproducible;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import es.uam.padsof.sistema.Sistema;
+import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 /**
@@ -35,10 +37,10 @@ public class Cancion extends ObjetoComentable{
 	 * 
 	 * Este m�todo es el constructor del objeto Cancion
 	 */
-	public Cancion (String titulo, String autor, String ruta, int nrep)throws IOException, Mp3PlayerException {
+	public Cancion (String titulo, String autor, String ruta)throws IOException, Mp3PlayerException {
 		super(titulo, autor,ruta);
 		this.id=Sistema.getInstance().getNumeroCanciones()+1;
-		this.nreproducciones=nrep;
+		this.nreproducciones=0;
 		this.mas18=false;
 		this.setAceptada(false);
 		this.setNotificada_plagio(false);
@@ -59,6 +61,10 @@ public class Cancion extends ObjetoComentable{
 	 */
 	public int getId() {
 		return id;
+	}
+	
+	public void incrementaReproducciones() {
+		this.nreproducciones++;
 	}
 
 	/**
@@ -132,7 +138,7 @@ public class Cancion extends ObjetoComentable{
 	 * @param cancion
 	 */
 	public void validarCancion18(Cancion cancion) {
-		for(int i=0;i<Sistema.getNumUsuarios();i++) {
+		for(int i=0;i<Sistema.getInstance().getNumUsuarios();i++) {
 			if(Sistema.getInstance().getUsuarioItera(i).isAdmin()==true) {
 				this.setMas18(true);
 				Sistema.getInstance().getCancionesValidadas().add(cancion);
@@ -149,6 +155,7 @@ public class Cancion extends ObjetoComentable{
 			Thread.sleep((long)Mp3Player.getDuration(ruta)*1000);
 		}
 	}
+	
 
 	public boolean isNotificada_plagio() {
 		return notificada_plagio;

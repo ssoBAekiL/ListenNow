@@ -11,6 +11,13 @@ public abstract class ObjetoReproducible {
 	protected String titulo;
 	protected String autor;
 	
+	/**
+	 * @param titulo
+	 * @param autor
+	 * @param ruta
+	 * @throws FileNotFoundException
+	 * @throws Mp3PlayerException
+	 */
 	public ObjetoReproducible(String titulo, String autor, String ruta) throws FileNotFoundException, Mp3PlayerException {
 		this.titulo = titulo;
 		this.autor = autor;

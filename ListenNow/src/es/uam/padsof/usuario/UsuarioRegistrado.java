@@ -20,7 +20,6 @@ import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
  */
 public class UsuarioRegistrado {
 
-
 	/**
 	 * Metodo constructor de UsuarioRegistrado
 	 * @param numTarjeta
@@ -38,22 +37,21 @@ public class UsuarioRegistrado {
 	 * @param bloqueado
 	 */
 	public UsuarioRegistrado(String numTarjeta, String nombre, String contrasena, boolean esPremium,
-			LocalDate fechaPremium, ArrayList<UsuarioRegistrado> seguidos, boolean isAdmin,
-			ArrayList<UsuarioRegistrado> seguidores, ArrayList<Cancion> canciones, ArrayList<Album> albunes,
-			ArrayList<ListaReproducciones> lista_reproducciones, int reproducciones, boolean bloqueado) {
+			LocalDate fechaPremium, boolean isAdmin) {
+		this.seguidos = new ArrayList<UsuarioRegistrado>();
+		this.seguidores = new ArrayList<UsuarioRegistrado>();;
+		this.lista_reproducciones = new ArrayList<ListaReproducciones>();
+		this.canciones = new ArrayList<Cancion>();
+		this.albunes = new ArrayList<Album>();
+
 		this.numTarjeta = numTarjeta;
 		this.nombre = nombre;
 		this.contrasena = contrasena;
 		this.esPremium = esPremium;
 		this.fechaPremium = fechaPremium;
-		this.seguidos = seguidos;
 		this.isAdmin = isAdmin;
-		this.seguidores = seguidores;
-		this.canciones = canciones;
-		this.albunes = albunes;
-		this.lista_reproducciones = lista_reproducciones;
-		this.reproducciones = reproducciones;
-		this.bloqueado = bloqueado;
+		this.reproducciones = 0;
+		this.bloqueado = false;
 	}
 
 	/**
@@ -320,7 +318,7 @@ public class UsuarioRegistrado {
 	 */
 	public void borrarAlbum(Album album) {
 		if(this.isAdmin==true)
-			Sistema.sistema.borrarReproducible(album);
+			Sistema.getInstance().borrarReproducible(album);
 	}
 
 
@@ -357,19 +355,29 @@ public class UsuarioRegistrado {
 	 * @param UsuarioRegistrado seguido
 	 * @return true en caso de poder realizar la accion de forma correcta
 	 */
+	@SuppressWarnings("unused")
 	public boolean follows(UsuarioRegistrado seguido) {
-		for(int i=0;i<Sistema.getNumUsuarios();i++) {
+		for(int i=0;i<Sistema.getInstance().getNumUsuarios();i++) {
 			/*COMPROBACION DE EXISTENCIA DEL USUARIO EN EL SISTEMA*/
 			if(Sistema.getInstance().getUsuarioItera(i).equals(seguido)) {
 				this.seguidos.add(seguido);
 				seguido.seguidores.add(this);
 				Notificacion n=new Notificacion(TipoNotificacion.NUEVOSEGUIDOR, seguido);
-				n.mostrarNotificacion();
 				return true;
 			}
 		}
 		return false;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "UsuarioRegistrado [" + nombre + "]: ";
+	}
+	
+	
 	
 	
 
