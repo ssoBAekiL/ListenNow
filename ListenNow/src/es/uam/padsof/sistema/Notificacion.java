@@ -12,14 +12,14 @@ public class Notificacion {
 	
 	
 	/*NOTIFICAR SOBRE UNA NUEVA CANCION SUBIDA*/
-	public Notificacion (TipoNotificacion tipo, Cancion cancionNotificada, ArrayList<UsuarioRegistrado> usuariosNotificados) {
+	public Notificacion (TipoNotificacion tipo, Cancion cancionNotificada, UsuarioRegistrado usr) {
 		if (tipo == TipoNotificacion.PLAGIO)
 			System.out.println("La cancion " + cancionNotificada.getTitulo() + " ha sido notificada como plagio. ");
 		else if (tipo == TipoNotificacion.NUEVACANCION)
 			System.out.println("El usuario " + cancionNotificada.getAutor() + " ha añadido una nueva cancion con titulo: " + cancionNotificada.getTitulo() + ". ");
 		
 		Sistema.getInstance().getCancionesNotificadas().add(cancionNotificada);
-		this.usuariosNotificados = usuariosNotificados;
+		//this.usuariosNotificados = usuariosNotificados;
 	}
 	
 	
