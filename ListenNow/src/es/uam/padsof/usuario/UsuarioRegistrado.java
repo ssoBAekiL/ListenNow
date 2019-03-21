@@ -51,6 +51,8 @@ public class UsuarioRegistrado {
 		this.isAdmin = isAdmin;
 		this.reproducciones = 0;
 		this.bloqueado = false;
+		this.bloqueoPermanente = false;
+		this.fechaBloqueo = null;
 	}
 
 	/**
@@ -125,6 +127,10 @@ public class UsuarioRegistrado {
 	 * bloqueado
 	 */
 	private boolean bloqueado;
+	
+	private boolean bloqueoPermanente;
+	
+	private LocalDate fechaBloqueo;
 
 
 
@@ -377,5 +383,25 @@ public class UsuarioRegistrado {
 	public void setCanciones(Cancion cancion) {
 		canciones.add(cancion);
 	}
-
+	
+	public LocalDate getFechaBloqueo() {
+		return fechaBloqueo;
+	}
+	
+	public void setFechaBloqueo(LocalDate fecha) {
+		fechaBloqueo = fecha;
+	}
+	
+	public void setBloqueoPermanente() {
+		bloqueado = true;
+		bloqueoPermanente = true;
+	}
+	
+	public boolean getBloqueado() {
+		return bloqueado;
+	}
+	
+	public boolean getBloqueoPermanente() {
+		return bloqueoPermanente;
+	}
 }

@@ -151,7 +151,12 @@ public class Sistema {
 	 * 
 	 */
 	public void inicializarSistema() {
-		
+		for (UsuarioRegistrado u: usuarios) {
+			if (u.getBloqueado() == true && u.getBloqueoPermanente() == false)
+				u.setBloqueado(false);
+			if (u.EsPremium() == true)
+				caducaPremium();
+		}
 	}
 	
 	/**
@@ -204,11 +209,12 @@ public class Sistema {
 	 */
 	public boolean login(String usuario, String contrasena) {
 		for (UsuarioRegistrado u: usuarios) {
-			if (u.getNombre().equals(usuario) && u.getContrasena() == contrasena) {
+			if (u.getNombre().equals(usuario) && u.getContrasena() == contrasena && u.getBloqueado() == false) {
 				usuarioEnSesion = u;
 				conectado = true;
 				if (u.isAdmin() == true)
 					adminConectado = true;
+				mostrarNotificacion();
 				return true;
 			}
 		}
@@ -283,15 +289,24 @@ public class Sistema {
 	/**
 	 * @param usuario
 	 */
-	public void bloquearUsuario(UsuarioRegistrado usuario) {
-		usuario.setBloqueado(true);
+	public void bloquearUsuario(UsuarioRegistrado usuario, boolean permanente) {
+		if (permanente = false) {
+			usuario.setBloqueado(true);
+			usuario.setFechaBloqueo(LocalDate.now());
+		}
+		else
+			usuario.setBloqueoPermanente();
 	}
 
 	/**
 	 * @param usuario
 	 */
 	public void desbloquearUsuario(UsuarioRegistrado usuario) {
-		usuario.setBloqueado(false);
+		if (LocalDate.now().isAfter(usuario.getFechaBloqueo().plusDays(30))) {
+			usuario.setBloqueado(false);
+		}
+		else if (adminConectado == true)
+			usuario.setBloqueado(false);
 	}
 	
 	/**
