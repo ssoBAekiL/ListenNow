@@ -94,7 +94,7 @@ public class Sistema {
 	/**
 	 * Contiene al usuario administrador
 	 */
-	private UsuarioRegistrado admin = new UsuarioRegistrado("0000000000000000", "Administrador", "adminpass", true, LocalDate.now(), true);
+	private UsuarioRegistrado admin;
 	
 	/**
 	 * Contiene al usuario que esta utilizando la sesion
@@ -115,7 +115,7 @@ public class Sistema {
 		this.cancionesNotificadas = new ArrayList<Cancion>();
 		this.notificaciones = new ArrayList<Notificacion>();
 		this.usuarios = new ArrayList<UsuarioRegistrado>();
-		this.admin=(new UsuarioRegistrado("1"/*num tarjeta*/, "ADMIN"/*nombre*/, "soyadmin"/*contrasena*/, true/*premium*/, null, true));
+		this.admin=(new UsuarioRegistrado("0000000000000000"/*num tarjeta*/, "ADMIN"/*nombre*/, "soyadmin"/*contrasena*/, true/*premium*/, true));
 		this.addUsuario(admin);
 	}
 	

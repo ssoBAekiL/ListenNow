@@ -36,7 +36,7 @@ public class UsuarioRegistrado {
 	 * @param bloqueado
 	 */
 	public UsuarioRegistrado(String numTarjeta, String nombre, String contrasena, boolean esPremium,
-			LocalDate fechaPremium, boolean isAdmin) {
+			boolean isAdmin) {
 		this.seguidos = new ArrayList<UsuarioRegistrado>();
 		this.seguidores = new ArrayList<UsuarioRegistrado>();;
 		this.lista_reproducciones = new ArrayList<ListaReproducciones>();
@@ -47,7 +47,7 @@ public class UsuarioRegistrado {
 		this.nombre = nombre;
 		this.contrasena = contrasena;
 		this.esPremium = esPremium;
-		this.fechaPremium = fechaPremium;
+		this.fechaPremium = null;
 		this.isAdmin = isAdmin;
 		this.reproducciones = 0;
 		this.bloqueado = false;

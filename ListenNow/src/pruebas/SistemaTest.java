@@ -24,8 +24,8 @@ public class SistemaTest {
 	
 	@Before
 	public void setUp() throws IOException, Mp3PlayerException {
-		u1 = new UsuarioRegistrado("1234567891234567", "Pablo", "pass", true, LocalDate.now().minusDays(15), false);
-		u2 = new UsuarioRegistrado("9876543219876543", "Carlos", "pass123", true, LocalDate.now().minusDays(35), false);
+		u1 = new UsuarioRegistrado("1234567891234567", "Pablo", "pass", true, false);
+		u2 = new UsuarioRegistrado("9876543219876543", "Carlos", "pass123", true, false);
 		sys.addUsuario(u1);
 		sys.addUsuario(u2);
 		c1 = new Cancion("Cancion 1", u1, "/np.mp3");
@@ -66,7 +66,7 @@ public class SistemaTest {
 
 	@Test
 	public void testRegistrarse() {
-		UsuarioRegistrado u3 = new UsuarioRegistrado("9876543219876543", "Usuario3", "p123", true, LocalDate.now().minusDays(11), false);
+		UsuarioRegistrado u3 = new UsuarioRegistrado("9876543219876543", "Usuario3", "p123", true, false);
 		sys.registrarse(u3);
 		assertTrue(sys.getUsuarios().contains(u3));
 	}
