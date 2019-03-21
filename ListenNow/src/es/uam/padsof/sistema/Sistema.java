@@ -2,6 +2,7 @@ package es.uam.padsof.sistema;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import es.uam.padsof.objetoreproducible.*;
@@ -21,45 +22,22 @@ public class Sistema {
 	 */
 	public static Sistema sistema = null;
 
-	//tener lista con usuarios potenciales y una refrencia a usuario ; inicio sesion en sistema, recorro los usuarios y si coinccide con algun usuario y si no compruebo con usua
-	//administrador
-	/**
-	 * Default constructor
-	 */
-	private Sistema() {
-		
-		
-	}
-	
-	
-	//nombre de la clase.getInstance//Esta compartido por todasse puede obtener desde cualquier pare del codigo. estatico, se reserva memoria automatica, va a existir antes de su instanciacion
-    private synchronized static void createInstance() {
-        if (sistema == null) { 
-            sistema = new Sistema();
-        }
-    }
-
-	//garantizamos que solo exista una instancia del sistema
-    public static Sistema getInstance() {
-        if (sistema == null) createInstance();
-        return sistema;
-    }	
 	
 	/**
 	 * Contador de lar reproducciones utilizadas por los usuarios no registrados
 	 */
-	private int reproducciones;
+	private  int reproducciones;
 
 	/**
 	 * Indica si hay una sesion abierta
 	 */
-	private boolean conectado = false;
+	private  boolean conectado;
 
 	/**
 	 * Indica si hay una sesion de administrador abierta
 	 */
-	private boolean adminConectado = false;
-	
+	private  boolean adminConectado;
+	/////??????????
 	/**
 	 * Indica el numero maximo de reproducciones que un usuario no registrado puede realizar.
 	 * Este parametro puede ser modificado por el administrador
@@ -83,21 +61,22 @@ public class Sistema {
 	/**
 	 * Lista de usuarios registrados
 	 */
-	private static ArrayList<UsuarioRegistrado> usuarios =  new ArrayList<UsuarioRegistrado>();
+	private ArrayList<UsuarioRegistrado> usuarios;
 	
 	/**
 	 * Lista de canciones en el sistema que tienen que ser validadas
 	 */
-	private ArrayList<Cancion> cancionesValidar =  new ArrayList<Cancion>();
+	private ArrayList<Cancion> cancionesValidar;
 	
 	/**
-	 * Lista de albums en el sistema
+	 * Lista de albunes en el sistema
 	 */
-	private ArrayList<Album> albums =  new ArrayList<Album>();
+	private ArrayList<Album> albunes;
 	
 	/**
 	 * Lista de canciones que han sido validadas por el administrador
 	 */
+	
 	private ArrayList<Cancion> cancionesValidadas;
 
 	/**
@@ -105,17 +84,66 @@ public class Sistema {
 	 */
 	private ArrayList<Notificacion> notificaciones;
 	
+	
+	/**
+	 * Canciones notificadas
+	 */
+	private ArrayList<Cancion> cancionesNotificadas;
+
+	
 	/**
 	 * Contiene al usuario administrador
 	 */
-	private UsuarioRegistrado admin = null;
+	private UsuarioRegistrado admin = new UsuarioRegistrado("0000000000000000", "Administrador", "adminpass", true, LocalDate.now(), true);
 	
 	/**
 	 * Contiene al usuario que esta utilizando la sesion
 	 */
 	private UsuarioRegistrado usuarioEnSesion;
+
 	
-	private Mp3Player player = new Mp3Player();
+	private Sistema() {
+		this.reproducciones = 0;
+		this.conectado = true;
+		this.adminConectado = true;
+		this.nRepAnonimas = 0;
+		this.nRepRegistrado = 0;
+		this.nRepRecompensa = 0;
+		this.cancionesValidar = new ArrayList<Cancion>();
+		this.albunes = new ArrayList<Album>();
+		this.cancionesValidadas = new ArrayList<Cancion>();
+		this.cancionesNotificadas = new ArrayList<Cancion>();
+		this.notificaciones = new ArrayList<Notificacion>();
+		this.usuarios = new ArrayList<UsuarioRegistrado>();
+		this.admin=(new UsuarioRegistrado("1"/*num tarjeta*/, "ADMIN"/*nombre*/, "soyadmin"/*contrasena*/, true/*premium*/, null, true));
+		this.addUsuario(admin);
+	}
+	
+
+	//tener lista con usuarios potenciales y una refrencia a usuario ; inicio sesion en sistema, recorro los usuarios y si coinccide con algun usuario y si no compruebo con usua
+	//administrador
+	
+	
+	
+	//nombre de la clase.getInstance//Esta compartido por todasse puede obtener desde cualquier pare del codigo. estatico, se reserva memoria automatica, va a existir antes de su instanciacion
+    private synchronized static void createInstance() {
+        if (sistema == null) { 
+            sistema = new Sistema();
+        }
+    }
+    
+	//garantizamos que solo exista una instancia del sistema
+    public static Sistema getInstance() {
+        if (sistema == null) createInstance();
+        return sistema;
+    }	
+	
+
+    
+    
+
+	
+	//private Mp3Player player = new Mp3Player();
 	
 	
 	
@@ -143,7 +171,7 @@ public class Sistema {
 	 * @return
 	 */
 	public Album buscarAlbum(String titulo) {
-		for (Album a: albums) {
+		for (Album a: albunes) {
 			if (a.getTitulo() == titulo)
 				return a;
 		}
@@ -176,7 +204,7 @@ public class Sistema {
 	 */
 	public boolean login(String usuario, String contrasena) {
 		for (UsuarioRegistrado u: usuarios) {
-			if (u.getNombre() == usuario && u.getContrasena() == contrasena) {
+			if (u.getNombre().equals(usuario) && u.getContrasena() == contrasena) {
 				usuarioEnSesion = u;
 				conectado = true;
 				if (u.isAdmin() == true)
@@ -200,10 +228,11 @@ public class Sistema {
 	 * @param reproducible
 	 */
 	public void anadirReproducible(ObjetoReproducible reproducible) {
-		if (reproducible instanceof Cancion)
+		if (reproducible instanceof Cancion) {
 			cancionesValidar.add((Cancion) reproducible);
+		}
 		else if (reproducible instanceof Album)
-			albums.add((Album) reproducible);
+			albunes.add((Album) reproducible);
 	}
 
 	/**
@@ -217,7 +246,7 @@ public class Sistema {
 				cancionesValidar.remove(reproducible);
 		}
 		else if (reproducible instanceof Album) {
-			albums.remove(reproducible);
+			albunes.remove(reproducible);
 		}
 	}
 
@@ -247,6 +276,9 @@ public class Sistema {
 			}
 		}
 	}
+	
+	
+	
 
 	/**
 	 * @param usuario
@@ -275,8 +307,22 @@ public class Sistema {
 	public void mostrarNotificacion() {
 		for (Notificacion n: notificaciones) {
 			if(n.getUsuariosNotificados().contains(usuarioEnSesion))
-				n.mostrarNotificacion();
+				System.out.println(n);
 		}
+	}
+
+	/**
+	 * @return the usuarios
+	 */
+	public ArrayList<UsuarioRegistrado> getUsuarios() {
+		return usuarios;
+	}
+
+	/**
+	 * @param usuarios the usuarios to set
+	 */
+	public void setUsuarios(ArrayList<UsuarioRegistrado> usuarios) {
+		this.usuarios = usuarios;
 	}
 
 	public int getnRepAnonimas() {
@@ -317,22 +363,56 @@ public class Sistema {
 		this.cancionesValidadas = cancionesValidadas;
 	}
 	
-	public UsuarioRegistrado getUsuario(int i) {
+	/**
+	 * Metodo que incrementa el numero de reproducciones
+	 */
+	public void incremetaReproducciones() {
+		this.reproducciones++;
+	}
+	
+	
+	/**
+	 * @return the cancionesNotificadas
+	 */
+	public ArrayList<Cancion> getCancionesNotificadas() {
+		return cancionesNotificadas;
+	}
+
+
+	/**
+	 * Metodo que devuelve un usuario registrado dentro del Sistema de la aplicacion
+	 * @param i
+	 * @return 
+	 */
+	public UsuarioRegistrado getUsuarioItera(int i) {
 		return usuarios.get(i);
 	}
+	
+	/**
+	 * Metodo que devuelve un usuario registrado dentro del Sistema de la aplicacion
+	 * @param i
+	 * @return 
+	 */
+	public Cancion getCancionItera(int i) {
+		return this.cancionesValidadas.get(i);
+	}
+	
+	
 
-
-	public static int getNumUsuarios() {
-		return usuarios.size();
+	public int getNumUsuarios() {
+		return this.usuarios.size();
 	}
 
+	public void addUsuario(UsuarioRegistrado u) {
+		this.usuarios.add(u);
+	}
 
 	public ArrayList<Cancion> getCancionesValidar() {
 		return cancionesValidar;
 	}
 	
-	public void setNotificaciones(TipoNotificacion tipo, Cancion cancion, ArrayList<UsuarioRegistrado> usuarios) {
-		notificaciones.add(new Notificacion(tipo, cancion, usuarios));
+	public void setNotificaciones(Notificacion notificacion) {
+		notificaciones.add(notificacion);
 	}
 	
 	public int getNumeroCanciones() {
@@ -341,6 +421,16 @@ public class Sistema {
 	
 	public boolean esAdmin() {
 		return adminConectado;
+	}
+
+
+	public UsuarioRegistrado getAdmin() {
+		return admin;
+	}
+
+
+	public void setAdmin(UsuarioRegistrado admin) {
+		this.admin = admin;
 	}
 
 }

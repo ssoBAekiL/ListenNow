@@ -4,9 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import es.uam.padsof.sistema.Notificacion;
 import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
 import es.uam.padsof.sistema.Sistema;
-import es.uam.padsof.usuario.Comentario;
 import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
@@ -15,7 +15,7 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  * 
  * Esta clase se encarga de gestionar el objeto Cancion 
  */
-public class Cancion extends ObjetoReproducible{
+public class Cancion extends ObjetoComentable{
 	private int id;
 	/*private time duracion; */
 	private int nreproducciones;
@@ -39,10 +39,10 @@ public class Cancion extends ObjetoReproducible{
 	 * 
 	 * Este m�todo es el constructor del objeto Cancion
 	 */
-	public Cancion (String titulo, String autor, String ruta, int nrep)throws IOException, Mp3PlayerException {
-		super(titulo, autor);
+	public Cancion (String titulo, String autor, String ruta)throws IOException, Mp3PlayerException {
+		super(titulo, autor,ruta);
 		this.id=Sistema.getInstance().getNumeroCanciones()+1;
-		this.nreproducciones=nrep;
+		this.nreproducciones=0;
 		this.mas18=false;
 		this.setAceptada(false);
 		this.setNotificada_plagio(false);
@@ -52,6 +52,8 @@ public class Cancion extends ObjetoReproducible{
 		this.setMarcada_plagio(false);
 		this.ruta=ruta;
 	}
+	
+	
 
 	/**
 	 * 
@@ -61,6 +63,10 @@ public class Cancion extends ObjetoReproducible{
 	 */
 	public int getId() {
 		return id;
+	}
+	
+	public void incrementaReproducciones() {
+		this.nreproducciones++;
 	}
 
 	/**
@@ -133,9 +139,14 @@ public class Cancion extends ObjetoReproducible{
 	 * Metodo que permite al usuario admin validar + 18 una cancion pasada por parametro
 	 * @param cancion
 	 */
-	public boolean validarCancion18(Cancion cancion) {
+	public boolean validarCancion18() {
 		/*for(int i=0;i<Sistema.getNumUsuarios();i++) {
 			if(Sistema.getInstance().getUsuario(i).isAdmin()==true) {
+=======
+	public void validarCancion18(Cancion cancion) {
+		for(int i=0;i<Sistema.getInstance().getNumUsuarios();i++) {
+			if(Sistema.getInstance().getUsuarioItera(i).isAdmin()==true) {
+>>>>>>> branch 'master' of https://github.com/ssoBAekiL/ListenNow.git
 				this.setMas18(true);
 				Sistema.getInstance().getCancionesValidadas().add(cancion);
 			}
@@ -164,12 +175,13 @@ public class Cancion extends ObjetoReproducible{
 			Sistema.getInstance().getCancionesValidadas().add(this);
 			aceptada = true;
 			pendiente_verificacion = false;
-			Sistema.getInstance().setNotificaciones(TipoNotificacion.NUEVACANCION, this, autor.getSeguidores());
+			Sistema.getInstance().setNotificaciones(new Notificacion(this, this.autor.getSeguidores()));
 			autor.setCanciones(this);
 			return true;
 		}
 		return false;
 	}
+	
 
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
 		if(Mp3Player.isValidMp3File(ruta)==true) {
@@ -178,6 +190,14 @@ public class Cancion extends ObjetoReproducible{
 			Thread.sleep((long)Mp3Player.getDuration(ruta)*1000);
 		}
 	}
+	
+	public void pararReproduccion()throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+		if(Mp3Player.isValidMp3File(ruta)==true) {
+			player.add(ruta);
+			player.stop();
+		}
+	}
+	
 
 	public boolean isNotificada_plagio() {
 		return notificada_plagio;
@@ -217,6 +237,12 @@ public class Cancion extends ObjetoReproducible{
 
 	public void setRechazada(boolean rechazada) {
 		this.rechazada = rechazada;
+	}
+
+	public String toString(){
+		return "Autor: "+this.getAutor()+"\n"+"Titulo: "+this.getTitulo()+"\n";
+		
+		
 	}
 
 	

@@ -29,10 +29,17 @@ public class ListaReproducciones extends ObjetoReproducible{
 	 * @param l Array de lista de reproducciones
 	 */
 	public ListaReproducciones (String titulo, String autor, ArrayList<Cancion> c, ArrayList<Album> a, ArrayList<ListaReproducciones> l)throws IOException, Mp3PlayerException {
-		super(ruta, titulo, autor);
+		super(titulo, autor, null);
 		this.ListaCanciones=c;
 		this.ListaAlbumes=a;
 		this.Listas=l;
+	}
+	
+	public ListaReproducciones (String titulo, String autor, ArrayList<Cancion> c, ArrayList<Album> a)throws IOException, Mp3PlayerException {
+		super(titulo, autor, null);
+		this.ListaCanciones=c;
+		this.ListaAlbumes=a;
+		this.Listas=null;
 	}
 
 	/**
