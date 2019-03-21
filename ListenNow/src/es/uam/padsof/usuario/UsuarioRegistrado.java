@@ -6,6 +6,7 @@ import java.util.*;
 
 import es.uam.padsof.objetoreproducible.*;
 import es.uam.padsof.sistema.*;
+import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
 
 /**
  * Esta clase proporciona funcionalidades referentes a un usuario al igual que sus caracter�sticas principales
@@ -51,8 +52,6 @@ public class UsuarioRegistrado {
 		this.isAdmin = isAdmin;
 		this.reproducciones = 0;
 		this.bloqueado = false;
-		this.bloqueoPermanente = false;
-		this.fechaBloqueo = null;
 	}
 
 	/**
@@ -127,10 +126,6 @@ public class UsuarioRegistrado {
 	 * bloqueado
 	 */
 	private boolean bloqueado;
-	
-	private boolean bloqueoPermanente;
-	
-	private LocalDate fechaBloqueo;
 
 
 
@@ -314,7 +309,6 @@ public class UsuarioRegistrado {
 	 */
 	public void notificarPlagio(Cancion cancion) {
 		cancion.setNotificada_plagio(true);
-		Sistema.getInstance().setNotificaciones(new Notificacion(cancion));
 	}
 
 
@@ -363,11 +357,14 @@ public class UsuarioRegistrado {
 	 */
 	@SuppressWarnings("unused")
 	public boolean follows(UsuarioRegistrado seguido) {
-		if (Sistema.getInstance().getUsuarios().contains(seguido) == true) {
-			this.seguidos.add(seguido);
-			seguido.seguidores.add(this);
-			Notificacion n = new Notificacion(seguido, this);
-			return true;
+		for(int i=0;i<Sistema.getInstance().getNumUsuarios();i++) {
+			/*COMPROBACION DE EXISTENCIA DEL USUARIO EN EL SISTEMA*/
+			if(Sistema.getInstance().getUsuarioItera(i).equals(seguido)) {
+				this.seguidos.add(seguido);
+				seguido.seguidores.add(this);
+				Notificacion n=new Notificacion(TipoNotificacion.NUEVOSEGUIDOR, seguido);
+				return true;
+			}
 		}
 		return false;
 	}
@@ -380,28 +377,8 @@ public class UsuarioRegistrado {
 		return "UsuarioRegistrado [" + nombre + "]: ";
 	}
 	
-	public void setCanciones(Cancion cancion) {
-		canciones.add(cancion);
-	}
 	
-	public LocalDate getFechaBloqueo() {
-		return fechaBloqueo;
-	}
 	
-	public void setFechaBloqueo(LocalDate fecha) {
-		fechaBloqueo = fecha;
-	}
 	
-	public void setBloqueoPermanente() {
-		bloqueado = true;
-		bloqueoPermanente = true;
-	}
-	
-	public boolean getBloqueado() {
-		return bloqueado;
-	}
-	
-	public boolean getBloqueoPermanente() {
-		return bloqueoPermanente;
-	}
+
 }
