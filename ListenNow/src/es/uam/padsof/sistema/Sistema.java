@@ -226,8 +226,9 @@ public class Sistema {
 	 * @param reproducible
 	 */
 	public void anadirReproducible(ObjetoReproducible reproducible) {
-		if (reproducible instanceof Cancion)
+		if (reproducible instanceof Cancion) {
 			cancionesValidar.add((Cancion) reproducible);
+		}
 		else if (reproducible instanceof Album)
 			albunes.add((Album) reproducible);
 	}
