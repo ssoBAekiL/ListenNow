@@ -35,13 +35,7 @@ public abstract class ObjetoReproducible {
 	/**
 	 * @param reproducible
 	 */
-	public void pararReproduccion()throws FileNotFoundException, Mp3PlayerException, InterruptedException {
-		if(Mp3Player.isValidMp3File(ruta)==true) {
-			player.add(ruta);
-			player.stop();
-		}
-	}
-
+	public abstract void pararReproduccion()throws FileNotFoundException, Mp3PlayerException, InterruptedException;
 
 	/**
 	 * @return the player

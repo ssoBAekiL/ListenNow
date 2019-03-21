@@ -156,6 +156,13 @@ public class Cancion extends ObjetoComentable{
 		}
 	}
 	
+	public void pararReproduccion()throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+		if(Mp3Player.isValidMp3File(ruta)==true) {
+			player.add(ruta);
+			player.stop();
+		}
+	}
+	
 
 	public boolean isNotificada_plagio() {
 		return notificada_plagio;
@@ -197,7 +204,11 @@ public class Cancion extends ObjetoComentable{
 		this.rechazada = rechazada;
 	}
 
-
+	public String toString(){
+		return "Autor: "+this.getAutor()+"\n"+"Titulo: "+this.getTitulo()+"\n";
+		
+		
+	}
 
 	
 }

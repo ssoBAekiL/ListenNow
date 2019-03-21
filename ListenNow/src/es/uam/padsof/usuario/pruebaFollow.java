@@ -13,7 +13,7 @@ public class pruebaFollow {
 	public static void main(String[] args) throws Mp3PlayerException, IOException {
 		
 		Mp3Player player = new Mp3Player();
-		Cancion c = new Cancion("este es titulo","este es autor","hive.mp3");
+		Cancion c = new Cancion("este es titulo","este es autor","maroon-5-girls-like-you-lyrics-ft-cardi-b.mp3");
 		
 		player.add(c.getRuta());
 		player.play();

@@ -226,18 +226,10 @@ public class Sistema {
 	 * @param reproducible
 	 */
 	public void anadirReproducible(ObjetoReproducible reproducible) {
-		if (reproducible instanceof Cancion) {
+		if (reproducible instanceof Cancion)
 			cancionesValidar.add((Cancion) reproducible);
-			sistema.notificarUsuarios(reproducible);
-		}
 		else if (reproducible instanceof Album)
 			albunes.add((Album) reproducible);
-	}
-	
-	public void notificarUsuarios(ObjetoReproducible reproducible) {
-			for(int i=0;i<usuarios.size();i++) {
-				Notificacion n=new Notificacion(TipoNotificacion.NUEVACANCION,reproducible , sistema.getUsuarioItera(i));
-			}
 	}
 
 	/**

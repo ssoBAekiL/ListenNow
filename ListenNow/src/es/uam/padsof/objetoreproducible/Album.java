@@ -2,15 +2,16 @@ package es.uam.padsof.objetoreproducible;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
 import pads.musicPlayer.exceptions.Mp3PlayerException;
-import es.uam.padsof.usuario.*;
+//import es.uam.padsof.usuario.*;
 
 /**
  * @author Juliï¿½n Espada, Pablo Borrelli y Carlos Miret
  *
  * Esta clase se encarga de gestionar el objeto Album
  */
-public class Album extends ObjetoComentable{
+public class Album extends ObjetoReproducible{
 	/*private time duracion;*/
 	
 	/** Canciones del album*/
@@ -25,8 +26,8 @@ public class Album extends ObjetoComentable{
 	 * 
 	 * Este mï¿½todo es el constructor del objeto Album
 	 */
-	public Album (String ruta, String titulo, String autor, ArrayList<Cancion> canciones)throws Mp3PlayerException, FileNotFoundException {
-		super(ruta, titulo, autor);
+	public Album (String titulo, String autor, ArrayList<Cancion> canciones)throws Mp3PlayerException, FileNotFoundException {
+		super(titulo, autor, null);
 		this.canciones=canciones;
 	}
 	
@@ -122,16 +123,34 @@ public class Album extends ObjetoComentable{
 	
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		for(int i=0;i<this.getGetTamanioAlbum();i++) {
-			this.getCancionItera(i).reproducir();
+			this.getNCancion(i).reproducir();
 		}
 	}
 	
-	public Cancion getCancionItera(int i) {
+	public void pararReproduccion()throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+		for(int i=0;i<this.getGetTamanioAlbum();i++) {
+			this.getNCancion(i).pararReproduccion();
+		}
+	}
+	
+	
+	public Cancion getNCancion(int i) {
 		return this.canciones.get(i);
+	}
+	
+	public Comentario getNComentario(int i) {
+		return this.comentarios.get(i);
 	}
 	
 	public int getGetTamanioAlbum() {
 		return this.canciones.size();
+	}
+	
+	public String toString() {
+		for(int i=0;i<this.getGetTamanioAlbum();i++) {
+			System.out.println("Cancion "+(i+1)+":\n"+ this.getNCancion(i).toString()+ "\n");
+		}
+		return "Autor de álbum:"+this.getAutor()+"\n"+"Titulo álbum: "+this.getTitulo();
 	}
 	
 	/* IMPORTANTE COMPROBAR SI YA EXISTE LA CANCION EN EL ALBUM AL Aï¿½ADIR O SI NO EXISTE AL BORRAR O SI NO ES DEL AUTOR*/
