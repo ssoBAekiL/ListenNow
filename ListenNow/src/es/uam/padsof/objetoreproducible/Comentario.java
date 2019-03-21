@@ -6,7 +6,7 @@ import es.uam.padsof.usuario.UsuarioRegistrado;
 /**
  * 
  */
-public class Comentario {
+public class Comentario    {
 	/**
 	 * 
 	 */
