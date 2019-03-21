@@ -105,7 +105,7 @@ public class Sistema {
 	private Sistema() {
 		this.reproducciones = 0;
 		this.conectado = true;
-		this.adminConectado = true;
+		this.adminConectado = false;
 		this.nRepAnonimas = 0;
 		this.nRepRegistrado = 0;
 		this.nRepRecompensa = 0;
@@ -153,9 +153,14 @@ public class Sistema {
 	public void inicializarSistema() {
 		for (UsuarioRegistrado u: usuarios) {
 			if (u.getBloqueado() == true && u.getBloqueoPermanente() == false)
-				u.setBloqueado(false);
-			if (u.EsPremium() == true)
-				caducaPremium();
+				desbloquearUsuario(u);
+			System.out.println("AAAA");
+			if (u.EsPremium() == true) {
+			System.out.println("ABAB");
+				caducaPremium(u);
+				System.out.println("BCBC");
+			}
+			System.out.println("CCCCC");
 		}
 	}
 	
@@ -278,12 +283,10 @@ public class Sistema {
 	/**
 	 * 
 	 */
-	public void caducaPremium() {
+	public void caducaPremium(UsuarioRegistrado usuario) {
 		LocalDate fecha = LocalDate.now().minusDays(30);
-		for (UsuarioRegistrado u: usuarios) {
-			if(fecha.isBefore(u.getFechaPremium())) {
-				u.setEsPremium(false);
-			}
+		if(fecha.isAfter(usuario.getFechaPremium())) {
+			usuario.setEsPremium(false);
 		}
 	}
 	
@@ -294,7 +297,7 @@ public class Sistema {
 	 * @param usuario
 	 */
 	public void bloquearUsuario(UsuarioRegistrado usuario, boolean permanente) {
-		if (permanente = false) {
+		if (permanente == false) {
 			usuario.setBloqueado(true);
 			usuario.setFechaBloqueo(LocalDate.now());
 		}
@@ -306,11 +309,13 @@ public class Sistema {
 	 * @param usuario
 	 */
 	public void desbloquearUsuario(UsuarioRegistrado usuario) {
-		if (LocalDate.now().isAfter(usuario.getFechaBloqueo().plusDays(30))) {
+		LocalDate fecha = LocalDate.now().minusDays(30);
+		if (fecha.isAfter(usuario.getFechaBloqueo())) {
 			usuario.setBloqueado(false);
 		}
 		else if (adminConectado == true)
 			usuario.setBloqueado(false);
+		else return;
 	}
 	
 	/**
@@ -454,6 +459,27 @@ public class Sistema {
 
 	public void setAdmin(UsuarioRegistrado admin) {
 		this.admin = admin;
+	}
+	
+	public void setAlbum(Album album) {
+		albunes.add(album);
+	}
+	
+	
+	public ArrayList<Album> getAlbunes() {
+		return albunes;
+	}
+
+
+	//**************************************************
+	public UsuarioRegistrado getUsuarioEnSesion() {
+		return usuarioEnSesion;
+	}
+	public boolean getAdminConectado() {
+		return adminConectado;
+	}
+	public boolean getConectado() {
+		return conectado;
 	}
 
 }
