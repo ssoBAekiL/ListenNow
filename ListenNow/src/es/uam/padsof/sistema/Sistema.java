@@ -26,7 +26,10 @@ public class Sistema {
 	/**
 	 * Default constructor
 	 */
-	private Sistema() {/*puede estar vacio*/}
+	private Sistema() {
+		
+		
+	}
 	
 	
 	//nombre de la clase.getInstance//Esta compartido por todasse puede obtener desde cualquier pare del codigo. estatico, se reserva memoria automatica, va a existir antes de su instanciacion
