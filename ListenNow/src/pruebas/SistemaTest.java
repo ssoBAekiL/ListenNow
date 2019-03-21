@@ -75,7 +75,7 @@ public class SistemaTest {
 	}
 
 	@Test
-	public void testBuscarAutor() {
+	public void testBuscarAutor() { 
 		assertTrue(sys.buscarAutor("Pablo").containsAll(u1.getCanciones()));
 		//assertEqual(u1.getCanciones(), sys.buscarAutor("Pablo"));
 	}
