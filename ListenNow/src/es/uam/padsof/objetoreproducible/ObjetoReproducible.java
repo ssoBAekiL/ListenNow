@@ -15,14 +15,14 @@ public abstract class ObjetoReproducible {
 	
 	/**
 	 * @param titulo
-	 * @param autor
+	 * @param autor2
 	 * @param ruta
 	 * @throws FileNotFoundException
 	 * @throws Mp3PlayerException
 	 */
-	public ObjetoReproducible(String titulo, UsuarioRegistrado autor, String ruta) throws FileNotFoundException, Mp3PlayerException {
+	public ObjetoReproducible(String titulo, UsuarioRegistrado autor2, String ruta) throws FileNotFoundException, Mp3PlayerException {
 		this.titulo = titulo;
-		this.autor = autor;
+		this.autor = autor2;
 		this.ruta=ruta;
 		this.player  = new Mp3Player();
 	}

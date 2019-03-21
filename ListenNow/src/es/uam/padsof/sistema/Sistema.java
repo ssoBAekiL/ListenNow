@@ -105,7 +105,7 @@ public class Sistema {
 	private Sistema() {
 		this.reproducciones = 0;
 		this.conectado = true;
-		this.adminConectado = false;
+		this.adminConectado = true;
 		this.nRepAnonimas = 0;
 		this.nRepRegistrado = 0;
 		this.nRepRecompensa = 0;
@@ -153,14 +153,9 @@ public class Sistema {
 	public void inicializarSistema() {
 		for (UsuarioRegistrado u: usuarios) {
 			if (u.getBloqueado() == true && u.getBloqueoPermanente() == false)
-				desbloquearUsuario(u);
-			System.out.println("AAAA");
-			if (u.EsPremium() == true) {
-			System.out.println("ABAB");
-				caducaPremium(u);
-				System.out.println("BCBC");
-			}
-			System.out.println("CCCCC");
+				u.setBloqueado(false);
+			if (u.EsPremium() == true)
+				caducaPremium();
 		}
 	}
 	
@@ -212,6 +207,27 @@ public class Sistema {
 	}
 	
 
+
+	/**
+	 * Metodo que da la capacidad a un usuario a borrar un album
+	 * @param album
+	 */
+	public void borrarAlbum(Album album) {
+		if(Sistema.getInstance().adminConectado==true)
+			Sistema.getInstance().borrarReproducible(album);
+	}
+
+
+	/**
+	 * Metodo que se encarga de anadir una cancion al conjunto de canciones del usuario
+	 * @param cancion
+	 */
+	public void borrarCancion(Cancion cancion) {
+		if(Sistema.getInstance().adminConectado==true)
+			Sistema.getInstance().borrarReproducible(cancion); 
+	}
+	
+
 	/**
 	 * @param usuario 
 	 * @param contrasena
@@ -248,6 +264,7 @@ public class Sistema {
 		}
 		else if (reproducible instanceof Album)
 			albunes.add((Album) reproducible);
+		/**hwehbofhbvqhcdhbhSEGUIRRRRRRR///
 	}
 
 	/**
@@ -280,13 +297,20 @@ public class Sistema {
 		}
 	}
 
+	public ArrayList<Album> getAlbunes() {
+		return albunes;
+	}
+
+
 	/**
 	 * 
 	 */
-	public void caducaPremium(UsuarioRegistrado usuario) {
+	public void caducaPremium() {
 		LocalDate fecha = LocalDate.now().minusDays(30);
-		if(fecha.isAfter(usuario.getFechaPremium())) {
-			usuario.setEsPremium(false);
+		for (UsuarioRegistrado u: usuarios) {
+			if(fecha.isBefore(u.getFechaPremium())) {
+				u.setEsPremium(false);
+			}
 		}
 	}
 	
@@ -297,7 +321,7 @@ public class Sistema {
 	 * @param usuario
 	 */
 	public void bloquearUsuario(UsuarioRegistrado usuario, boolean permanente) {
-		if (permanente == false) {
+		if (permanente = false) {
 			usuario.setBloqueado(true);
 			usuario.setFechaBloqueo(LocalDate.now());
 		}
@@ -309,13 +333,11 @@ public class Sistema {
 	 * @param usuario
 	 */
 	public void desbloquearUsuario(UsuarioRegistrado usuario) {
-		LocalDate fecha = LocalDate.now().minusDays(30);
-		if (fecha.isAfter(usuario.getFechaBloqueo())) {
+		if (LocalDate.now().isAfter(usuario.getFechaBloqueo().plusDays(30))) {
 			usuario.setBloqueado(false);
 		}
 		else if (adminConectado == true)
 			usuario.setBloqueado(false);
-		else return;
 	}
 	
 	/**
@@ -459,27 +481,6 @@ public class Sistema {
 
 	public void setAdmin(UsuarioRegistrado admin) {
 		this.admin = admin;
-	}
-	
-	public void setAlbum(Album album) {
-		albunes.add(album);
-	}
-	
-	
-	public ArrayList<Album> getAlbunes() {
-		return albunes;
-	}
-
-
-	//**************************************************
-	public UsuarioRegistrado getUsuarioEnSesion() {
-		return usuarioEnSesion;
-	}
-	public boolean getAdminConectado() {
-		return adminConectado;
-	}
-	public boolean getConectado() {
-		return conectado;
 	}
 
 }

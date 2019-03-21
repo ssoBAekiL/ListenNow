@@ -27,8 +27,8 @@ public class Album extends ObjetoReproducible{
 	 * 
 	 * Este mï¿½todo es el constructor del objeto Album
 	 */
-	public Album (String titulo, UsuarioRegistrado autor, ArrayList<Cancion> canciones)throws Mp3PlayerException, FileNotFoundException {
-		super(titulo, autor, null);
+	public Album (String titulo, UsuarioRegistrado autor, String ruta, ArrayList<Cancion> canciones)throws Mp3PlayerException, FileNotFoundException {
+		super(titulo, autor, ruta);
 		this.canciones=canciones;
 	}
 	
@@ -151,7 +151,7 @@ public class Album extends ObjetoReproducible{
 		for(int i=0;i<this.getGetTamanioAlbum();i++) {
 			System.out.println("Cancion "+(i+1)+":\n"+ this.getNCancion(i).toString()+ "\n");
 		}
-		return "Autor de ï¿½lbum:"+this.getAutor()+"\n"+"Titulo ï¿½lbum: "+this.getTitulo();
+		return "Autor de álbum:"+this.getAutor()+"\n"+"Titulo álbum: "+this.getTitulo();
 	}
 	
 	/* IMPORTANTE COMPROBAR SI YA EXISTE LA CANCION EN EL ALBUM AL Aï¿½ADIR O SI NO EXISTE AL BORRAR O SI NO ES DEL AUTOR*/

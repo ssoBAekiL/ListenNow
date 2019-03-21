@@ -14,7 +14,10 @@ import org.junit.Test;
 import es.uam.eps.padsof.telecard.FailedInternetConnectionException;
 import es.uam.eps.padsof.telecard.InvalidCardNumberException;
 import es.uam.eps.padsof.telecard.OrderRejectedException;
+import es.uam.padsof.objetoreproducible.Cancion;
+import es.uam.padsof.sistema.Notificacion;
 import es.uam.padsof.sistema.Sistema;
+import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 /**
  * @author eps
@@ -24,18 +27,23 @@ public class UsuarioRegistradoTest {
 	Sistema sys=Sistema.getInstance();
 	private UsuarioRegistrado u1;
 	private UsuarioRegistrado u2;
+	private Cancion c1;
 	File file;
 	
 	/**
 	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#UsuarioRegistrado(java.lang.String, java.lang.String, java.lang.String, boolean, boolean)}.
+	 * @throws Mp3PlayerException 
+	 * @throws IOException 
 	 */
 	@Before
-	public void testUsuarioRegistrado() {
+	public void testUsuarioRegistrado() throws IOException, Mp3PlayerException {
+		c1 = new Cancion("Cancion 1", u1, "/np.mp3");
 		file=new File("registro_pagos.txt");
 		u1=new UsuarioRegistrado("1234567891234567","carlos","6253", false,false);
 		sys.addUsuario(u1);
 		u2=new UsuarioRegistrado("1904567891227567","pablo","74884", false,false);
 		sys.addUsuario(u2);
+		Notificacion noti=new Notificacion(c1);
 
 	}
 
@@ -53,36 +61,14 @@ public class UsuarioRegistradoTest {
 	}
 
 	/**
-	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#getNumTarjeta()}.
-	 */
-	@Test
-	public final void testGetNumTarjeta() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
 	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#notificarPlagio(es.uam.padsof.objetoreproducible.Cancion)}.
 	 */
 	@Test
 	public final void testNotificarPlagio() {
-		fail("Not yet implemented"); // TODO
+		u1.notificarPlagio(c1);
+		assertTrue(sys.getCancionesNotificadas().contains(c1));
 	}
 
-	/**
-	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#borrarAlbum(es.uam.padsof.objetoreproducible.Album)}.
-	 */
-	@Test
-	public final void testBorrarAlbum() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#borrarCancion(es.uam.padsof.objetoreproducible.Cancion)}.
-	 */
-	@Test
-	public final void testBorrarCancion() {
-		fail("Not yet implemented"); // TODO
-	}
 
 	/**
 	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#anadirListaReproduccion(es.uam.padsof.objetoreproducible.ListaReproducciones)}.
@@ -107,7 +93,7 @@ public class UsuarioRegistradoTest {
 	public final void testFollows() {
 		u1.follows(u2);
 		assertTrue(u1.getSeguidos().contains(u2));
-		//assertTrue(u2.getSeguidores().contains(u1));
+		assertTrue(u2.getSeguidores().contains(u1));
 	}
 
 
