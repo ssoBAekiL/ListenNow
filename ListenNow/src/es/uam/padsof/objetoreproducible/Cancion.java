@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
 import es.uam.padsof.sistema.Sistema;
 import es.uam.padsof.usuario.Comentario;
 import pads.musicPlayer.Mp3Player;
@@ -132,14 +133,42 @@ public class Cancion extends ObjetoReproducible{
 	 * Metodo que permite al usuario admin validar + 18 una cancion pasada por parametro
 	 * @param cancion
 	 */
-	public void validarCancion18(Cancion cancion) {
-		for(int i=0;i<Sistema.getNumUsuarios();i++) {
+	public boolean validarCancion18(Cancion cancion) {
+		/*for(int i=0;i<Sistema.getNumUsuarios();i++) {
 			if(Sistema.getInstance().getUsuario(i).isAdmin()==true) {
 				this.setMas18(true);
 				Sistema.getInstance().getCancionesValidadas().add(cancion);
 			}
 		}
-		return;
+		return;*/
+		if(validarCancion() == true) {
+			mas18 = true;
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Metodo que permite al usuario admin validar una cancion
+	 * @param cancion
+	 */
+	public boolean validarCancion() {
+		/*for(int i=0;i<Sistema.getNumUsuarios();i++) {
+			if(Sistema.getInstance().getUsuario(i).isAdmin()==true) {
+				this.setValidar(true);
+				Sistema.getInstance().getCancionesValidadas().add(this);
+			}
+		}*/
+		if(Sistema.getInstance().esAdmin() == true && Sistema.getInstance().getCancionesValidar().contains(this)) {
+			Sistema.getInstance().getCancionesValidar().remove(this);
+			Sistema.getInstance().getCancionesValidadas().add(this);
+			aceptada = true;
+			pendiente_verificacion = false;
+			Sistema.getInstance().setNotificaciones(TipoNotificacion.NUEVACANCION, this, autor.getSeguidores());
+			autor.setCanciones(this);
+			return true;
+		}
+		return false;
 	}
 
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{

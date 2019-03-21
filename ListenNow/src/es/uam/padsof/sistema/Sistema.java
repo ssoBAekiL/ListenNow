@@ -95,11 +95,7 @@ public class Sistema {
 	/**
 	 * Lista de canciones que han sido validadas por el administrador
 	 */
-<<<<<<< HEAD
 	private ArrayList<Cancion> cancionesValidadas;
-=======
-	private ArrayList<Cancion> cancionesValidadas =  new ArrayList<Cancion>();
->>>>>>> branch 'master' of https://github.com/ssoBAekiL/ListenNow.git
 
 	/**
 	 * Lista de notificaciones para el usuario que ha realizado el login
