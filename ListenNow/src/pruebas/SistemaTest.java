@@ -22,7 +22,7 @@ public class SistemaTest {
 	private UsuarioRegistrado u1;
 	private UsuarioRegistrado u2;
 	private Cancion c1;
-	private Cancion c2;
+	private Cancion c2; 
 	private Cancion c3;
 	private Album a1;
 	
