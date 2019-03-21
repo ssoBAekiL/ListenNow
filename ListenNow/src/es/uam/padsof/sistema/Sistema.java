@@ -188,10 +188,14 @@ public class Sistema {
 	 * @return
 	 */
 	public ArrayList<Cancion> buscarAutor(String autor) {
-		for (UsuarioRegistrado u: usuarios)
+		ArrayList<Cancion> cancionesAutor = new ArrayList<Cancion>();
+		for (Cancion c: cancionesValidadas)
+			if (c.getAutor().getNombre() == autor)
+				cancionesAutor.add(c);
+		/*for (UsuarioRegistrado u: usuarios)
 			if (u.getNombre() == autor)
-				return u.getCanciones();
-		return null;
+				return u.getCanciones();*/
+		return cancionesAutor;
 	}
 
 
@@ -376,6 +380,10 @@ public class Sistema {
 	 */
 	public void setCancionesValidadas(ArrayList<Cancion> cancionesValidadas) {
 		this.cancionesValidadas = cancionesValidadas;
+	}
+	
+	public void setCancionValidada(Cancion cancionValidada) {
+		this.cancionesValidadas.add(cancionValidada);
 	}
 	
 	/**

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import es.uam.padsof.sistema.Notificacion;
 import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
 import es.uam.padsof.sistema.Sistema;
+import es.uam.padsof.usuario.UsuarioRegistrado;
 import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
@@ -39,7 +40,7 @@ public class Cancion extends ObjetoComentable{
 	 * 
 	 * Este m�todo es el constructor del objeto Cancion
 	 */
-	public Cancion (String titulo, String autor, String ruta)throws IOException, Mp3PlayerException {
+	public Cancion (String titulo, UsuarioRegistrado autor, String ruta)throws IOException, Mp3PlayerException {
 		super(titulo, autor,ruta);
 		this.id=Sistema.getInstance().getNumeroCanciones()+1;
 		this.nreproducciones=0;
