@@ -255,7 +255,6 @@ public class Sistema {
 		else if (reproducible instanceof Album && usuarioEnSesion == reproducible.getAutor()) {
 			albunes.remove(reproducible);
 		}
-		
 	}
 
 	/**
