@@ -1,11 +1,5 @@
 package es.uam.padsof.usuario;
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import es.uam.eps.padsof.telecard.*;
 
 import java.util.*;
@@ -48,7 +42,7 @@ public class UsuarioRegistrado {
 		this.lista_reproducciones = new ArrayList<ListaReproducciones>();
 		this.canciones = new ArrayList<Cancion>();
 		this.albunes = new ArrayList<Album>();
-		this.saldo=100;
+
 		this.numTarjeta = numTarjeta;
 		this.nombre = nombre;
 		this.contrasena = contrasena;
@@ -60,7 +54,7 @@ public class UsuarioRegistrado {
 		this.bloqueoPermanente = false;
 		this.fechaBloqueo = null;
 	}
-    private double saldo;
+
 	/**
 	 * 
 	 */
@@ -299,40 +293,20 @@ public class UsuarioRegistrado {
 
 	/**
 	 * 
-	 * Metodo cuya funcionaidad es contratar premium, y posteriormente lo imprime en un fichero de texto
-	 * @throws OrderRejectedException 
-	 * @throws FailedInternetConnectionException 
-	 * @throws InvalidCardNumberException 
+	 * Metodo cuya funcionaidad es contratar premium
 	 */
-	public void contratarPremium(File file) throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException {
-        	FileWriter fw = null;	
-			TeleChargeAndPaySystem.charge(this.numTarjeta,"Contratacion Premium",10);
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd. MM. yyyy");
-			System.out.println(saldo);
-			if(saldo<10){
-				System.out.println("NO EXISTEN FONDOS SUFICIENTES PARA REALIZAR LA OPERACION\n");
+	public void contratarPremium() {
+			try {
+				TeleChargeAndPaySystem.charge(this.numTarjeta,"Contratacion Premium",10);
+			} catch (OrderRejectedException e) {
+				e.printStackTrace();
 			}
-			else {
-				this.saldo=saldo-10;
-				this.setFechaPremium(LocalDate.now());
-				this.setEsPremium(true);
-			}
-	        try
-	        {
-	            fw = new FileWriter(file,true);
-				fw.append(this.getNumTarjeta()+"| "+this.getNombre()+"|"+" PAGO DE 10 EUR |"+this.getFechaPremium().format(formatter)+"\n");
-				fw.close();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
+		    this.fechaPremium=LocalDate.now();
+			this.esPremium=true;
 	}
 	
 	
 
-
-	public String getNumTarjeta() {
-		return numTarjeta;
-	}
 
 	/**
 	 * Metodo que permite a un usuario notificar ccomo plagio una cancion
@@ -340,10 +314,31 @@ public class UsuarioRegistrado {
 	 */
 	public void notificarPlagio(Cancion cancion) {
 		cancion.setNotificada_plagio(true);
-		Sistema.getInstance().getCancionesNotificadas().add(cancion);
 		Sistema.getInstance().setNotificaciones(new Notificacion(cancion));
 	}
 
+
+	/**
+	 * Metodo que da la capacidad a un usuario a borrar un album
+	 * @param album
+	 */
+	public void borrarAlbum(Album album) {
+		if(this.isAdmin==true)
+			Sistema.getInstance().borrarReproducible(album);
+	}
+
+
+	/**
+	 * Metodo que se encarga de anadir una cancion al conjunto de canciones del usuario
+	 * @param cancion
+	 */
+	public void borrarCancion(Cancion cancion) {
+		if(isAdmin==true) {
+			Sistema.getInstance().borrarReproducible(cancion); 
+		}
+	}
+	
+	
 	
 	/**
 	 * Metodo que da la capacidad a un usuario de crear una lista de reproducciones propia
@@ -358,7 +353,6 @@ public class UsuarioRegistrado {
 	 * @param album
 	 */
 	public void borrarListaReproduccion(ListaReproducciones lista) {
-		
 		Sistema.getInstance().borrarReproducible(lista); //sistema.borrarReproducible(cancion);????????preguntamosssss
 	}
 	

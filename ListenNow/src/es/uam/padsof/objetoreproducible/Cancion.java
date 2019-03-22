@@ -147,6 +147,7 @@ public class Cancion extends ObjetoComentable{
 	public void validarCancion18(Cancion cancion) {
 		for(int i=0;i<Sistema.getInstance().getNumUsuarios();i++) {
 			if(Sistema.getInstance().getUsuarioItera(i).isAdmin()==true) {
+>>>>>>> branch 'master' of https://github.com/ssoBAekiL/ListenNow.git
 				this.setMas18(true);
 				Sistema.getInstance().getCancionesValidadas().add(cancion);
 			}
@@ -157,14 +158,6 @@ public class Cancion extends ObjetoComentable{
 			return true;
 		}
 		return false;
-	}
-	
-	public void verificarPlagio() {
-		
-	}
-	
-	public void rechazarCancion() {
-		
 	}
 	
 	/**
