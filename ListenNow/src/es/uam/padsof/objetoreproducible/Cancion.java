@@ -36,7 +36,6 @@ public class Cancion extends ObjetoComentable{
 	 * @param m18 Este es el boolean que marcar� si la canci�n es apta para mayores de 18
 	 * @param val Este es el boolean que marcar� la canci�n como v�lida o no
 	 * @param plag Este es el boolean que marcar� la canci�n como plagio
-	 * 
 	 * Este m�todo es el constructor del objeto Cancion
 	 */
 	public Cancion (String titulo, UsuarioRegistrado autor, String ruta)throws IOException, Mp3PlayerException {

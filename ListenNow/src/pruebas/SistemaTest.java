@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import es.uam.eps.padsof.telecard.FailedInternetConnectionException;
+import es.uam.eps.padsof.telecard.InvalidCardNumberException;
+import es.uam.eps.padsof.telecard.OrderRejectedException;
 import es.uam.padsof.*;
 import es.uam.padsof.objetoreproducible.Album;
 import es.uam.padsof.objetoreproducible.Cancion;
@@ -50,9 +53,9 @@ public class SistemaTest {
 	}
 	
 	@Test
-	public void testInicializarSistema() {
+	public void testInicializarSistema() throws FailedInternetConnectionException, OrderRejectedException {
 		sys.bloquearUsuario(u2, false);
-		u1.contratarPremium();//??? PABLO VUELVE A MIRAR CONTRATAPREMIUM, QUE HA CAMBIADO
+		u1.contratarPremium(u1.getNumTarjeta());
 		u2.setFechaBloqueo(LocalDate.now().minusDays(35));
 		assertTrue(u2.getBloqueado());
 		sys.inicializarSistema();
@@ -133,7 +136,7 @@ public class SistemaTest {
 	public void testBorrarReproducible() throws Mp3PlayerException, IOException {
 		sys.login("usuario2", "pass123");
 		ArrayList<Cancion> cancionesAlbum = new ArrayList<Cancion>();
-		Album a2 = new Album("Album 2", u2, cancionesAlbum);
+		Album a2 = new Album("Album 2", u2,"/lib por ahora");
 		sys.setAlbum(a1);
 		Cancion c4 = new Cancion("Cancion 4", u2, "/np.mp3");
 		sys.anadirReproducible(c4);
