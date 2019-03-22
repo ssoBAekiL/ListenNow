@@ -27,9 +27,9 @@ public class Album extends ObjetoReproducible{
 	 * 
 	 * Este m�todo es el constructor del objeto Album
 	 */
-	public Album (String titulo, UsuarioRegistrado autor, ArrayList<Cancion> canciones)throws Mp3PlayerException, FileNotFoundException {
+	public Album (String titulo, UsuarioRegistrado autor)throws Mp3PlayerException, FileNotFoundException {
 		super(titulo, autor, null);
-		this.canciones=canciones;
+		this.canciones=null;
 	}
 	
 	/**

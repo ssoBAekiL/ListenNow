@@ -304,13 +304,14 @@ public class UsuarioRegistrado {
 	 * @throws FailedInternetConnectionException 
 	 * @throws InvalidCardNumberException 
 	 */
-	public void contratarPremium(File file) throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException {
-        	FileWriter fw = null;	
+	public boolean contratarPremium(String numTarjeta) throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException {
+			File file = new File("registro_pagos.txt");
+			FileWriter fw = null;	
 			TeleChargeAndPaySystem.charge(this.numTarjeta,"Contratacion Premium",10);
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd. MM. yyyy");
 			System.out.println(saldo);
 			if(saldo<10){
-				System.out.println("NO EXISTEN FONDOS SUFICIENTES PARA REALIZAR LA OPERACION\n");
+				//System.out.println("NO EXISTEN FONDOS SUFICIENTES PARA REALIZAR LA OPERACION\n");
 			}
 			else {
 				this.saldo=saldo-10;
@@ -322,9 +323,11 @@ public class UsuarioRegistrado {
 	            fw = new FileWriter(file,true);
 				fw.append(this.getNumTarjeta()+"| "+this.getNombre()+"|"+" PAGO DE 10 EUR |"+this.getFechaPremium().format(formatter)+"\n");
 				fw.close();
+				return true;
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
+			return false;
 	}
 	
 	
@@ -344,23 +347,58 @@ public class UsuarioRegistrado {
 		Sistema.getInstance().setNotificaciones(new Notificacion(cancion));
 	}
 
+	/*********************************************/
 	
 	/**
-	 * Metodo que da la capacidad a un usuario de crear una lista de reproducciones propia
+	 * Metodo que añade al array de canciones del usuario una nueva cancion
+	 * @param cancion
+	 */
+	public void anadirCancion(Cancion cancion) {
+		this.getCanciones().add(cancion);
+	}
+	
+	/**
+	 * Metodo que añade al array de canciones del usuario una nueva cancion
+	 * @param album
+	 */
+	public void anadirAlbum(Album album) {
+		this.getAlbunes().add(album);
+	}
+	
+	/**
+	 * Metodo que añade al array de canciones del usuario una nueva cancion
 	 * @param album
 	 */
 	public void anadirListaReproduccion(ListaReproducciones lista) {
-		this.lista_reproducciones.add(lista);
+		this.getLista_reproducciones().add(lista);
 	}
+	
+	/**
+	 * Metodo que añade al array de canciones del usuario una nueva cancion
+	 * @param cancion
+	 */
+	public void borrarCancion(Cancion cancion) {
+		Sistema.getInstance().borrarReproducible(cancion);
+	}
+	
+	/**
+	 * Metodo que añade al array de canciones del usuario una nueva cancion
+	 * @param album
+	 */
+	public void borrarAlbum(Album album) {
+		Sistema.getInstance().borrarReproducible(album);
+	}
+	
 
 	/**
 	 * Metodo que da la capacidad a un usuario de crear una lista de reproducciones propia
 	 * @param album
 	 */
 	public void borrarListaReproduccion(ListaReproducciones lista) {
-		
-		Sistema.getInstance().borrarReproducible(lista); //sistema.borrarReproducible(cancion);????????preguntamosssss
+		Sistema.getInstance().borrarReproducible(lista);
 	}
+	
+	/**************************************************/
 	
 	/**
 	 * Metodo que permite a un usuario, seguir a otro

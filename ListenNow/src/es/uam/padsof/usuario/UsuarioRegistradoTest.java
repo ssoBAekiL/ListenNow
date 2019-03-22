@@ -44,8 +44,9 @@ public class UsuarioRegistradoTest {
 		u2=new UsuarioRegistrado("1904567891227567","pablo","74884", false,false);
 		sys.addUsuario(u2);
 		Notificacion noti=new Notificacion(c1);
-
 	}
+	
+	
 
 	/**
 	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#contratarPremium(java.io.File)}.
@@ -56,7 +57,7 @@ public class UsuarioRegistradoTest {
 	 */
 	@Test
 	public final void testContratarPremium() throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException, IOException {
-		u1.contratarPremium(file);	
+		assertTrue(u1.contratarPremium(u1.getNumTarjeta()));	
 		assertTrue(u1.EsPremium());
 	}
 
@@ -69,6 +70,41 @@ public class UsuarioRegistradoTest {
 		assertTrue(sys.getCancionesNotificadas().contains(c1));
 	}
 
+	
+	/**
+	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#anadirListaReproduccion(es.uam.padsof.objetoreproducible.ListaReproducciones)}.
+	 */
+	@Test
+	public final void testAnadirCancion() {
+		fail("Not yet implemented"); // TODO
+	}
+
+	/**
+	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#borrarListaReproduccion(es.uam.padsof.objetoreproducible.ListaReproducciones)}.
+	 */
+	@Test
+	public final void testBorrarCancion() {
+		fail("Not yet implemented"); // TODO
+	}
+	
+	
+	/**
+	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#anadirListaReproduccion(es.uam.padsof.objetoreproducible.ListaReproducciones)}.
+	 */
+	@Test
+	public final void testAnadirAlbum() {
+		fail("Not yet implemented"); // TODO
+	}
+
+	/**
+	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#borrarListaReproduccion(es.uam.padsof.objetoreproducible.ListaReproducciones)}.
+	 */
+	@Test
+	public final void testBorrarAlbum() {
+		fail("Not yet implemented"); // TODO
+	}
+	
+	
 
 	/**
 	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#anadirListaReproduccion(es.uam.padsof.objetoreproducible.ListaReproducciones)}.
