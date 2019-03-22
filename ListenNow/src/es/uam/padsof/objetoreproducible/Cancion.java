@@ -171,7 +171,9 @@ public class Cancion extends ObjetoComentable{
 				Sistema.getInstance().getCancionesValidadas().add(this);
 			}
 		}*/
-		if(Sistema.getInstance().esAdmin() == true && Sistema.getInstance().getCancionesValidar().contains(this)) {
+		/*********CHEQUEO SI EL USUARIO EN SESION ES EL ADMIN*******/
+		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin()) == true 
+				&& Sistema.getInstance().getCancionesValidar().contains(this)) {
 			Sistema.getInstance().getCancionesValidar().remove(this);
 			Sistema.getInstance().getCancionesValidadas().add(this);
 			aceptada = true;

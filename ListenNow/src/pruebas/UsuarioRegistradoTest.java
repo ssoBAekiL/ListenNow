@@ -23,7 +23,7 @@ import es.uam.padsof.usuario.UsuarioRegistrado;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 /**
- * @author eps
+ * @author Carlos Miret
  *
  */
 public class UsuarioRegistradoTest {
@@ -33,7 +33,7 @@ public class UsuarioRegistradoTest {
 	private Cancion c1;
 	private ListaReproducciones l1;
 	File file;
-	Album a1;
+	private Album a1;
 
 	
 	/**

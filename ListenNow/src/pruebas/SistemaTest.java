@@ -45,14 +45,14 @@ public class SistemaTest {
 		ArrayList<Cancion> cancionesAlbum = new ArrayList<Cancion>();
 		cancionesAlbum.add(c1);
 		cancionesAlbum.add(c3);
-		a1 = new Album("Album 1", u1, cancionesAlbum);
+		a1 = new Album("Album 1", u1, "RUTA:LIB POR AHORA, HABRA QUE VERLO");
 		sys.setAlbum(a1);
 	}
 	
 	@Test
 	public void testInicializarSistema() {
 		sys.bloquearUsuario(u2, false);
-		u1.contratarPremium();
+		u1.contratarPremium();//??? PABLO VUELVE A MIRAR CONTRATAPREMIUM, QUE HA CAMBIADO
 		u2.setFechaBloqueo(LocalDate.now().minusDays(35));
 		assertTrue(u2.getBloqueado());
 		sys.inicializarSistema();
