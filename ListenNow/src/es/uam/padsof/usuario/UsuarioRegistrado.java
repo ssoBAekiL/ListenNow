@@ -397,6 +397,7 @@ public class UsuarioRegistrado {
 		Sistema.getInstance().borrarReproducible(lista);
 	}
 	
+	
 	/**************************************************/
 	
 	/**

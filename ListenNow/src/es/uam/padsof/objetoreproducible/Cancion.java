@@ -23,7 +23,6 @@ public class Cancion extends ObjetoComentable{
 	private String ruta;
 	private boolean mas18;
 	private boolean notificada_plagio;
-	private ArrayList<Comentario> comentarios;
 	private boolean pendiente_verificacion;
 	private boolean aceptada;
 	private boolean rechazada;
@@ -48,7 +47,6 @@ public class Cancion extends ObjetoComentable{
 		this.setAceptada(false);
 		this.setNotificada_plagio(false);
 		this.setPendiente_verificacion(false);
-		this.comentarios=new ArrayList<Comentario>();
 		this.setRechazada(false);
 		this.setMarcada_plagio(false);
 		this.ruta=ruta;

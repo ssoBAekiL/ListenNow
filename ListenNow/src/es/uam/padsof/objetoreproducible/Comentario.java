@@ -1,4 +1,5 @@
 package es.uam.padsof.objetoreproducible;
+import java.time.LocalDate;
 import java.util.*;
 
 import es.uam.padsof.usuario.UsuarioRegistrado;
@@ -20,7 +21,7 @@ public class Comentario    {
 	/**
 	 * 
 	 */
-	private Date fecha;
+	private LocalDate fecha;
 
 	/**
 	 * 
@@ -32,7 +33,7 @@ public class Comentario    {
 	/**
 	 * Default constructor
 	 */
-	public Comentario(String texto, UsuarioRegistrado autor, Date fecha, int valoracion) {
+	public Comentario(String texto, UsuarioRegistrado autor, LocalDate fecha, int valoracion) {
 		this.texto=texto;
 		this.autor=autor;
 		this.fecha=fecha;
@@ -71,14 +72,14 @@ public class Comentario    {
 	/**
 	 * @return the fecha
 	 */
-	public Date getFecha() {
+	public LocalDate getFecha() {
 		return fecha;
 	}
 
 	/**
 	 * @param fecha the fecha to set
 	 */
-	public void setFecha(Date fecha) {
+	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
 

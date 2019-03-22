@@ -18,7 +18,6 @@ public class Album extends ObjetoComentable{
 	/** Canciones del album*/
 	private ArrayList<Cancion> canciones;
 	
-	public ArrayList<Comentario> comentarios;
 	
 	/**
 	 * 
@@ -118,9 +117,6 @@ public class Album extends ObjetoComentable{
 		return;
 	}
 
-	public ArrayList<Comentario> getComentarios() {
-		return comentarios;
-	}
 	
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		for(int i=0;i<this.getGetTamanioAlbum();i++) {
