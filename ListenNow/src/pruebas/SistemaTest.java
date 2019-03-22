@@ -54,7 +54,6 @@ public class SistemaTest {
 		sys.bloquearUsuario(u2, false);
 		u1.contratarPremium();
 		u2.setFechaBloqueo(LocalDate.now().minusDays(35));
-		System.out.println(sys.getAdminConectado());
 		assertTrue(u2.getBloqueado());
 		sys.inicializarSistema();
 		assertTrue(u2.getBloqueado());
@@ -70,14 +69,12 @@ public class SistemaTest {
 
 	@Test
 	public void testBuscarAlbum() {
-		//assertEquals(a1, sys.buscarAlbum("Album 1"));
-		assertSame(a1, sys.buscarAlbum("Album 1"));
+		assertSame(a1.getTitulo(), sys.buscarAlbum("Album 1").getTitulo());
 	}
 
 	@Test
 	public void testBuscarAutor() { 
 		assertTrue(sys.buscarAutor("usuario1").containsAll(u1.getCanciones()));
-		//assertEqual(u1.getCanciones(), sys.buscarAutor("usuario1"));
 	}
 
 	@Test
@@ -91,11 +88,13 @@ public class SistemaTest {
 	public void testLogin() {
 		assertFalse(sys.login("usuario1", "Pass"));
 		assertTrue(sys.login("usuario1", "pass"));
-		assertEquals(u1, sys.getUsuarioEnSesion());
+		assertEquals("usuario1", sys.getUsuarioEnSesion().getNombre());
+		assertEquals("pass", sys.getUsuarioEnSesion().getContrasena());
 		assertTrue(sys.getConectado());
 		assertTrue(sys.login("ADMIN", "soyadmin"));
 		assertNotNull(sys.getUsuarioEnSesion());
-		assertTrue(sys.getAdminConectado());
+		assertEquals("ADMIN", sys.getUsuarioEnSesion().getNombre());
+		assertEquals("soyadmin", sys.getUsuarioEnSesion().getContrasena());
 		assertTrue(sys.getConectado());
 		sys.logout();
 	}
@@ -105,27 +104,25 @@ public class SistemaTest {
 		sys.login("usuario1", "pass");
 		sys.logout();
 		assertNull(sys.getUsuarioEnSesion());
-		assertFalse(sys.getAdminConectado());
 		assertFalse(sys.getConectado());
 		sys.login("ADMIN", "soyadmin");
 		sys.logout();
 		assertNull(sys.getUsuarioEnSesion());
-		assertFalse(sys.getAdminConectado());
 		assertFalse(sys.getConectado());
 	}
 
 	@Test
 	public void testAnadirReproducible() throws IOException, Mp3PlayerException {
+		Cancion c4 = new Cancion("Cancion 4", u2, "/np.mp3");
 		ArrayList<Cancion> cancionesAlbum = new ArrayList<Cancion>();
+		cancionesAlbum.add(c2);
+		cancionesAlbum.add(c4);
 		Album a2 = new Album("Album 2", u2, cancionesAlbum);
 		sys.setAlbum(a1);
-		Cancion c4 = new Cancion("Cancion 4", u2, "/np.mp3");
 		sys.anadirReproducible(c4);
 		assertFalse(sys.getCancionesValidar().contains(c4));
 		sys.login("usuario1", "pass");
 		sys.anadirReproducible(c4);
-		cancionesAlbum.add(c2);
-		cancionesAlbum.add(c4);
 		assertSame(c4, sys.getCancionesValidar().get(0));
 		sys.anadirReproducible(a2);
 		assertTrue(sys.getAlbunes().contains(a2));
@@ -281,11 +278,6 @@ public class SistemaTest {
 
 	@Test
 	public void testGetNumeroCanciones() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testEsAdmin() {
 		fail("Not yet implemented");
 	}
 

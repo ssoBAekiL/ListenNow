@@ -33,10 +33,6 @@ public class Sistema {
 	 */
 	private  boolean conectado;
 
-	/**
-	 * Indica si hay una sesion de administrador abierta
-	 */
-	private  boolean adminConectado;
 	/////??????????
 	/**
 	 * Indica el numero maximo de reproducciones que un usuario no registrado puede realizar.
@@ -105,7 +101,6 @@ public class Sistema {
 	private Sistema() {
 		this.reproducciones = 0;
 		this.conectado = false;
-		this.adminConectado = false;
 		this.nRepAnonimas = 0;
 		this.nRepRegistrado = 0;
 		this.nRepRecompensa = 0;
@@ -221,8 +216,6 @@ public class Sistema {
 			if (u.getNombre().equals(usuario) && u.getContrasena() == contrasena && u.getBloqueado() == false) {
 				usuarioEnSesion = u;
 				conectado = true;
-				if (u.isAdmin() == true)
-					adminConectado = true;
 				mostrarNotificacion();
 				return true;
 			}
@@ -235,7 +228,6 @@ public class Sistema {
 	 */
 	public void logout() {
 		usuarioEnSesion = null;
-		adminConectado = false;
 		conectado = false;
 	}
 
@@ -254,13 +246,13 @@ public class Sistema {
 	 * @param reproducible
 	 */
 	public void borrarReproducible(ObjetoReproducible reproducible) {
-		if (reproducible instanceof Cancion && conectado == true && reproducible.getAutor() == usuarioEnSesion) {
+		if (reproducible instanceof Cancion && usuarioEnSesion == reproducible.getAutor()) {
 			if (cancionesValidadas.contains(reproducible))
 				cancionesValidadas.remove(reproducible);
 			else if (cancionesValidar.contains(reproducible))
 				cancionesValidar.remove(reproducible);
 		}
-		else if (reproducible instanceof Album && conectado == true) {
+		else if (reproducible instanceof Album && usuarioEnSesion == reproducible.getAutor()) {
 			albunes.remove(reproducible);
 		}
 	}
@@ -313,7 +305,7 @@ public class Sistema {
 		if (fecha.isAfter(usuario.getFechaBloqueo())) {
 			usuario.setBloqueado(false);
 		}
-		else if (adminConectado == true)
+		else if (usuarioEnSesion == admin)
 			usuario.setBloqueado(false);
 		else return;
 	}
@@ -446,11 +438,6 @@ public class Sistema {
 	public int getNumeroCanciones() {
 		return cancionesValidadas.size();
 	}
-	
-	public boolean esAdmin() {
-		return adminConectado;
-	}
-
 
 	public UsuarioRegistrado getAdmin() {
 		return admin;
@@ -475,9 +462,7 @@ public class Sistema {
 	public UsuarioRegistrado getUsuarioEnSesion() {
 		return usuarioEnSesion;
 	}
-	public boolean getAdminConectado() {
-		return adminConectado;
-	}
+
 	public boolean getConectado() {
 		return conectado;
 	}

@@ -147,13 +147,6 @@ public class Album extends ObjetoReproducible{
 		return this.canciones.size();
 	}
 	
-	public String toString() {
-		for(int i=0;i<this.getGetTamanioAlbum();i++) {
-			System.out.println("Cancion "+(i+1)+":\n"+ this.getNCancion(i).toString()+ "\n");
-		}
-		return "Autor de �lbum:"+this.getAutor()+"\n"+"Titulo �lbum: "+this.getTitulo();
-	}
-	
 	/* IMPORTANTE COMPROBAR SI YA EXISTE LA CANCION EN EL ALBUM AL A�ADIR O SI NO EXISTE AL BORRAR O SI NO ES DEL AUTOR*/
 	
 }
