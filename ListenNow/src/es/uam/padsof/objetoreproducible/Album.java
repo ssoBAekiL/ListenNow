@@ -12,13 +12,12 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  *
  * Esta clase se encarga de gestionar el objeto Album
  */
-public class Album extends ObjetoReproducible{
+public class Album extends ObjetoComentable{
 	/*private time duracion;*/
 	
 	/** Canciones del album*/
 	private ArrayList<Cancion> canciones;
 	
-	public ArrayList<Comentario> comentarios;
 	
 	/**
 	 * 
@@ -27,8 +26,8 @@ public class Album extends ObjetoReproducible{
 	 * 
 	 * Este m�todo es el constructor del objeto Album
 	 */
-	public Album (String titulo, UsuarioRegistrado autor)throws Mp3PlayerException, FileNotFoundException {
-		super(titulo, autor, null);
+	public Album (String titulo, UsuarioRegistrado autor,String ruta)throws Mp3PlayerException, FileNotFoundException {
+		super(titulo, autor, ruta);
 		this.canciones=new ArrayList<Cancion>();
 	}
 	
@@ -118,9 +117,6 @@ public class Album extends ObjetoReproducible{
 		return;
 	}
 
-	public ArrayList<Comentario> getComentarios() {
-		return comentarios;
-	}
 	
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		for(int i=0;i<this.getGetTamanioAlbum();i++) {

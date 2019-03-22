@@ -16,9 +16,7 @@ public class Notificacion {
 	public Notificacion (Cancion cancionNotificada) {
 		tipo = TipoNotificacion.PLAGIO;
 		texto = "La cancion " + cancionNotificada.getTitulo() + " del autor " + cancionNotificada.getAutor() + " ha sido notificada por plagio.";
-		usuariosNotificados.add(Sistema.getInstance().getAdmin());
-		
-		
+		usuariosNotificados.add(Sistema.getInstance().getAdmin());	
 	}
 	
 	public Notificacion (Cancion cancionNotificada, ArrayList<UsuarioRegistrado> usuariosNotificados) {

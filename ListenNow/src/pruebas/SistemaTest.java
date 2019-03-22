@@ -49,8 +49,15 @@ public class SistemaTest {
 		u1.setCanciones(c1);
 		u1.setCanciones(c3);
 		u2.setCanciones(c2);
+<<<<<<< HEAD
 		a1 = new Album("Album 1", u1);
 		a1.aniadirCancionesAlbum(c1, c3);
+=======
+		ArrayList<Cancion> cancionesAlbum = new ArrayList<Cancion>();
+		cancionesAlbum.add(c1);
+		cancionesAlbum.add(c3);
+		a1 = new Album("Album 1", u1, "RUTA:LIB POR AHORA, HABRA QUE VERLO");
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		sys.setAlbum(a1);
 		a2 = new Album("Album 2", u2);
 		a1.aniadirCancionesAlbum(c2, c4);
@@ -62,9 +69,17 @@ public class SistemaTest {
 	}
 	
 	@Test
+<<<<<<< HEAD
 	public void testInicializarSistema() throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException {
+=======
+	public void testInicializarSistema() throws FailedInternetConnectionException, OrderRejectedException {
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		sys.bloquearUsuario(u2, false);
+<<<<<<< HEAD
 		u1.contratarPremium("1234567899876543");
+=======
+		u1.contratarPremium(u1.getNumTarjeta());
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		u2.setFechaBloqueo(LocalDate.now().minusDays(35));
 		assertTrue(u2.getBloqueado());
 		sys.inicializarSistema();
@@ -125,6 +140,15 @@ public class SistemaTest {
 
 	@Test
 	public void testAnadirReproducible() throws IOException, Mp3PlayerException {
+<<<<<<< HEAD
+=======
+		Cancion c4 = new Cancion("Cancion 4", u2, "/np.mp3");
+		ArrayList<Cancion> cancionesAlbum = new ArrayList<Cancion>();
+		cancionesAlbum.add(c2);
+		cancionesAlbum.add(c4);
+		Album a2 = new Album("Album 2", u2, "chicle.mp3");
+		sys.setAlbum(a1);
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		sys.anadirReproducible(c4);
 		assertFalse(sys.getCancionesValidar().contains(c4));
 		sys.anadirReproducible(a2);
@@ -139,6 +163,13 @@ public class SistemaTest {
 	@Test
 	public void testBorrarReproducible() throws Mp3PlayerException, IOException {
 		sys.login("usuario2", "pass123");
+<<<<<<< HEAD
+=======
+		ArrayList<Cancion> cancionesAlbum = new ArrayList<Cancion>();
+		Album a2 = new Album("Album 2", u2,"/lib por ahora");
+		sys.setAlbum(a1);
+		Cancion c4 = new Cancion("Cancion 4", u2, "/np.mp3");
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		sys.anadirReproducible(c4);
 		sys.logout();
 		sys.borrarReproducible(c4);

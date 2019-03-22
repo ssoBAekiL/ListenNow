@@ -149,9 +149,7 @@ public class Sistema {
 		for (UsuarioRegistrado u: usuarios) {
 			if (u.getBloqueado() == true && u.getBloqueoPermanente() == false)
 				desbloquearUsuario(u);
-			System.out.println("AAAA");
 			if (u.EsPremium() == true) {
-			System.out.println("ABAB");
 				caducaPremium(u);
 				System.out.println("BCBC");
 			}

@@ -23,7 +23,6 @@ public class Cancion extends ObjetoComentable{
 	private String ruta;
 	private boolean mas18;
 	private boolean notificada_plagio;
-	private ArrayList<Comentario> comentarios;
 	private boolean pendiente_verificacion;
 	private boolean aceptada;
 	private boolean rechazada;
@@ -37,7 +36,6 @@ public class Cancion extends ObjetoComentable{
 	 * @param m18 Este es el boolean que marcar� si la canci�n es apta para mayores de 18
 	 * @param val Este es el boolean que marcar� la canci�n como v�lida o no
 	 * @param plag Este es el boolean que marcar� la canci�n como plagio
-	 * 
 	 * Este m�todo es el constructor del objeto Cancion
 	 */
 	public Cancion (String titulo, UsuarioRegistrado autor, String ruta)throws IOException, Mp3PlayerException {
@@ -48,7 +46,6 @@ public class Cancion extends ObjetoComentable{
 		this.setAceptada(false);
 		this.setNotificada_plagio(false);
 		this.setPendiente_verificacion(false);
-		this.comentarios=new ArrayList<Comentario>();
 		this.setRechazada(false);
 		this.setMarcada_plagio(false);
 		this.ruta=ruta;
@@ -171,7 +168,9 @@ public class Cancion extends ObjetoComentable{
 				Sistema.getInstance().getCancionesValidadas().add(this);
 			}
 		}*/
-		if(Sistema.getInstance().esAdmin() == true && Sistema.getInstance().getCancionesValidar().contains(this)) {
+		/*********CHEQUEO SI EL USUARIO EN SESION ES EL ADMIN*******/
+		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin()) == true 
+				&& Sistema.getInstance().getCancionesValidar().contains(this)) {
 			Sistema.getInstance().getCancionesValidar().remove(this);
 			Sistema.getInstance().getCancionesValidadas().add(this);
 			aceptada = true;
