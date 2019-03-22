@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
+import es.uam.padsof.usuario.UsuarioRegistrado;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 /**
@@ -23,24 +24,17 @@ public class ListaReproducciones extends ObjetoReproducible{
 	
 	/**
 	 * Instantiates a new lista reproducciones.
-	 *
 	 * @param c Array de canciones
 	 * @param a Array de albumes
 	 * @param l Array de lista de reproducciones
 	 */
-	public ListaReproducciones (String titulo, String autor, ArrayList<Cancion> c, ArrayList<Album> a, ArrayList<ListaReproducciones> l)throws IOException, Mp3PlayerException {
-		super(titulo, autor, null);
-		this.ListaCanciones=c;
-		this.ListaAlbumes=a;
-		this.Listas=l;
-	}
-	
-	public ListaReproducciones (String titulo, String autor, ArrayList<Cancion> c, ArrayList<Album> a)throws IOException, Mp3PlayerException {
-		super(titulo, autor, null);
-		this.ListaCanciones=c;
-		this.ListaAlbumes=a;
+	public ListaReproducciones (String titulo, UsuarioRegistrado autor,String ruta)throws IOException, Mp3PlayerException {
+		super(titulo, autor, ruta);
+		this.ListaCanciones=null;
+		this.ListaAlbumes=null;
 		this.Listas=null;
 	}
+
 
 	/**
 	 * Devuelve las canciones.
@@ -180,6 +174,12 @@ public class ListaReproducciones extends ObjetoReproducible{
 		for(Album a: this.ListaAlbumes) {
 			a.reproducirObjeto();
 		}
+	}
+
+	@Override
+	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

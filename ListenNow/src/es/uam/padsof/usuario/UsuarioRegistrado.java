@@ -309,7 +309,6 @@ public class UsuarioRegistrado {
 			FileWriter fw = null;	
 			TeleChargeAndPaySystem.charge(this.numTarjeta,"Contratacion Premium",10);
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd. MM. yyyy");
-			System.out.println(saldo);
 			if(saldo<10){
 				//System.out.println("NO EXISTEN FONDOS SUFICIENTES PARA REALIZAR LA OPERACION\n");
 			}

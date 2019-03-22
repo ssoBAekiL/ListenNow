@@ -117,7 +117,7 @@ public class SistemaTest {
 		ArrayList<Cancion> cancionesAlbum = new ArrayList<Cancion>();
 		cancionesAlbum.add(c2);
 		cancionesAlbum.add(c4);
-		Album a2 = new Album("Album 2", u2, cancionesAlbum);
+		Album a2 = new Album("Album 2", u2, "chicle.mp3");
 		sys.setAlbum(a1);
 		sys.anadirReproducible(c4);
 		assertFalse(sys.getCancionesValidar().contains(c4));

@@ -12,7 +12,7 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  *
  * Esta clase se encarga de gestionar el objeto Album
  */
-public class Album extends ObjetoReproducible{
+public class Album extends ObjetoComentable{
 	/*private time duracion;*/
 	
 	/** Canciones del album*/
@@ -27,8 +27,8 @@ public class Album extends ObjetoReproducible{
 	 * 
 	 * Este m�todo es el constructor del objeto Album
 	 */
-	public Album (String titulo, UsuarioRegistrado autor)throws Mp3PlayerException, FileNotFoundException {
-		super(titulo, autor, null);
+	public Album (String titulo, UsuarioRegistrado autor,String ruta)throws Mp3PlayerException, FileNotFoundException {
+		super(titulo, autor, ruta);
 		this.canciones=new ArrayList<Cancion>();
 	}
 	
