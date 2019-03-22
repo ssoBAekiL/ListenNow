@@ -467,5 +467,19 @@ public class Sistema {
 	public boolean getConectado() {
 		return conectado;
 	}
+	public void reset() {
+		this.reproducciones = 0;
+		this.conectado = false;
+		this.nRepAnonimas = 0;
+		this.nRepRegistrado = 0;
+		this.nRepRecompensa = 0;
+		this.cancionesValidar.clear();
+		this.albunes.clear();
+		this.cancionesValidadas.clear();
+		this.cancionesNotificadas.clear();
+		this.notificaciones.clear();
+		this.usuarios.clear();
+		this.addUsuario(admin);
+	}
 
 }

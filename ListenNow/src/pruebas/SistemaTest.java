@@ -7,12 +7,17 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import es.uam.eps.padsof.telecard.FailedInternetConnectionException;
+import es.uam.eps.padsof.telecard.InvalidCardNumberException;
+import es.uam.eps.padsof.telecard.OrderRejectedException;
 import es.uam.padsof.*;
 import es.uam.padsof.objetoreproducible.Album;
 import es.uam.padsof.objetoreproducible.Cancion;
+import es.uam.padsof.sistema.Notificacion;
 import es.uam.padsof.sistema.Sistema;
 import es.uam.padsof.usuario.UsuarioRegistrado;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
@@ -25,10 +30,11 @@ public class SistemaTest {
 	private Cancion c2; 
 	private Cancion c3;
 	private Album a1;
+	private Cancion c4;
+	private Album a2;
 	
 	@Before
 	public void setUp() throws IOException, Mp3PlayerException {
-		sys.logout();
 		u1 = new UsuarioRegistrado("1234567891234567", "usuario1", "pass", false, false);
 		u2 = new UsuarioRegistrado("9876543219876543", "usuario2", "pass123", false, false);
 		sys.addUsuario(u1);
@@ -36,23 +42,29 @@ public class SistemaTest {
 		c1 = new Cancion("Cancion 1", u1, "/np.mp3");
 		c2 = new Cancion("Cancion 2", u2, "/hive.mp3");
 		c3 = new Cancion("Cancion 3", u1, "/chicle3.mp3");
+		c4 = new Cancion("Cancion 4", u2, "/np.mp3");
 		sys.setCancionValidada(c1);
 		sys.setCancionValidada(c2);
 		sys.setCancionValidada(c3);
 		u1.setCanciones(c1);
 		u1.setCanciones(c3);
 		u2.setCanciones(c2);
-		ArrayList<Cancion> cancionesAlbum = new ArrayList<Cancion>();
-		cancionesAlbum.add(c1);
-		cancionesAlbum.add(c3);
-		a1 = new Album("Album 1", u1, cancionesAlbum);
+		a1 = new Album("Album 1", u1);
+		a1.aniadirCancionesAlbum(c1, c3);
 		sys.setAlbum(a1);
+		a2 = new Album("Album 2", u2);
+		a1.aniadirCancionesAlbum(c2, c4);
+	}
+	
+	@After
+	public void reset() {
+		sys.reset();
 	}
 	
 	@Test
-	public void testInicializarSistema() {
+	public void testInicializarSistema() throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException {
 		sys.bloquearUsuario(u2, false);
-		u1.contratarPremium();
+		u1.contratarPremium("1234567899876543");
 		u2.setFechaBloqueo(LocalDate.now().minusDays(35));
 		assertTrue(u2.getBloqueado());
 		sys.inicializarSistema();
@@ -113,42 +125,30 @@ public class SistemaTest {
 
 	@Test
 	public void testAnadirReproducible() throws IOException, Mp3PlayerException {
-		Cancion c4 = new Cancion("Cancion 4", u2, "/np.mp3");
-		ArrayList<Cancion> cancionesAlbum = new ArrayList<Cancion>();
-		cancionesAlbum.add(c2);
-		cancionesAlbum.add(c4);
-		Album a2 = new Album("Album 2", u2, cancionesAlbum);
-		sys.setAlbum(a1);
 		sys.anadirReproducible(c4);
 		assertFalse(sys.getCancionesValidar().contains(c4));
+		sys.anadirReproducible(a2);
+		assertFalse(sys.getAlbunes().contains(a2));
 		sys.login("usuario1", "pass");
 		sys.anadirReproducible(c4);
-		assertSame(c4, sys.getCancionesValidar().get(0));
+		assertTrue(sys.getCancionesValidar().contains(c4));
 		sys.anadirReproducible(a2);
 		assertTrue(sys.getAlbunes().contains(a2));
-		sys.logout();
 	}
 
 	@Test
 	public void testBorrarReproducible() throws Mp3PlayerException, IOException {
 		sys.login("usuario2", "pass123");
-		ArrayList<Cancion> cancionesAlbum = new ArrayList<Cancion>();
-		Album a2 = new Album("Album 2", u2, cancionesAlbum);
-		sys.setAlbum(a1);
-		Cancion c4 = new Cancion("Cancion 4", u2, "/np.mp3");
 		sys.anadirReproducible(c4);
 		sys.logout();
 		sys.borrarReproducible(c4);
 		assertTrue(sys.getCancionesValidar().contains(c4));
 		sys.login("usuario2", "pass123");
-		cancionesAlbum.add(c2);
-		cancionesAlbum.add(c4);
 		sys.anadirReproducible(a2);
 		sys.borrarReproducible(a2);
 		assertFalse(sys.getAlbunes().contains(a2));
 		sys.borrarReproducible(c4);
 		assertFalse(sys.getCancionesValidar().contains(c4));
-		sys.logout();
 	}
 
 	@Test
@@ -173,7 +173,8 @@ public class SistemaTest {
 
 	@Test
 	public void testDarDeBaja() {
-		fail("Not yet implemented");
+		sys.darDeBaja(u1);
+		assertFalse(sys.getUsuarios().contains(u1));
 	}
 
 	@Test
@@ -183,7 +184,10 @@ public class SistemaTest {
 
 	@Test
 	public void testGetUsuarios() {
-		fail("Not yet implemented");
+		assertTrue(sys.getUsuarios().size() == 3);
+		assertTrue(sys.getUsuarios().contains(u1));
+		assertTrue(sys.getUsuarios().contains(u2));
+		assertFalse(sys.getUsuarios().contains(new UsuarioRegistrado("1234567891234567", "usuario3", "pass", false, false)));
 	}
 
 	@Test
@@ -193,32 +197,38 @@ public class SistemaTest {
 
 	@Test
 	public void testGetnRepAnonimas() {
-		fail("Not yet implemented");
+		sys.setnRepAnonimas(5000);
+		assertEquals(5000, sys.getnRepAnonimas());
 	}
 
 	@Test
 	public void testSetnRepAnonimas() {
-		fail("Not yet implemented");
+		sys.setnRepAnonimas(5000);
+		assertEquals(5000, sys.getnRepAnonimas());
 	}
 
 	@Test
 	public void testGetnRepRegistrado() {
-		fail("Not yet implemented");
+		sys.setnRepRegistrado(200);
+		assertEquals(200, sys.getnRepRegistrado());
 	}
 
 	@Test
 	public void testSetnRepRegistrado() {
-		fail("Not yet implemented");
+		sys.setnRepRegistrado(200);
+		assertEquals(200, sys.getnRepRegistrado());
 	}
 
 	@Test
 	public void testGetnRepRecompensa() {
-		fail("Not yet implemented");
+		sys.setnRepRecompensa(2000);
+		assertEquals(2000, sys.getnRepRecompensa());
 	}
 
 	@Test
 	public void testSetnRepRecompensa() {
-		fail("Not yet implemented");
+		sys.setnRepRecompensa(2000);
+		assertEquals(2000, sys.getnRepRecompensa());
 	}
 
 	@Test
