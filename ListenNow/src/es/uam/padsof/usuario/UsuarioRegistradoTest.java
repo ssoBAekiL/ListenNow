@@ -29,6 +29,8 @@ public class UsuarioRegistradoTest {
 	private UsuarioRegistrado u2;
 	private Cancion c1;
 	File file;
+	Album a1;
+
 	
 	/**
 	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#UsuarioRegistrado(java.lang.String, java.lang.String, java.lang.String, boolean, boolean)}.
@@ -44,6 +46,8 @@ public class UsuarioRegistradoTest {
 		u2=new UsuarioRegistrado("1904567891227567","pablo","74884", false,false);
 		sys.addUsuario(u2);
 		Notificacion noti=new Notificacion(c1);
+		a1=new Album("NombreAlbum",);
+
 	}
 	
 	
