@@ -104,7 +104,7 @@ public class Sistema {
 	
 	private Sistema() {
 		this.reproducciones = 0;
-		this.conectado = true;
+		this.conectado = false;
 		this.adminConectado = false;
 		this.nRepAnonimas = 0;
 		this.nRepRegistrado = 0;
@@ -243,10 +243,10 @@ public class Sistema {
 	 * @param reproducible
 	 */
 	public void anadirReproducible(ObjetoReproducible reproducible) {
-		if (reproducible instanceof Cancion) {
+		if (reproducible instanceof Cancion && conectado == true) {
 			cancionesValidar.add((Cancion) reproducible);
 		}
-		else if (reproducible instanceof Album)
+		else if (reproducible instanceof Album && conectado == true)
 			albunes.add((Album) reproducible);
 	}
 
@@ -254,13 +254,13 @@ public class Sistema {
 	 * @param reproducible
 	 */
 	public void borrarReproducible(ObjetoReproducible reproducible) {
-		if (reproducible instanceof Cancion) {
+		if (reproducible instanceof Cancion && conectado == true && reproducible.getAutor() == usuarioEnSesion) {
 			if (cancionesValidadas.contains(reproducible))
 				cancionesValidadas.remove(reproducible);
 			else if (cancionesValidar.contains(reproducible))
 				cancionesValidar.remove(reproducible);
 		}
-		else if (reproducible instanceof Album) {
+		else if (reproducible instanceof Album && conectado == true) {
 			albunes.remove(reproducible);
 		}
 	}

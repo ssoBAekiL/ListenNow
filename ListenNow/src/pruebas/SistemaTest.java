@@ -29,8 +29,8 @@ public class SistemaTest {
 	@Before
 	public void setUp() throws IOException, Mp3PlayerException {
 		sys.logout();
-		u1 = new UsuarioRegistrado("1234567891234567", "Pablo", "pass", false, false);
-		u2 = new UsuarioRegistrado("9876543219876543", "Carlos", "pass123", false, false);
+		u1 = new UsuarioRegistrado("1234567891234567", "usuario1", "pass", false, false);
+		u2 = new UsuarioRegistrado("9876543219876543", "usuario2", "pass123", false, false);
 		sys.addUsuario(u1);
 		sys.addUsuario(u2);
 		c1 = new Cancion("Cancion 1", u1, "/np.mp3");
@@ -76,8 +76,8 @@ public class SistemaTest {
 
 	@Test
 	public void testBuscarAutor() { 
-		assertTrue(sys.buscarAutor("Pablo").containsAll(u1.getCanciones()));
-		//assertEqual(u1.getCanciones(), sys.buscarAutor("Pablo"));
+		assertTrue(sys.buscarAutor("usuario1").containsAll(u1.getCanciones()));
+		//assertEqual(u1.getCanciones(), sys.buscarAutor("usuario1"));
 	}
 
 	@Test
@@ -89,9 +89,9 @@ public class SistemaTest {
 
 	@Test
 	public void testLogin() {
-		assertFalse(sys.login("Pablo", "Pass"));
-		assertTrue(sys.login("Pablo", "pass"));
-		assertNotNull(sys.getUsuarioEnSesion());
+		assertFalse(sys.login("usuario1", "Pass"));
+		assertTrue(sys.login("usuario1", "pass"));
+		assertEquals(u1, sys.getUsuarioEnSesion());
 		assertTrue(sys.getConectado());
 		assertTrue(sys.login("ADMIN", "soyadmin"));
 		assertNotNull(sys.getUsuarioEnSesion());
@@ -102,7 +102,7 @@ public class SistemaTest {
 
 	@Test
 	public void testLogout() {
-		sys.login("Pablo", "Pass");
+		sys.login("usuario1", "pass");
 		sys.logout();
 		assertNull(sys.getUsuarioEnSesion());
 		assertFalse(sys.getAdminConectado());
@@ -121,20 +121,29 @@ public class SistemaTest {
 		sys.setAlbum(a1);
 		Cancion c4 = new Cancion("Cancion 4", u2, "/np.mp3");
 		sys.anadirReproducible(c4);
+		assertFalse(sys.getCancionesValidar().contains(c4));
+		sys.login("usuario1", "pass");
+		sys.anadirReproducible(c4);
 		cancionesAlbum.add(c2);
 		cancionesAlbum.add(c4);
 		assertSame(c4, sys.getCancionesValidar().get(0));
 		sys.anadirReproducible(a2);
 		assertTrue(sys.getAlbunes().contains(a2));
+		sys.logout();
 	}
 
 	@Test
 	public void testBorrarReproducible() throws Mp3PlayerException, IOException {
+		sys.login("usuario2", "pass123");
 		ArrayList<Cancion> cancionesAlbum = new ArrayList<Cancion>();
 		Album a2 = new Album("Album 2", u2, cancionesAlbum);
 		sys.setAlbum(a1);
 		Cancion c4 = new Cancion("Cancion 4", u2, "/np.mp3");
 		sys.anadirReproducible(c4);
+		sys.logout();
+		sys.borrarReproducible(c4);
+		assertTrue(sys.getCancionesValidar().contains(c4));
+		sys.login("usuario2", "pass123");
 		cancionesAlbum.add(c2);
 		cancionesAlbum.add(c4);
 		sys.anadirReproducible(a2);
@@ -142,6 +151,7 @@ public class SistemaTest {
 		assertFalse(sys.getAlbunes().contains(a2));
 		sys.borrarReproducible(c4);
 		assertFalse(sys.getCancionesValidar().contains(c4));
+		sys.logout();
 	}
 
 	@Test
@@ -292,7 +302,6 @@ public class SistemaTest {
 	@Test
 	public void testSetAlbum() {
 		fail("Not yet implemented");
-		System.out.println("A");
 	}
 
 	@Test
