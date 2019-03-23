@@ -26,7 +26,7 @@ public class Sistema {
 	/**
 	 * Contador de lar reproducciones utilizadas por los usuarios no registrados
 	 */
-	private  int reproducciones;
+	private  int reproduccionesNoRegistrados;
 
 	/**
 	 * Indica si hay una sesion abierta
@@ -99,11 +99,11 @@ public class Sistema {
 
 	
 	private Sistema() {
-		this.reproducciones = 0;
+		this.reproduccionesNoRegistrados = 0;
 		this.conectado = false;
-		this.nRepAnonimas = 0;
-		this.nRepRegistrado = 0;
-		this.nRepRecompensa = 0;
+		this.nRepAnonimas = 10;
+		this.nRepRegistrado = 10;
+		this.nRepRecompensa = 10;
 		this.cancionesValidar = new ArrayList<Cancion>();
 		this.albunes = new ArrayList<Album>();
 		this.cancionesValidadas = new ArrayList<Cancion>();
@@ -385,8 +385,8 @@ public class Sistema {
 	/**
 	 * Metodo que incrementa el numero de reproducciones
 	 */
-	public void incremetaReproducciones() {
-		this.reproducciones++;
+	public void incremetareproduccionesNoRegistrados() {
+		this.reproduccionesNoRegistrados++;
 	}
 	
 	
@@ -483,12 +483,17 @@ public class Sistema {
 	public boolean getConectado() {
 		return conectado;
 	}
+	
+	public int getReproduccionesNoRegistrados() {
+		return reproduccionesNoRegistrados;
+	}
+	
 	public void reset() {
-		this.reproducciones = 0;
+		this.reproduccionesNoRegistrados = 0;
 		this.conectado = false;
-		this.nRepAnonimas = 0;
-		this.nRepRegistrado = 0;
-		this.nRepRecompensa = 0;
+		this.nRepAnonimas = 10;
+		this.nRepRegistrado = 10;
+		this.nRepRecompensa = 10;
 		this.cancionesValidar.clear();
 		this.albunes.clear();
 		this.cancionesValidadas.clear();
