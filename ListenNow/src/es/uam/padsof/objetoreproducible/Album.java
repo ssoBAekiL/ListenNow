@@ -26,8 +26,8 @@ public class Album extends ObjetoComentable{
 	 * 
 	 * Este m�todo es el constructor del objeto Album
 	 */
-	public Album (String titulo, UsuarioRegistrado autor,String ruta)throws Mp3PlayerException, FileNotFoundException {
-		super(titulo, autor, ruta);
+	public Album (String titulo, UsuarioRegistrado autor)throws Mp3PlayerException, FileNotFoundException {
+		super(titulo, autor, null);
 		this.canciones=new ArrayList<Cancion>();
 	}
 	
