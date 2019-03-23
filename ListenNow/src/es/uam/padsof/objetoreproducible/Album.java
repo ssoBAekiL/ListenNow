@@ -31,6 +31,10 @@ public class Album extends ObjetoComentable{
 		this.canciones=new ArrayList<Cancion>();
 	}
 	
+	public void anadirComentario(UsuarioRegistrado usr, Comentario c) {
+		super.comentarios.add(c);
+	}
+	
 	/**
 	 * 
 	 * @return canciones.size() Es un m�todo que se encarga de devolver el tama�o del array canciones

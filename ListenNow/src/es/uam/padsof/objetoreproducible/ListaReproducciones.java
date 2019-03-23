@@ -166,16 +166,22 @@ public class ListaReproducciones extends ObjetoReproducible{
 		return;
 	}
 	
+	/**
+	 * 
+	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#reproducir()
+	 */
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
 		for(Cancion c: this.ListaCanciones) {
-			c.reproducirObjeto();
+			c.reproducir();
 		}
-		
 		for(Album a: this.ListaAlbumes) {
-			a.reproducirObjeto();
+			a.reproducir();
 		}
 	}
 
+	/**
+	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
+	 */
 	@Override
 	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		// TODO Auto-generated method stub

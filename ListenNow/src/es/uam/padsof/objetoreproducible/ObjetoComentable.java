@@ -14,7 +14,7 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  */
 public abstract class ObjetoComentable extends ObjetoReproducible{
 	
-	ArrayList<Comentario> comentarios;
+	protected ArrayList<Comentario> comentarios;
 	
 	/**
 	 * @param titulo
@@ -40,13 +40,7 @@ public abstract class ObjetoComentable extends ObjetoReproducible{
 	 * Metodo que anyade un comentario a un objeto comentable, ya sea album o cancion
 	 * @param c
 	 */
-	public void anadirComentario(UsuarioRegistrado usr, Comentario c) {
-		//if(Sistema.getInstance().getUsuarioEnSesion().equals(usr)) {
-			comentarios.add(c);
-			//return true;
-		//}
-		//return false;
-	}
+	public abstract void anadirComentario(UsuarioRegistrado usr, Comentario c);
 
 	
 }

@@ -49,6 +49,7 @@ public class Cancion extends ObjetoComentable{
 		this.setRechazada(false);
 		this.setMarcada_plagio(false);
 		this.ruta=ruta;
+		Sistema.getInstance().getCancionesValidar().add(this);
 	}
 	
 	
@@ -162,35 +163,36 @@ public class Cancion extends ObjetoComentable{
 	 * @param cancion
 	 */
 	public boolean validarCancion() {
-		/*for(int i=0;i<Sistema.getNumUsuarios();i++) {
-			if(Sistema.getInstance().getUsuario(i).isAdmin()==true) {
-				this.setValidar(true);
-				Sistema.getInstance().getCancionesValidadas().add(this);
-			}
-		}*/
 		/*********CHEQUEO SI EL USUARIO EN SESION ES EL ADMIN*******/
-		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin()) == true 
-				&& Sistema.getInstance().getCancionesValidar().contains(this)) {
-			Sistema.getInstance().getCancionesValidar().remove(this);
+		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin()) == true &&
+				 Sistema.getInstance().getCancionesValidar().contains(this)) {
 			Sistema.getInstance().getCancionesValidadas().add(this);
+			Sistema.getInstance().getCancionesValidar().remove(this);
 			aceptada = true;
 			pendiente_verificacion = false;
 			Sistema.getInstance().setNotificaciones(new Notificacion(this, this.autor.getSeguidores()));
-			autor.setCanciones(this);
+			autor.anadirCancion(this);
 			return true;
 		}
 		return false;
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#reproducir()
+	 */
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
 		if(Mp3Player.isValidMp3File(ruta)==true) {
 			player.add(ruta);
 			player.play();
+			Sistema.getInstance().getUsuarioEnSesion().incrementaReproducciones();
 			Thread.sleep((long)Mp3Player.getDuration(ruta)*1000);
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
+	 */
 	public void pararReproduccion()throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		if(Mp3Player.isValidMp3File(ruta)==true) {
 			player.add(ruta);
@@ -198,6 +200,9 @@ public class Cancion extends ObjetoComentable{
 		}
 	}
 	
+	public void anadirComentario(UsuarioRegistrado usr, Comentario c) {
+		super.comentarios.add(c);
+	}
 
 	public boolean isNotificada_plagio() {
 		return notificada_plagio;

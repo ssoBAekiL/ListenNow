@@ -1,8 +1,6 @@
 package es.uam.padsof.usuario;
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -14,15 +12,11 @@ import es.uam.padsof.objetoreproducible.*;
 import es.uam.padsof.sistema.*;
 
 /**
- * Esta clase proporciona funcionalidades referentes a un usuario al igual que sus caracter�sticas principales
+ * Esta clase proporciona funcionalidades referentes a un usuario al igual que sus características principales
  * @author Carlos Miret, Pablo Borrelli y Julian Espada
  *
  */
-/**
- * 
- * @author Carlos Miret, Pablo Borrelli y Julian Espada
- *
- */
+
 public class UsuarioRegistrado {
 
 	/**
@@ -31,15 +25,7 @@ public class UsuarioRegistrado {
 	 * @param nombre
 	 * @param contrasena
 	 * @param esPremium
-	 * @param fechaPremium
-	 * @param seguidos
 	 * @param isAdmin
-	 * @param seguidores
-	 * @param canciones
-	 * @param albunes
-	 * @param lista_reproducciones
-	 * @param reproducciones
-	 * @param bloqueado
 	 */
 	public UsuarioRegistrado(String numTarjeta, String nombre, String contrasena, boolean esPremium,
 			boolean isAdmin) {
@@ -60,34 +46,40 @@ public class UsuarioRegistrado {
 		this.bloqueoPermanente = false;
 		this.fechaBloqueo = null;
 	}
+	
+	
+    /**
+     * Saldo inicial del usuario, para poder contratar el paquete premium
+     */
     private double saldo;
+    
 	/**
-	 * 
+	 * Numero de tarjeta del usuario
 	 */
 	private String numTarjeta;
 	
 	/**
-	 * Nombre
+	 * Nombre del usuario
 	 */
 	private String nombre;
 
 	/**
-	 * Contrasena
+	 * Contrasena del usuario
 	 */
 	private String contrasena;
 
 	/**
-	 * esPremium
+	 * Atributo que permite identificar el estado de suscripción del usuario
 	 */
 	private boolean esPremium;
 
 	/**
-	 * fechaPremium
+	 * Fecha en la que se ha contratado el paquete premium
 	 */
 	private LocalDate fechaPremium;
 
 	/**
-	 * seguidos
+	 * Array de seguidos que posee el usuario 
 	 */
 	private ArrayList<UsuarioRegistrado> seguidos;
 	
@@ -98,34 +90,27 @@ public class UsuarioRegistrado {
 	private boolean isAdmin;
 
 	/**
-	 * seguidores
+	 * Array de seguidores que posee el usuario 
 	 */
 	private ArrayList<UsuarioRegistrado> seguidores;
 	
 	/**
-	 * canciones
+	 * Array de canciones del usuario
 	 */
 	private ArrayList<Cancion> canciones;
 	
 	/**
-	 * @return the isAdmin
-	 */
-	public boolean isAdmin() {
-		return isAdmin;
-	}
-
-	/**
-	 * albunes
+	 * Array de albunes del usuario
 	 */
 	private ArrayList<Album> albunes;
 	
 	/**
-	 * lista de reproducciones
+	 * Array de lista de reproducciones del usuario
 	 */
 	private ArrayList<ListaReproducciones> lista_reproducciones;
 
 	/**
-	 * reproducciones
+	 * Reproducciones que lleva un usuario determinado
 	 */
 	private int reproducciones;
 
@@ -137,6 +122,18 @@ public class UsuarioRegistrado {
 	private boolean bloqueoPermanente;
 	
 	private LocalDate fechaBloqueo;
+	
+	/*******************************GETTERS Y SETTERS**************************/
+	
+	/**
+	 * Metodo que permite distinguir si el usuario es ADMIn o no
+	 * @return the isAdmin
+	 */
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+
 
 
 
@@ -149,6 +146,13 @@ public class UsuarioRegistrado {
 	 */
 	public String getNombre() {
 		return nombre;
+	}
+	
+	/**
+	 * Metodo que se ocupa de incrementar las reproducciones del usuario
+	 */
+	public void incrementaReproducciones() {
+		this.reproducciones++;
 	}
 
 	/**

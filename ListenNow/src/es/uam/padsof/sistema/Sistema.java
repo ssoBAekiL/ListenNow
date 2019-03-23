@@ -452,6 +452,15 @@ public class Sistema {
 	}
 	
 	
+	
+	/**
+	 * @return the notificaciones
+	 */
+	public ArrayList<Notificacion> getNotificaciones() {
+		return notificaciones;
+	}
+
+
 	public ArrayList<Album> getAlbunes() {
 		return albunes;
 	}
@@ -461,6 +470,15 @@ public class Sistema {
 	public UsuarioRegistrado getUsuarioEnSesion() {
 		return usuarioEnSesion;
 	}
+	
+
+	/**
+	 * @param usuarioEnSesion the usuarioEnSesion to set
+	 */
+	public void setUsuarioEnSesion(UsuarioRegistrado usuarioEnSesion) {
+		this.usuarioEnSesion = usuarioEnSesion;
+	}
+
 
 	public boolean getConectado() {
 		return conectado;
