@@ -225,6 +225,7 @@ public class Cancion extends ObjetoComentable{
 			player.play();
 			Sistema.getInstance().getUsuarioEnSesion().incrementaReproducciones();
 			Thread.sleep((long)Mp3Player.getDuration(ruta)*1000);
+			this.nreproducciones++;
 		}
 	}
 	
@@ -284,8 +285,11 @@ public class Cancion extends ObjetoComentable{
 
 	public String toString(){
 		return "Autor: "+this.getAutor()+"\n"+"Titulo: "+this.getTitulo()+"\n";
-		
-		
+	}
+	
+	/************************************************/
+	public void setReproucciones(int reproducciones) {
+		this.nreproducciones = reproducciones;
 	}
 
 	

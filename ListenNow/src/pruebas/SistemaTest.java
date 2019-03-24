@@ -32,6 +32,9 @@ public class SistemaTest {
 	private Album a1;
 	private Cancion c4;
 	private Album a2;
+	private Notificacion n1;
+	private Notificacion n2;
+	private Notificacion n3;
 	
 	@Before
 	public void setUp() throws IOException, Mp3PlayerException {
@@ -53,7 +56,16 @@ public class SistemaTest {
 		a1.aniadirCancionesAlbum(c1, c3);
 		sys.setAlbum(a1);
 		a2 = new Album("Album 2", u2);
+		ArrayList<UsuarioRegistrado> usuariosNotificados = new ArrayList<UsuarioRegistrado>();
+		usuariosNotificados.add(u1);
+		usuariosNotificados.add(u2);
 		a1.aniadirCancionesAlbum(c2, c4);
+		n1 = new Notificacion(c1);
+		n2 = new Notificacion(c2, usuariosNotificados);
+		n3 = new Notificacion(u1, u2);
+		sys.setNotificaciones(n1);
+		sys.setNotificaciones(n2);
+		sys.setNotificaciones(n3);
 	}
 	
 	@After
@@ -63,12 +75,24 @@ public class SistemaTest {
 	
 	@Test
 	public void testInicializarSistema() throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException {
+		assertTrue(sys.login("ADMIN", "soyadmin"));
 		sys.bloquearUsuario(u2, false);
-		u1.contratarPremium("1234567899876543");
-		u2.setFechaBloqueo(LocalDate.now().minusDays(35));
-		assertTrue(u2.getBloqueado());
+		u1.setEsPremium(true);
+		u1.setFechaPremium(LocalDate.now().minusDays(10));
+		u2.setFechaBloqueo(LocalDate.now().minusDays(10));
+		sys.logout();
 		sys.inicializarSistema();
+		assertTrue(u1.EsPremium());
 		assertTrue(u2.getBloqueado());
+		assertTrue(sys.login("ADMIN", "soyadmin"));
+		sys.bloquearUsuario(u2, false);
+		u1.setEsPremium(true);
+		u1.setFechaPremium(LocalDate.now().minusDays(30));
+		u2.setFechaBloqueo(LocalDate.now().minusDays(30));
+		sys.logout();
+		sys.inicializarSistema();
+		assertFalse(u1.EsPremium());
+		assertFalse(u2.getBloqueado());
 		
 	}
 
@@ -103,6 +127,7 @@ public class SistemaTest {
 		assertEquals("usuario1", sys.getUsuarioEnSesion().getNombre());
 		assertEquals("pass", sys.getUsuarioEnSesion().getContrasena());
 		assertTrue(sys.getConectado());
+		sys.logout();
 		assertTrue(sys.login("ADMIN", "soyadmin"));
 		assertNotNull(sys.getUsuarioEnSesion());
 		assertEquals("ADMIN", sys.getUsuarioEnSesion().getNombre());
@@ -153,22 +178,61 @@ public class SistemaTest {
 
 	@Test
 	public void testRecompensaPremium() {
-		fail("Not yet implemented");
+		c1.setReproucciones(4);
+		c2.setReproucciones(12);
+		assertFalse(u1.EsPremium());
+		assertFalse(u2.EsPremium());
+		sys.recompensaPremium(u1);
+		assertFalse(u1.EsPremium());
+		sys.recompensaPremium(u2);
+		assertTrue(u2.EsPremium());
 	}
 
 	@Test
-	public void testCaducaPremium() {
-		fail("Not yet implemented");
+	public void testCaducaPremium() throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException {
+		u1.setEsPremium(true);
+		u1.setFechaPremium(LocalDate.now().minusDays(14));
+		sys.caducaPremium(u1);
+		assertTrue(u1.EsPremium());
+		u1.setFechaPremium(LocalDate.now().minusDays(30));
+		sys.caducaPremium(u1);
+		assertFalse(u1.EsPremium());
 	}
 
 	@Test
 	public void testBloquearUsuario() {
-		fail("Not yet implemented");
+		sys.bloquearUsuario(u1, false);
+		assertFalse(u1.getBloqueado());
+		assertFalse(u1.getBloqueoPermanente());
+		sys.login("ADMIN", "soyadmin");
+		sys.bloquearUsuario(u1, false);
+		assertTrue(u1.getBloqueado());
+		assertFalse(u1.getBloqueoPermanente());
+		sys.bloquearUsuario(u2, true);
+		assertTrue(u2.getBloqueado());
+		assertTrue(u2.getBloqueoPermanente());
+		sys.desbloquearUsuario(u2);
+		assertTrue(u2.getBloqueado());
+		
 	}
 
 	@Test
 	public void testDesbloquearUsuario() {
-		fail("Not yet implemented");
+		sys.login("ADMIN", "soyadmin");
+		sys.bloquearUsuario(u1, false);
+		sys.bloquearUsuario(u2, true);
+		u1.setFechaBloqueo(LocalDate.now().minusDays(14));
+		sys.logout();
+		sys.desbloquearUsuario(u1);
+		assertTrue(u1.getBloqueado());
+		u1.setFechaBloqueo(LocalDate.now().minusDays(30));
+		sys.desbloquearUsuario(u1);
+		assertFalse(u1.getBloqueado());
+		sys.login("ADMIN", "soyadmin");
+		sys.bloquearUsuario(u1, false);
+		u1.setFechaBloqueo(LocalDate.now().minusDays(14));
+		sys.desbloquearUsuario(u1);
+		assertFalse(u1.getBloqueado());
 	}
 
 	@Test
@@ -179,7 +243,16 @@ public class SistemaTest {
 
 	@Test
 	public void testMostrarNotificacion() {
-		fail("Not yet implemented");
+		assertNull(sys.mostrarNotificacion());
+		sys.login("ADMIN", "soyadmin");
+		assertEquals(n1, sys.mostrarNotificacion().get(0));
+		sys.logout();
+		sys.login("usuario1", "pass");
+		assertEquals(n2, sys.mostrarNotificacion().get(0));
+		sys.logout();
+		sys.login("usuario2", "pass123");
+		assertEquals(n2, sys.mostrarNotificacion().get(0));
+		assertEquals(n3, sys.mostrarNotificacion().get(1));
 	}
 	
 	@Test
