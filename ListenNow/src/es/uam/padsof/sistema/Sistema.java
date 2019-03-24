@@ -111,6 +111,7 @@ public class Sistema {
 		this.notificaciones = new ArrayList<Notificacion>();
 		this.usuarios = new ArrayList<UsuarioRegistrado>();
 		this.admin=(new UsuarioRegistrado("0000000000000000"/*num tarjeta*/, "ADMIN"/*nombre*/, "soyadmin"/*contrasena*/, true/*premium*/, true));
+		this.admin.setFechaPremium(LocalDate.now());
 		this.addUsuario(admin);
 	}
 	
@@ -151,9 +152,7 @@ public class Sistema {
 				desbloquearUsuario(u);
 			if (u.EsPremium() == true) {
 				caducaPremium(u);
-				System.out.println("BCBC");
 			}
-			System.out.println("CCCCC");
 		}
 	}
 	
@@ -210,12 +209,14 @@ public class Sistema {
 	 * @param contrasena
 	 */
 	public boolean login(String usuario, String contrasena) {
-		for (UsuarioRegistrado u: usuarios) {
-			if (u.getNombre().equals(usuario) && u.getContrasena() == contrasena && u.getBloqueado() == false) {
-				usuarioEnSesion = u;
-				conectado = true;
-				mostrarNotificacion();
-				return true;
+		if (conectado == false) {
+			for (UsuarioRegistrado u: usuarios) {
+				if (u.getNombre().equals(usuario) && u.getContrasena() == contrasena && u.getBloqueado() == false) {
+					usuarioEnSesion = u;
+					conectado = true;
+					mostrarNotificacion();
+					return true;
+				}
 			}
 		}
 		return false;
@@ -275,9 +276,10 @@ public class Sistema {
 	 * 
 	 */
 	public void caducaPremium(UsuarioRegistrado usuario) {
-		LocalDate fecha = LocalDate.now().minusDays(30);
+		LocalDate fecha = LocalDate.now().minusDays(29);
 		if(fecha.isAfter(usuario.getFechaPremium())) {
 			usuario.setEsPremium(false);
+			usuario.setFechaPremium(null);
 		}
 	}
 	
@@ -288,24 +290,28 @@ public class Sistema {
 	 * @param usuario
 	 */
 	public void bloquearUsuario(UsuarioRegistrado usuario, boolean permanente) {
-		if (permanente == false) {
-			usuario.setBloqueado(true);
-			usuario.setFechaBloqueo(LocalDate.now());
+		if(usuarioEnSesion == admin) {
+			if (permanente == false) {
+				usuario.setBloqueado(true);
+				usuario.setFechaBloqueo(LocalDate.now());
+			}
+			else
+				usuario.setBloqueoPermanente();
 		}
-		else
-			usuario.setBloqueoPermanente();
 	}
 
 	/**
 	 * @param usuario
 	 */
 	public void desbloquearUsuario(UsuarioRegistrado usuario) {
-		LocalDate fecha = LocalDate.now().minusDays(30);
-		if (fecha.isAfter(usuario.getFechaBloqueo())) {
-			usuario.setBloqueado(false);
+		LocalDate fecha = LocalDate.now().minusDays(29);
+		if (usuario.getBloqueado() == true && usuario.getBloqueoPermanente() == false) {
+			if (fecha.isAfter(usuario.getFechaBloqueo())) {
+				usuario.setBloqueado(false);
+			}
+			else if (usuarioEnSesion == admin)
+				usuario.setBloqueado(false);
 		}
-		else if (usuarioEnSesion == admin)
-			usuario.setBloqueado(false);
 		else return;
 	}
 	
@@ -319,11 +325,16 @@ public class Sistema {
 	/**
 	 * 
 	 */
-	public void mostrarNotificacion() {
-		for (Notificacion n: notificaciones) {
-			if(n.getUsuariosNotificados().contains(usuarioEnSesion))
-				System.out.println(n);
+	public ArrayList<Notificacion> mostrarNotificacion() {
+		if(conectado == true) {
+			ArrayList<Notificacion> notificaciones = new ArrayList<Notificacion>();
+			for (Notificacion n: this.notificaciones) {
+				if(n.getUsuariosNotificados().contains(usuarioEnSesion))
+					notificaciones.add(n);
+			}
+			return notificaciones;
 		}
+		return null;
 	}
 
 	/**
