@@ -47,13 +47,17 @@ public class CancionTest {
 	}
 	
 	@Test
-	public final void testReproducirCancion() {
-		
+	public final void testReproducirCancion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+		int a= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
+		c1.reproducir();
+		int b= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
+		//System.out.println(Sistema.getInstance().getUsuarioEnSesion().getReproducciones());
+		assertTrue(b>a);
 	}
 	
 	
 	/**
-	 * Metodo que permite al usuario admin validar + 18 una cancion pasada por parametro
+	 * Metodo que hace test sobre la funcion Validar cancion
 	 * @param cancion
 	 */
 	@Test
@@ -77,27 +81,18 @@ public class CancionTest {
 	}
 	
 	
-
-	/* (non-Javadoc)
-	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#reproducir()
+	/**
+	 * Metodo que permite al usuario admin validar + 18 una cancion pasada por parametro
+	 * @param cancion
 	 */
-	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
-		if(Mp3Player.isValidMp3File(ruta)==true) {
-			player.add(ruta);
-			player.play();
-			Sistema.getInstance().getUsuarioEnSesion().incrementaReproducciones();
-			Thread.sleep((long)Mp3Player.getDuration(ruta)*1000);
-		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
-	 */
-	public void pararReproduccion()throws FileNotFoundException, Mp3PlayerException, InterruptedException {
-		if(Mp3Player.isValidMp3File(ruta)==true) {
-			player.add(ruta);
-			player.stop();
-		}
+	@Test
+	public final void borradoTrasRechaza3DiasEspera() {
+		c1.rechazar();
+		assertTrue(Sistema.getInstance().getCancionesRechazadas().contains(c1));
+		assertFalse(Sistema.getInstance().getCancionesValidar().contains(c1));
+		c1.modificarFechaRechazo();
+		c1.borradoTrasTercerDia();
+		assertFalse(Sistema.getInstance().getCancionesRechazadas().contains(c1));
 	}
 	
 	

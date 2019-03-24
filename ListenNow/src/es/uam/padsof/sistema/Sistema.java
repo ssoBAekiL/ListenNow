@@ -65,6 +65,11 @@ public class Sistema {
 	private ArrayList<Cancion> cancionesValidar;
 	
 	/**
+	 * Lista de canciones en el sistema rechazadas
+	 */
+	private ArrayList<Cancion> cancionesRechazadas;
+	
+	/**
 	 * Lista de albunes en el sistema
 	 */
 	private ArrayList<Album> albunes;
@@ -107,6 +112,7 @@ public class Sistema {
 		this.cancionesValidar = new ArrayList<Cancion>();
 		this.albunes = new ArrayList<Album>();
 		this.cancionesValidadas = new ArrayList<Cancion>();
+		this.cancionesRechazadas=new ArrayList<Cancion>();
 		this.cancionesNotificadas = new ArrayList<Cancion>();
 		this.notificaciones = new ArrayList<Notificacion>();
 		this.usuarios = new ArrayList<UsuarioRegistrado>();
@@ -417,6 +423,14 @@ public class Sistema {
 	}
 	
 	
+
+	/**
+	 * @return the cancionesRechazadas
+	 */
+	public ArrayList<Cancion> getCancionesRechazadas() {
+		return cancionesRechazadas;
+	}
+
 
 	public int getNumUsuarios() {
 		return this.usuarios.size();

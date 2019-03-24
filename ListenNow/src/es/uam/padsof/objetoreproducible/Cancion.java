@@ -2,6 +2,7 @@ package es.uam.padsof.objetoreproducible;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import es.uam.padsof.sistema.Notificacion;
@@ -18,9 +19,7 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  */
 public class Cancion extends ObjetoComentable{
 	private int id;
-	/*private time duracion; */
 	private int nreproducciones;
-	private String ruta;
 	private boolean mas18;
 	private boolean notificada_plagio;
 	private boolean pendiente_verificacion;
@@ -47,12 +46,24 @@ public class Cancion extends ObjetoComentable{
 		this.setNotificada_plagio(false);
 		this.setPendiente_verificacion(false);
 		this.setRechazada(false);
+		this.fechaRechazo=null;
 		this.setMarcada_plagio(false);
-		this.ruta=ruta;
 		Sistema.getInstance().getCancionesValidar().add(this);
 	}
 	
 	
+	/**
+	 * 
+	 */
+	private LocalDate fechaRechazo;
+	
+	
+	/**
+	 * @return
+	 */
+	public LocalDate getFechaRechazo() {
+		return this.fechaRechazo;
+	}
 
 	/**
 	 * 
@@ -63,6 +74,7 @@ public class Cancion extends ObjetoComentable{
 	public int getId() {
 		return id;
 	}
+	
 	
 	public void incrementaReproducciones() {
 		this.nreproducciones++;
@@ -88,7 +100,32 @@ public class Cancion extends ObjetoComentable{
 	public int getNreproducciones() {
 		return nreproducciones;
 	}
+	
+	/**
+	 * 
+	 */
+	public void borradoTrasTercerDia(){
+		LocalDate fecha1 = LocalDate.now().minusDays(3);
+		if(this.rechazada=true && fecha1.isAfter(this.fechaRechazo)) {
+			Sistema.getInstance().getCancionesRechazadas().remove(this);
+			Sistema.getInstance().borrarReproducible(this);
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	public void rechazar() {
+		this.rechazada=true;
+		this.fechaRechazo=LocalDate.now();
+		Sistema.getInstance().getCancionesValidar().remove(this);
+		Sistema.getInstance().getCancionesRechazadas().add(this);
+	}
 
+	public void modificarFechaRechazo() {
+		this.fechaRechazo=LocalDate.now().minusDays(5);
+	}
+	
 	/**
 	 * 
 	 * @param nreproducciones Este es el nuevo n�mero de reproducciones para la canci�n
@@ -183,6 +220,7 @@ public class Cancion extends ObjetoComentable{
 	 */
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
 		if(Mp3Player.isValidMp3File(ruta)==true) {
+			System.out.println("TRAZA REPRODUCCION");
 			player.add(ruta);
 			player.play();
 			Sistema.getInstance().getUsuarioEnSesion().incrementaReproducciones();
