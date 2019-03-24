@@ -23,13 +23,14 @@ public class ListaReproducciones extends ObjetoReproducible{
 	private ArrayList <ListaReproducciones> Listas;
 	
 	/**
-	 * Instantiates a new lista reproducciones.
-	 * @param c Array de canciones
-	 * @param a Array de albumes
-	 * @param l Array de lista de reproducciones
+	 * Metodo constructor de lista de reproducciones
+	 * @param titulo
+	 * @param autor
+	 * @throws IOException
+	 * @throws Mp3PlayerException
 	 */
-	public ListaReproducciones (String titulo, UsuarioRegistrado autor,String ruta)throws IOException, Mp3PlayerException {
-		super(titulo, autor, ruta);
+	public ListaReproducciones (String titulo, UsuarioRegistrado autor)throws IOException, Mp3PlayerException {
+		super(titulo, autor, null);
 		this.ListaCanciones=null;
 		this.ListaAlbumes=null;
 		this.Listas=null;
@@ -38,7 +39,6 @@ public class ListaReproducciones extends ObjetoReproducible{
 
 	/**
 	 * Devuelve las canciones.
-	 *
 	 * @return ListaCanciones Las canciones que tiene la lista de reproduccion
 	 */
 	public ArrayList<Cancion> getListaCanciones() {
@@ -55,8 +55,7 @@ public class ListaReproducciones extends ObjetoReproducible{
 	}
 
 	/**
-	 * Devuelve el array de albumes que tendr� la lista
-	 *
+	 * Devuelve el array de albumes que tendra la lista
 	 * @return ListaAlbumes El array de albumes de la lista
 	 */
 	public ArrayList<Album> getListaAlbumes() {

@@ -251,11 +251,15 @@ public class Sistema {
 	 * @param reproducible
 	 */
 	public void borrarReproducible(ObjetoReproducible reproducible) {
-		if (reproducible instanceof Cancion && usuarioEnSesion == reproducible.getAutor()) {
+		if (reproducible instanceof Cancion && (usuarioEnSesion == reproducible.getAutor() || usuarioEnSesion.equals(Sistema.getInstance().getAdmin()))) {
 			if (cancionesValidadas.contains(reproducible))
 				cancionesValidadas.remove(reproducible);
 			else if (cancionesValidar.contains(reproducible))
 				cancionesValidar.remove(reproducible);
+			else if(cancionesNotificadas.contains(reproducible))
+				cancionesNotificadas.remove(reproducible);
+			else if(cancionesRechazadas.contains(reproducible)) 
+				cancionesRechazadas.contains(reproducible);
 		}
 		else if (reproducible instanceof Album && usuarioEnSesion == reproducible.getAutor()) {
 			albunes.remove(reproducible);

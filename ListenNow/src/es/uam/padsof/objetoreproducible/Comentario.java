@@ -39,8 +39,24 @@ public class Comentario    {
 		this.fecha=fecha;
 		this.valoracion=valoracion;
 	}
+	
+	
+	
 
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Comentario [texto=" + texto + ", autor=" + autor + ", fecha=" + fecha + ", valoracion=" + valoracion
+				+ "]";
+	}
+
+
+
+
+
 	/**
 	 * @return the texto
 	 */

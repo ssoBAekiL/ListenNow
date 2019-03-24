@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import es.uam.padsof.sistema.Notificacion;
-import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
 import es.uam.padsof.sistema.Sistema;
 import es.uam.padsof.usuario.UsuarioRegistrado;
 import pads.musicPlayer.Mp3Player;
@@ -116,12 +115,19 @@ public class Cancion extends ObjetoComentable{
 	 * 
 	 */
 	public void rechazar() {
-		this.rechazada=true;
-		this.fechaRechazo=LocalDate.now();
-		Sistema.getInstance().getCancionesValidar().remove(this);
-		Sistema.getInstance().getCancionesRechazadas().add(this);
+		if(this.marcada_plagio) {
+			this.rechazada=true;
+			this.fechaRechazo=LocalDate.now();
+			Sistema.getInstance().getCancionesValidar().remove(this);
+			Sistema.getInstance().getCancionesRechazadas().add(this);
+		}
 	}
 
+	/**
+	 * Metodo utilizado para el test, para comprobar 
+	 * el correcto funcionamiento de el borrado de una 
+	 * cancion tras 3 dias
+	 */
 	public void modificarFechaRechazo() {
 		this.fechaRechazo=LocalDate.now().minusDays(5);
 	}
@@ -214,20 +220,38 @@ public class Cancion extends ObjetoComentable{
 		return false;
 	}
 	
+	
+	
 
 	/* (non-Javadoc)
 	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#reproducir()
 	 */
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
 		if(Mp3Player.isValidMp3File(ruta)==true) {
-			System.out.println("TRAZA REPRODUCCION");
-			player.add(ruta);
-			player.play();
-			Sistema.getInstance().getUsuarioEnSesion().incrementaReproducciones();
-			Thread.sleep((long)Mp3Player.getDuration(ruta)*1000);
-			this.nreproducciones++;
+			if(Sistema.getInstance().getConectado()==true &&(Sistema.getInstance().getUsuarioEnSesion().puedeReproducir())) {
+				player.add(ruta);
+				player.play();/*Reproducimos la cancion*/
+				Sistema.getInstance().getUsuarioEnSesion().incrementaReproducciones();/*se incrementa el numero de reproducciones del usuario en sesion*/
+				this.autor.incrementaNumReproduccionesPropias();/*Se incrementa el numero de reproducciones del autor*/
+				if(this.autor.EsPremium()==false && this.autor.getNumReproduccionDeCancionesPropias()>100)
+					this.autor.promocionarUsuario();/*PROMOCIONAMOS AL USUARIO EN CASO DE SUPERAR LAS 100 REPRODUCCIONES*/
+				Thread.sleep((long)Mp3Player.getDuration(ruta)*1000);
+				this.nreproducciones++;/*AUMENTAMOS EL NUMERO DE REPRODUCCIONES DE ESTA CANCION*/
+			}
+			else if(Sistema.getInstance().getConectado()==false && Sistema.getInstance().getReproduccionesNoRegistrados()<Sistema.getInstance().getnRepAnonimas()){
+				player.add(ruta);
+				player.play();/*Reproducimos la cancion*/
+				Thread.sleep((long)Mp3Player.getDuration(ruta)*1000);
+				this.autor.incrementaNumReproduccionesPropias();/*Se incrementa el numero de reproducciones del autor, para poder determinar una futura suscripcion Premium*/
+				if(this.autor.EsPremium()==false && this.autor.getNumReproduccionDeCancionesPropias()>100)
+					this.autor.promocionarUsuario();/*PROMOCIONAMOS AL USUARIO EN CASO DE SUPERAR LAS 100 REPRODUCCIONES*/
+				Sistema.getInstance().incremetareproduccionesNoRegistrados();
+				this.nreproducciones++;/*AUMENTAMOS EL NUMERO DE REPRODUCCIONES DE ESTA CANCION*/
+			}
 		}
 	}
+	
+	
 	
 	/* (non-Javadoc)
 	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
@@ -239,9 +263,56 @@ public class Cancion extends ObjetoComentable{
 		}
 	}
 	
-	public void anadirComentario(UsuarioRegistrado usr, Comentario c) {
-		super.comentarios.add(c);
+	
+	/**
+	 * Metodo que permite a un usuario notificar ccomo plagio una cancion
+	 * @param cancion
+	 */
+	public void notificarPlagio() {
+		this.setNotificada_plagio(true);
+		Sistema.getInstance().getCancionesNotificadas().add(this);
+		Sistema.getInstance().setNotificaciones(new Notificacion(this));
 	}
+	
+	public boolean revisarNotificacion() {
+		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin())) {
+			this.setNotificada_plagio(false);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * @return
+	 */
+	public boolean marcarComoPlagio() {
+		/*SI EL USUARIO EN SESION ES EL ADMIN*/
+		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin())) {
+				Sistema.getInstance().getCancionesNotificadas().add(this);
+				this.setMarcada_plagio(true);
+				return true;
+		}
+		return false;
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see es.uam.padsof.objetoreproducible.ObjetoComentable#anadirComentario(es.uam.padsof.objetoreproducible.Comentario)
+	 */
+	public boolean anadirComentario(Comentario c) {
+		if(Sistema.getInstance().getUsuarioEnSesion().puedeComentar()) {
+			super.comentarios.add(c);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
+	
+	
+	/**************************************/
 
 	public boolean isNotificada_plagio() {
 		return notificada_plagio;

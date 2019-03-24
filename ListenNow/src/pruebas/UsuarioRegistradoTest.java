@@ -33,7 +33,7 @@ public class UsuarioRegistradoTest {
 	private Cancion c1;
 	private ListaReproducciones l1;
 	File file;
-	private Album a1;
+	Album a1;
 
 	
 	/**
@@ -50,8 +50,8 @@ public class UsuarioRegistradoTest {
 		u2=new UsuarioRegistrado("1904567891227567","pablo","74884", false,false);
 		sys.addUsuario(u2);
 		//Notificacion noti=new Notificacion(c1);
-		a1 = new Album("Album111111111", u2, "lib");
-		l1 = new ListaReproducciones("Lista377372", u2, "lib");
+		a1 = new Album("Album111111111", u2);
+		l1 = new ListaReproducciones("Lista377372", u2);
 	}
 	
 	
@@ -67,15 +67,6 @@ public class UsuarioRegistradoTest {
 	public final void testContratarPremium() throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException, IOException {
 		assertTrue(u1.contratarPremium(u1.getNumTarjeta()));	
 		assertTrue(u1.EsPremium());
-	}
-
-	/**
-	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#notificarPlagio(es.uam.padsof.objetoreproducible.Cancion)}.
-	 */
-	@Test
-	public final void testNotificarPlagio() {
-		u1.notificarPlagio(c1);
-		assertTrue(sys.getCancionesNotificadas().contains(c1));
 	}
 
 	
@@ -116,7 +107,6 @@ public class UsuarioRegistradoTest {
 		u1.getAlbunes().remove(a1);
 		assertFalse(u1.getAlbunes().contains(a1));
 	}
-	
 	
 
 	/**
