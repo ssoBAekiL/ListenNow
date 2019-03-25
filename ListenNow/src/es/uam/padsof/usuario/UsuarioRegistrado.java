@@ -479,8 +479,8 @@ public class UsuarioRegistrado {
 	}
 	
 	
-	public void setCanciones() {
-		
+	public void setCanciones(Cancion cancion) {
+		canciones.add(cancion);
 	}
 	
 	

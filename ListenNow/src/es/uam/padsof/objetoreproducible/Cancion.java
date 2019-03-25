@@ -47,12 +47,9 @@ public class Cancion extends ObjetoComentable{
 		this.setRechazada(false);
 		this.fechaRechazo=null;
 		this.setMarcada_plagio(false);
-<<<<<<< HEAD
 		this.ruta=ruta;
 		//Sistema.getInstance().getCancionesValidar().add(this);
-=======
-		Sistema.getInstance().getCancionesValidar().add(this);
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
+
 	}
 	
 	
