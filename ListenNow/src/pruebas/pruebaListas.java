@@ -1,4 +1,4 @@
-package es.uam.padsof.objetoreproducible;
+package pruebas;
 
 public class pruebaListas {
 	public static void main(String[] args) {

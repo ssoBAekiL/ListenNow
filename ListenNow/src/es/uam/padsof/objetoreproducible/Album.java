@@ -29,7 +29,7 @@ public class Album extends ObjetoReproducible{
 	 */
 	public Album (String titulo, UsuarioRegistrado autor)throws Mp3PlayerException, FileNotFoundException {
 		super(titulo, autor, null);
-		this.canciones=null;
+		this.canciones=new ArrayList<Cancion>();
 	}
 	
 	/**
@@ -68,13 +68,6 @@ public class Album extends ObjetoReproducible{
 	 * Este m�todo se encargar� de a�adir una canci�n al �lbum
 	 */
 	public void aniadirCancionAlbum(Cancion c) {
-		int i=0;
-		ArrayList<Cancion> canciones = this.getCanciones();
-		for(i=0; i<canciones.size(); i++) {
-			if(canciones.get(i)==c) {
-				return;
-			}
-		}
 		canciones.add(c);
 		return;
 	}
@@ -151,7 +144,7 @@ public class Album extends ObjetoReproducible{
 		for(int i=0;i<this.getGetTamanioAlbum();i++) {
 			System.out.println("Cancion "+(i+1)+":\n"+ this.getNCancion(i).toString()+ "\n");
 		}
-		return "Autor de �lbum:"+this.getAutor()+"\n"+"Titulo �lbum: "+this.getTitulo();
+		return "Autor de album:"+this.getAutor()+"\n"+"Titulo �lbum: "+this.getTitulo();
 	}
 	
 	/* IMPORTANTE COMPROBAR SI YA EXISTE LA CANCION EN EL ALBUM AL A�ADIR O SI NO EXISTE AL BORRAR O SI NO ES DEL AUTOR*/

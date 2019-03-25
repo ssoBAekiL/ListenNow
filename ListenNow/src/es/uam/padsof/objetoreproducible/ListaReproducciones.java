@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
+import es.uam.padsof.usuario.UsuarioRegistrado;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 /**
@@ -28,14 +29,14 @@ public class ListaReproducciones extends ObjetoReproducible{
 	 * @param a Array de albumes
 	 * @param l Array de lista de reproducciones
 	 */
-	public ListaReproducciones (String titulo, String autor, ArrayList<Cancion> c, ArrayList<Album> a, ArrayList<ListaReproducciones> l)throws IOException, Mp3PlayerException {
+	public ListaReproducciones (String titulo, UsuarioRegistrado autor, ArrayList<Cancion> c, ArrayList<Album> a, ArrayList<ListaReproducciones> l)throws IOException, Mp3PlayerException {
 		super(titulo, autor, null);
 		this.ListaCanciones=c;
 		this.ListaAlbumes=a;
 		this.Listas=l;
 	}
 	
-	public ListaReproducciones (String titulo, String autor, ArrayList<Cancion> c, ArrayList<Album> a)throws IOException, Mp3PlayerException {
+	public ListaReproducciones (String titulo, UsuarioRegistrado autor, ArrayList<Cancion> c, ArrayList<Album> a)throws IOException, Mp3PlayerException {
 		super(titulo, autor, null);
 		this.ListaCanciones=c;
 		this.ListaAlbumes=a;
@@ -174,11 +175,22 @@ public class ListaReproducciones extends ObjetoReproducible{
 	
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
 		for(Cancion c: this.ListaCanciones) {
-			c.reproducirObjeto();
+			c.reproducir();
 		}
 		
 		for(Album a: this.ListaAlbumes) {
-			a.reproducirObjeto();
+			a.reproducir();
+		}
+	}
+
+	@Override
+	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+		for(Cancion c: this.ListaCanciones) {
+			c.pararReproduccion();
+		}
+		
+		for(Album a: this.ListaAlbumes) {
+			a.pararReproduccion();
 		}
 	}
 
