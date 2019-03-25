@@ -103,6 +103,7 @@ public class Sistema {
 	private UsuarioRegistrado usuarioEnSesion;
 
 	
+	
 	private Sistema() {
 		this.reproduccionesNoRegistrados = 0;
 		this.conectado = false;

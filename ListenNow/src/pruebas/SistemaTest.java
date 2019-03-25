@@ -49,7 +49,7 @@ public class SistemaTest {
 		sys.setCancionValidada(c1);
 		sys.setCancionValidada(c2);
 		sys.setCancionValidada(c3);
-		u1.setCanciones(c1);
+		u1.setCanciones(c1);//sin querer quite setCanciones de la clase usuario, añadela PABLO por favor
 		u1.setCanciones(c3);
 		u2.setCanciones(c2);
 		a1 = new Album("Album 1", u1);

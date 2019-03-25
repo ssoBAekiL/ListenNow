@@ -479,6 +479,10 @@ public class UsuarioRegistrado {
 	}
 	
 	
+	public void setCanciones() {
+		
+	}
+	
 	
 	/**
 	 * Metodo que permite a un usuario, seguir a otro
@@ -496,8 +500,8 @@ public class UsuarioRegistrado {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * Metodo que imprime por pantalla todos aquellos valores caracteristicos de UsuarioRegistrado
 	 */
 	@Override
 	public String toString() {

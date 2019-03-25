@@ -96,7 +96,8 @@ public class UsuarioRegistradoTest {
 	@Test
 	public final void testAnadirAlbum() {
 		u1.anadirAlbum(a1);
-		assertTrue(u1.getAlbunes().contains(a1));	}
+		assertTrue(u1.getAlbunes().contains(a1));	
+	}
 
 	/**
 	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#borrarListaReproduccion(es.uam.padsof.objetoreproducible.ListaReproducciones)}.

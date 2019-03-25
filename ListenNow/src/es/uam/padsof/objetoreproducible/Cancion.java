@@ -75,26 +75,27 @@ public class Cancion extends ObjetoComentable{
 	}
 	
 	
+	/**
+	 * Metodo que incrementa las reproducciones de una cancion de
+	 */
 	public void incrementaReproducciones() {
 		this.nreproducciones++;
 	}
 
 	/**
-	 * 
-	 * @param id El id nuevo que queremo que tenga la canci�n
+	 * Esta clase modificara el id de la cancion
+	 * @param id El id nuevo que queremo que tenga la cancion
 	 * @return void
 	 * 
-	 * Esta clase modificar� el id de la canci�n
 	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
 	/**
-	 * 
+	 * Este metodo devuelve el numero de reproducciones de la cancion
 	 * @return nreproducciones
 	 * 
-	 * Este m�todo devuelve el n�mero de reproducciones de la canci�n
 	 */
 	public int getNreproducciones() {
 		return nreproducciones;
@@ -112,15 +113,18 @@ public class Cancion extends ObjetoComentable{
 	}
 	
 	/**
-	 * 
+	 * Metodo rechazar, 
+	 * @return true en caso correcto
 	 */
-	public void rechazar() {
+	public boolean rechazar() {
 		if(this.marcada_plagio) {
 			this.rechazada=true;
 			this.fechaRechazo=LocalDate.now();
 			Sistema.getInstance().getCancionesValidar().remove(this);
 			Sistema.getInstance().getCancionesRechazadas().add(this);
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -144,20 +148,17 @@ public class Cancion extends ObjetoComentable{
 	}
 
 	/**
-	 * 
+	 * Este metodo devuelve el boolean que tiene la cancion que indica si es apto para mayores de 18
 	 * @return mas18
-	 * 
-	 * Este m�todo devuelve el boolean que tiene la canci�n que indica si es apto para mayores de 18
 	 */
 	public boolean isMas18() {
 		return mas18;
 	}
 
 	/**
+	 * Este metodo modifica el boolean mas18 de la clase Cancion
+	 * @param mas18 el nuevo boolean que tendra el atributo mas18 de la cancion
 	 * 
-	 * @param mas18 el nuevo boolean que tendr� el atributo mas18 de la cancion
-	 * 
-	 * Este m�todo modifica el boolean mas18 de la clase Cancion
 	 */
 	public void setMas18(boolean mas18) {
 		this.mas18 = mas18;

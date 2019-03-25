@@ -9,22 +9,22 @@ import es.uam.padsof.usuario.UsuarioRegistrado;
  */
 public class Comentario    {
 	/**
-	 * 
+	 * cuerpo o texto del comentario
 	 */
 	private String texto;
 
 	/**
-	 * 
+	 * autor de comentario
 	 */
 	private UsuarioRegistrado autor;
 
 	/**
-	 * 
+	 * fecha de
 	 */
 	private LocalDate fecha;
 
 	/**
-	 * 
+	 * valoracion de la cancion a traves de un comentario
 	 */
 	private int valoracion;
 	
@@ -41,9 +41,6 @@ public class Comentario    {
 	}
 	
 	
-	
-
-	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -52,10 +49,6 @@ public class Comentario    {
 		return "Comentario [texto=" + texto + ", autor=" + autor + ", fecha=" + fecha + ", valoracion=" + valoracion
 				+ "]";
 	}
-
-
-
-
 
 	/**
 	 * @return the texto
