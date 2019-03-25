@@ -115,7 +115,7 @@ public class SistemaTest {
 
 	@Test
 	public void testRegistrarse() {
-		UsuarioRegistrado u3 = new UsuarioRegistrado("9876543219876543", "Usuario3", "p123", true, false);
+		UsuarioRegistrado u3 = new UsuarioRegistrado("Usuario3", "p123", true, false);
 		sys.registrarse(u3); 
 		assertTrue(sys.getUsuarios().contains(u3));
 	}

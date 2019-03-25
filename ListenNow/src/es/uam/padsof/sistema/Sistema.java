@@ -14,10 +14,9 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
 import java.io.*;
 
 /**
- * 
+ * Clase sistema (principal)
  */
 public class Sistema {
-
 	/**
 	 * Variable Sistema
 	 */
@@ -103,7 +102,7 @@ public class Sistema {
 	private UsuarioRegistrado usuarioEnSesion;
 
 	/**
-	 * Id de la cancion
+	 * Variable para poder generar ids de forma automatica
 	 */
 	private AtomicLong generador=new AtomicLong(1);
 	
@@ -131,7 +130,6 @@ public class Sistema {
 	}
 
 	
-	
     /**
      * Funcion que crea la instancia Sistema, para poder ser accesible desde otras clases
      */
@@ -151,8 +149,6 @@ public class Sistema {
         return sistema;
     }	
 	
-
-
 	
 	
 	/**
@@ -274,6 +270,7 @@ public class Sistema {
 	}
 
 	/**
+	 * 
 	 * @param usuario
 	 */
 	public void recompensaPremium(UsuarioRegistrado usuario) {

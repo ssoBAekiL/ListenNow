@@ -65,7 +65,7 @@ public class UsuarioRegistradoTest {
 	 */
 	@Test
 	public final void testContratarPremium() throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException, IOException {
-		assertTrue(u1.contratarPremium(u1.getNumTarjeta()));	
+		assertTrue(u1.contratarPremium("1234567891234567"));	
 		assertTrue(u1.EsPremium());
 	}
 

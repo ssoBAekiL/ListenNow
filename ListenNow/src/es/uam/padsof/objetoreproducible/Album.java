@@ -47,7 +47,6 @@ public class Album extends ObjetoComentable{
 	/********************************/
 	
 	
-	
 	/**
 	 * 
 	 * @return canciones.size() Es un m�todo que se encarga de devolver el tama�o del array canciones
@@ -87,12 +86,6 @@ public class Album extends ObjetoComentable{
 		ArrayList<Cancion> canciones = this.getCanciones();
 		if(this.canciones.contains(c))
 			return;
-		//no hace falta recorrer el array de canciones una a una, ya existe el metodo CONTAINS
-//		for(int i=0; i<canciones.size(); i++) {
-//			if(canciones.get(i)==c) {
-//				return;
-//			}
-//		}
 		canciones.add(c);
 		return;
 	}

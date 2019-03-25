@@ -22,6 +22,10 @@ public class ListaReproducciones extends ObjetoReproducible{
 	/** The Listas. */
 	private ArrayList <ListaReproducciones> Listas;
 	
+	
+	/**Numero de canciones de la lista*/
+	private int numeroDeCanciones;
+	
 	/**
 	 * Metodo constructor de lista de reproducciones
 	 * @param titulo
@@ -34,6 +38,7 @@ public class ListaReproducciones extends ObjetoReproducible{
 		this.ListaCanciones=null;
 		this.ListaAlbumes=null;
 		this.Listas=null;
+		this.numeroDeCanciones=0;
 	}
 
 
@@ -102,6 +107,7 @@ public class ListaReproducciones extends ObjetoReproducible{
 			}
 		}
 		ListaCanciones.add(c);
+		this.numeroDeCanciones++;
 		return;
 	}
 	
@@ -110,42 +116,35 @@ public class ListaReproducciones extends ObjetoReproducible{
 	 * 
 	 * @param a El album nuevo a introducir en la lista de reproduccion
 	 */
-	public void aniadirAlbumALista(Album a) {
-		int i;
-		for(i=0; i<ListaAlbumes.size(); i++) {
-			if(ListaAlbumes.get(i)==a) {
-				return;
+	public boolean aniadirAlbumALista(Album a) {
+		if(this.ListaAlbumes.contains(a)) {
+			return false;	
+		}
+		for(int i=0;i<a.getGetTamanioAlbum();i++) {
+			if(a.getCanciones().contains(this.ListaCanciones.get(i))) {
+			/*forma indirecta de encontrar una cancion en una lista a traves de un album*/ 
+				return false;
 			}
 		}
 		ListaAlbumes.add(a);
-		return;
+		return true;
 	}
+	
+	
 	
 	/**
 	 * Anade una lista a la lista de reproduccion 
 	 * 
 	 * @param l
 	 */
-	public void aniadirListaALista(ListaReproducciones l) {
-		int i;
-		for(i=0; i<Listas.size(); i++) {
-			if(Listas.get(i)==l) {
-				return;
-			}
-		}
+	public boolean aniadirListaALista(ListaReproducciones l) {
+		if(this.Listas.contains(l))
+			return false;
 		Listas.add(l);
-		return;
+		return true;
 	}
 	
-	/**
-	 * Elimina una cancion de una lista de reproduccion
-	 * 
-	 * @param c Cancion a borrar
-	 */
-	public void borrarCancionALista(Cancion c) {
-		ListaCanciones.remove(c);
-		return;
-	}
+
 	
 	/**
 	 * Elimina un album de una lista de reproduccion
@@ -156,14 +155,6 @@ public class ListaReproducciones extends ObjetoReproducible{
 		return;
 	}
 	
-	/**
-	 * Elimina una lista a una lista de reproduccion
-	 * @param l Lista a borrar
-	 */
-	public void borrarListaALista(ListaReproducciones l) {
-		Listas.remove(l);
-		return;
-	}
 	
 	/**
 	 * 
@@ -177,6 +168,14 @@ public class ListaReproducciones extends ObjetoReproducible{
 			a.reproducir();
 		}
 	}
+	
+	/**
+	 * @return the numeroDeCanciones
+	 */
+	public int getNumeroDeCanciones() {
+		return numeroDeCanciones;
+	}
+
 
 	/**
 	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
@@ -184,7 +183,6 @@ public class ListaReproducciones extends ObjetoReproducible{
 	@Override
 	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		// TODO Auto-generated method stub
-		
 	}
 
 	

@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicLong;
 
 import es.uam.padsof.sistema.Notificacion;
 import es.uam.padsof.sistema.Sistema;
@@ -20,7 +19,7 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
 public class Cancion extends ObjetoComentable{
 	private long id;
 	private int nreproducciones;
-	private boolean mas18;
+	private boolean aceptada_mas18;
 	private boolean notificada_plagio;
 	private boolean pendiente_verificacion;
 	private boolean aceptada;
@@ -41,7 +40,7 @@ public class Cancion extends ObjetoComentable{
 		super(titulo, autor,ruta);
 		this.id= Sistema.getInstance().getGenerador().getAndIncrement();
 		this.nreproducciones=0;
-		this.mas18=false;
+		this.setAceptada_mas18(false);;
 		this.setAceptada(false);
 		this.setNotificada_plagio(false);
 		this.setPendiente_verificacion(false);
@@ -49,8 +48,6 @@ public class Cancion extends ObjetoComentable{
 		this.fechaRechazo=null;
 		this.setMarcada_plagio(false);
 		this.ruta=ruta;
-		//Sistema.getInstance().getCancionesValidar().add(this);
-
 	}
 	
 	
@@ -73,7 +70,7 @@ public class Cancion extends ObjetoComentable{
 	 * 
 	 * Esta clase se encarga de devolver el id de una cancion
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	
@@ -152,19 +149,19 @@ public class Cancion extends ObjetoComentable{
 
 	/**
 	 * Este metodo devuelve el boolean que tiene la cancion que indica si es apto para mayores de 18
-	 * @return mas18
+	 * @return aceptada_mas18
 	 */
-	public boolean isMas18() {
-		return mas18;
+	public boolean isAceptada_mas18() {
+		return aceptada_mas18;
 	}
 
 	/**
-	 * Este metodo modifica el boolean mas18 de la clase Cancion
-	 * @param mas18 el nuevo boolean que tendra el atributo mas18 de la cancion
+	 * Este metodo modifica el boolean aceptada_mas18 de la clase Cancion
+	 * @param aceptada_mas18 el nuevo boolean que tendra el atributo aceptada_mas18 de la cancion
 	 * 
 	 */
-	public void setMas18(boolean mas18) {
-		this.mas18 = mas18;
+	public void setAceptada_mas18(boolean aceptada_mas18) {
+		this.aceptada_mas18 = aceptada_mas18;
 	}
 	
 	/**
@@ -193,13 +190,13 @@ public class Cancion extends ObjetoComentable{
 		for(int i=0;i<Sistema.getInstance().getNumUsuarios();i++) {
 			if(Sistema.getInstance().getUsuarioItera(i).isAdmin()==true) {
 >>>>>>> branch 'master' of https://github.com/ssoBAekiL/ListenNow.git
-				this.setMas18(true);
+				this.setaceptada_mas18(true);
 				Sistema.getInstance().getCancionesValidadas().add(cancion);
 			}
 		}
 		return;*/
 		if(validarCancion() == true) {
-			mas18 = true;
+			aceptada_mas18 = true;
 			return true;
 		}
 		return false;
