@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicLong;
 
 import es.uam.padsof.sistema.Notificacion;
 import es.uam.padsof.sistema.Sistema;
@@ -17,7 +18,7 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  * Esta clase se encarga de gestionar el objeto Cancion 
  */
 public class Cancion extends ObjetoComentable{
-	private int id;
+	private long id;
 	private int nreproducciones;
 	private boolean mas18;
 	private boolean notificada_plagio;
@@ -38,7 +39,7 @@ public class Cancion extends ObjetoComentable{
 	 */
 	public Cancion (String titulo, UsuarioRegistrado autor, String ruta)throws IOException, Mp3PlayerException {
 		super(titulo, autor,ruta);
-		this.id=Sistema.getInstance().getNumeroCanciones()+1;
+		this.id= Sistema.getInstance().getGenerador().getAndIncrement();
 		this.nreproducciones=0;
 		this.mas18=false;
 		this.setAceptada(false);

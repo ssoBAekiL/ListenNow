@@ -45,9 +45,9 @@ public class UsuarioRegistradoTest {
 	public void testUsuarioRegistrado() throws IOException, Mp3PlayerException {
 		c1 = new Cancion("Cancion 1", u1, "chicle.mp3");
 		file=new File("registro_pagos.txt");
-		u1=new UsuarioRegistrado("1234567891234567","carlos","6253", false,false);
+		u1=new UsuarioRegistrado("carlos","6253", false,false);
 		sys.addUsuario(u1);
-		u2=new UsuarioRegistrado("1904567891227567","pablo","74884", false,false);
+		u2=new UsuarioRegistrado("pablo","74884", false,false);
 		sys.addUsuario(u2);
 		//Notificacion noti=new Notificacion(c1);
 		a1 = new Album("Album111111111", u2);

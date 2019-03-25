@@ -25,7 +25,7 @@ public class UsuarioRegistrado {
 	 * @param esPremium Status del usuario
 	 * @param isAdmin estado de Usuario admin
 	 */
-	public UsuarioRegistrado(String numTarjeta, String nombre, String contrasena, boolean esPremium,
+	public UsuarioRegistrado(String nombre, String contrasena, boolean esPremium,
 			boolean isAdmin) {
 		this.seguidos = new ArrayList<UsuarioRegistrado>();
 		this.seguidores = new ArrayList<UsuarioRegistrado>();
@@ -35,7 +35,6 @@ public class UsuarioRegistrado {
 		this.saldo=100;
 		this.reproducciones=0;
 		this.numReproduccionDeCancionesPropias=0;
-		this.numTarjeta = numTarjeta;
 		this.nombre = nombre;
 		this.contrasena = contrasena;
 		this.esPremium = esPremium;
@@ -89,7 +88,6 @@ public class UsuarioRegistrado {
 	 */
 	private ArrayList<UsuarioRegistrado> seguidos;
 	
-	
 	/**
 	 * ADMIN
 	 */
@@ -120,7 +118,6 @@ public class UsuarioRegistrado {
 	 */
 	private int reproducciones;
 		
-
 	/**
 	 * bloqueado
 	 */
@@ -276,12 +273,7 @@ public class UsuarioRegistrado {
 		this.bloqueado = nuevo_estado;
 	}
 	
-	/**
-	 * Funcion getter del numero de tarjeta
-	 */
-	public String getNumTarjeta() {
-		return numTarjeta;
-	}
+
 	
 	/**
 	 * Funcion getter CANCIONES
@@ -365,7 +357,7 @@ public class UsuarioRegistrado {
 	public boolean contratarPremium(String numTarjeta) throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException {
 			File file = new File("registro_pagos.txt");
 			FileWriter fw = null;	
-			TeleChargeAndPaySystem.charge(this.numTarjeta,"Contratacion Premium",10);
+			TeleChargeAndPaySystem.charge(numTarjeta,"Contratacion Premium",10);
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd. MM. yyyy");
 			if(saldo<10){
 				//System.out.println("NO EXISTEN FONDOS SUFICIENTES PARA REALIZAR LA OPERACION\n");
@@ -378,7 +370,7 @@ public class UsuarioRegistrado {
 	        try
 	        {
 	            fw = new FileWriter(file,true);
-				fw.append(this.getNumTarjeta()+"| "+this.getNombre()+"|"+" PAGO DE 10 EUR |"+this.getFechaPremium().format(formatter)+"\n");
+				fw.append(numTarjeta+"| "+this.getNombre()+"|"+" PAGO DE 10 EUR |"+this.getFechaPremium().format(formatter)+"\n");
 				fw.close();
 				return true;
 	        } catch (Exception e) {

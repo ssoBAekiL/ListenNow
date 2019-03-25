@@ -38,8 +38,8 @@ public class SistemaTest {
 	
 	@Before
 	public void setUp() throws IOException, Mp3PlayerException {
-		u1 = new UsuarioRegistrado("1234567891234567", "usuario1", "pass", false, false);
-		u2 = new UsuarioRegistrado("9876543219876543", "usuario2", "pass123", false, false);
+		u1 = new UsuarioRegistrado("usuario1", "pass", false, false);
+		u2 = new UsuarioRegistrado("usuario2", "pass123", false, false);
 		sys.addUsuario(u1);
 		sys.addUsuario(u2);
 		c1 = new Cancion("Cancion 1", u1, "/np.mp3");

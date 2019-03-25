@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 import es.uam.padsof.objetoreproducible.*;
 import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
@@ -102,6 +103,11 @@ public class Sistema {
 	 */
 	private UsuarioRegistrado usuarioEnSesion;
 
+	/**
+	 * Id de la cancion
+	 */
+	private AtomicLong generador=new AtomicLong(1);
+	
 	
 	
 	/**
@@ -120,7 +126,7 @@ public class Sistema {
 		this.cancionesNotificadas = new ArrayList<Cancion>();
 		this.notificaciones = new ArrayList<Notificacion>();
 		this.usuarios = new ArrayList<UsuarioRegistrado>();
-		this.admin=(new UsuarioRegistrado("0000000000000000"/*num tarjeta*/, "ADMIN"/*nombre*/, "soyadmin"/*contrasena*/, true/*premium*/, true));
+		this.admin=(new UsuarioRegistrado("ADMIN"/*nombre*/, "soyadmin"/*contrasena*/, true/*premium*/, true));
 		this.admin.setFechaPremium(LocalDate.now());
 		this.addUsuario(admin);
 	}
@@ -312,6 +318,7 @@ public class Sistema {
 	}
 
 	/**
+	 * Metodo que permite desbloquear un usuario
 	 * @param usuario
 	 */
 	public void desbloquearUsuario(UsuarioRegistrado usuario) {
@@ -375,6 +382,16 @@ public class Sistema {
 		return nRepRecompensa;
 	}
 	
+	
+	/**
+	 * @return the generador
+	 */
+	public AtomicLong getGenerador() {
+		return generador;
+	}
+
+
+
 	/************************************************/
 	public void setnRepAnonimas(int nRepAnonimas) {
 		if(this.getUsuarioEnSesion().equals(this.admin))

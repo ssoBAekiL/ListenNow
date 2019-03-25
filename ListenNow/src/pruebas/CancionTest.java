@@ -28,7 +28,7 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  */
 public class CancionTest {
 	Sistema sys=Sistema.getInstance();
-	private UsuarioRegistrado u1=new UsuarioRegistrado("1234567891234567","carlos","6253", false,false);;
+	private UsuarioRegistrado u1=new UsuarioRegistrado("carlos","6253", false,false);;
 	private Cancion c1;
 	private Comentario comment;
 
