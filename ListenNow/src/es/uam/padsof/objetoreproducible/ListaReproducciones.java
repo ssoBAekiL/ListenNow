@@ -122,7 +122,7 @@ public class ListaReproducciones extends ObjetoReproducible{
 	}
 	
 	/**
-	 * A�ade una lista a la lista de reproduccion 
+	 * Anade una lista a la lista de reproduccion 
 	 * 
 	 * @param l
 	 */

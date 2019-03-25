@@ -104,6 +104,9 @@ public class Sistema {
 
 	
 	
+	/**
+	 * Metodo constructor de sistema
+	 */
 	private Sistema() {
 		this.reproduccionesNoRegistrados = 0;
 		this.conectado = false;
@@ -121,33 +124,30 @@ public class Sistema {
 		this.admin.setFechaPremium(LocalDate.now());
 		this.addUsuario(admin);
 	}
-	
 
-	//tener lista con usuarios potenciales y una refrencia a usuario ; inicio sesion en sistema, recorro los usuarios y si coinccide con algun usuario y si no compruebo con usua
-	//administrador
 	
 	
-	
-	//nombre de la clase.getInstance//Esta compartido por todasse puede obtener desde cualquier pare del codigo. estatico, se reserva memoria automatica, va a existir antes de su instanciacion
+    /**
+     * Funcion que crea la instancia Sistema, para poder ser accesible desde otras clases
+     */
     private synchronized static void createInstance() {
         if (sistema == null) { 
             sistema = new Sistema();
         }
     }
     
-	//garantizamos que solo exista una instancia del sistema
+    
+    /**
+     * Funcion getter de la instancia
+     * @return la instancia de Sistema ---> sistema
+     */
     public static Sistema getInstance() {
         if (sistema == null) createInstance();
         return sistema;
     }	
 	
 
-    
-    
 
-	
-	//private Mp3Player player = new Mp3Player();
-	
 	
 	
 	/**
@@ -366,25 +366,33 @@ public class Sistema {
 		return nRepAnonimas;
 	}
 
-	public void setnRepAnonimas(int nRepAnonimas) {
-		this.nRepAnonimas = nRepAnonimas;
-	}
-
 	public int getnRepRegistrado() {
 		return nRepRegistrado;
 	}
-
-	public void setnRepRegistrado(int nRepRegistrado) {
-		this.nRepRegistrado = nRepRegistrado;
-	}
-
+	
+	
 	public int getnRepRecompensa() {
 		return nRepRecompensa;
 	}
+	
+	/************************************************/
+	public void setnRepAnonimas(int nRepAnonimas) {
+		if(this.getUsuarioEnSesion().equals(this.admin))
+			this.nRepAnonimas = nRepAnonimas;
+	}
+
+	public void setnRepRegistrado(int nRepRegistrado) {
+		if(this.getUsuarioEnSesion().equals(this.admin))
+			this.nRepRegistrado = nRepRegistrado;
+	}
 
 	public void setnRepRecompensa(int nRepRecompensa) {
-		this.nRepRecompensa = nRepRecompensa;
+		if(this.getUsuarioEnSesion().equals(this.admin))
+			this.nRepRecompensa = nRepRecompensa;
 	}
+	/************************************************/
+
+
 
 	/**
 	 * @return the cancionesValidadas

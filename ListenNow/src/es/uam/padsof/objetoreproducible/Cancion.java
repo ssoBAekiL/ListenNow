@@ -224,11 +224,13 @@ public class Cancion extends ObjetoComentable{
 	
 	
 
-	/* (non-Javadoc)
-	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#reproducir()
+
+	/**
+	 * Metodo que reproduce una cancion, dicha cancion sera reproducida si 
+	 * satisface diferentes condiciones (estrictas)
 	 */
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
-		if(Mp3Player.isValidMp3File(ruta)==true) {
+		if(Mp3Player.isValidMp3File(ruta)==true && this.marcada_plagio==false) {//no se podra reproducir una cancion marcada como plagio
 			if(Sistema.getInstance().getConectado()==true &&(Sistema.getInstance().getUsuarioEnSesion().puedeReproducir())) {
 				player.add(ruta);
 				player.play();/*Reproducimos la cancion*/
@@ -267,14 +269,20 @@ public class Cancion extends ObjetoComentable{
 	
 	/**
 	 * Metodo que permite a un usuario notificar ccomo plagio una cancion
-	 * @param cancion
 	 */
-	public void notificarPlagio() {
-		this.setNotificada_plagio(true);
-		Sistema.getInstance().getCancionesNotificadas().add(this);
-		Sistema.getInstance().setNotificaciones(new Notificacion(this));
+	public void notificarPlagio(UsuarioRegistrado u) {
+		if(Sistema.getInstance().getUsuarioEnSesion().equals(u)) {
+			this.setNotificada_plagio(true);
+			Sistema.getInstance().getCancionesNotificadas().add(this);
+			Sistema.getInstance().setNotificaciones(new Notificacion(this));
+		}
 	}
 	
+	
+	/**
+	 * Metodo que permite la revision de una cancion
+	 * @return
+	 */
 	public boolean revisarNotificacion() {
 		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin())) {
 			this.setNotificada_plagio(false);

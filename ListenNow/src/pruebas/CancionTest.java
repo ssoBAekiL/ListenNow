@@ -100,7 +100,7 @@ public class CancionTest {
 	 */
 	@Test
 	public final void testNotificarPlagio() {
-		c1.notificarPlagio();
+		c1.notificarPlagio(Sistema.getInstance().getUsuarioEnSesion());
 		assertTrue(Sistema.getInstance().getCancionesNotificadas().contains(c1));
 	}
 	
