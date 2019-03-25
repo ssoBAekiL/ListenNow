@@ -28,6 +28,14 @@ public abstract class ObjetoComentable extends ObjetoReproducible{
 		comentarios=new ArrayList<Comentario>();
 	}
 
+
+	/**
+	 * Metodo que anyade un comentario a un objeto comentable, ya sea album o cancion
+	 * @param c
+	 */
+	public abstract boolean anadirComentario(Comentario c);
+
+	
 	
 	/**
 	 * @return the comentarios
@@ -35,12 +43,5 @@ public abstract class ObjetoComentable extends ObjetoReproducible{
 	public ArrayList<Comentario> getComentarios() {
 		return comentarios;
 	}
-
-	/**
-	 * Metodo que anyade un comentario a un objeto comentable, ya sea album o cancion
-	 * @param c
-	 */
-	public abstract void anadirComentario(UsuarioRegistrado usr, Comentario c);
-
 	
 }

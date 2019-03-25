@@ -16,25 +16,25 @@ import es.uam.padsof.sistema.*;
  * @author Carlos Miret, Pablo Borrelli y Julian Espada
  *
  */
-
 public class UsuarioRegistrado {
-
 	/**
 	 * Metodo constructor de UsuarioRegistrado
-	 * @param numTarjeta
-	 * @param nombre
-	 * @param contrasena
-	 * @param esPremium
-	 * @param isAdmin
+	 * @param numTarjeta Numero de tarjeta del usuario
+	 * @param nombre nombre del usuario
+	 * @param contrasena contrasena del usuario
+	 * @param esPremium Status del usuario
+	 * @param isAdmin estado de Usuario admin
 	 */
 	public UsuarioRegistrado(String numTarjeta, String nombre, String contrasena, boolean esPremium,
 			boolean isAdmin) {
 		this.seguidos = new ArrayList<UsuarioRegistrado>();
-		this.seguidores = new ArrayList<UsuarioRegistrado>();;
+		this.seguidores = new ArrayList<UsuarioRegistrado>();
 		this.lista_reproducciones = new ArrayList<ListaReproducciones>();
 		this.canciones = new ArrayList<Cancion>();
 		this.albunes = new ArrayList<Album>();
 		this.saldo=100;
+		this.reproducciones=0;
+		this.numReproduccionDeCancionesPropias=0;
 		this.numTarjeta = numTarjeta;
 		this.nombre = nombre;
 		this.contrasena = contrasena;
@@ -47,8 +47,14 @@ public class UsuarioRegistrado {
 		this.fechaBloqueo = null;
 	}
 	
-	
-    /**
+
+	/**********************VARIABLES****************/
+
+	/**
+	 * Numero de reproducciones 
+	 */
+	private int numReproduccionDeCancionesPropias;
+	/**
      * Saldo inicial del usuario, para poder contratar el paquete premium
      */
     private double saldo;
@@ -113,17 +119,30 @@ public class UsuarioRegistrado {
 	 * Reproducciones que lleva un usuario determinado
 	 */
 	private int reproducciones;
+		
 
 	/**
 	 * bloqueado
 	 */
 	private boolean bloqueado;
 	
+	/**
+	 * bloqueo permanente a un usuario
+	 */
 	private boolean bloqueoPermanente;
 	
+	
+	/**
+	 * bloqueo permanente a un usuario
+	 */
 	private LocalDate fechaBloqueo;
 	
-	/*******************************GETTERS Y SETTERS**************************/
+	
+	
+	/*************************************************************************************************/
+	/*************************************************************************************************/
+	/*************************************************************************************************/
+	/*******************************GETTERS Y SETTERS*************************************************/
 	
 	/**
 	 * Metodo que permite distinguir si el usuario es ADMIn o no
@@ -132,14 +151,8 @@ public class UsuarioRegistrado {
 	public boolean isAdmin() {
 		return isAdmin;
 	}
-
-
-
-
-
-	/*************************************************************************************************/
-	/*************************************************************************************************/
-	/*************************************************************************************************/
+	
+	
 	/**
 	 * Funcion getter NOMBRRE
 	 * @return nombre del usuario
@@ -148,12 +161,14 @@ public class UsuarioRegistrado {
 		return nombre;
 	}
 	
-	/**
-	 * Metodo que se ocupa de incrementar las reproducciones del usuario
+    /**
+     * Funcion getter del numero de reproducciones que acumula un autor determinado
+	 * @return the numReproduccionDeCancionesPropias
 	 */
-	public void incrementaReproducciones() {
-		this.reproducciones++;
+	public int getNumReproduccionDeCancionesPropias() {
+		return numReproduccionDeCancionesPropias;
 	}
+
 
 	/**
 	 * Funcion setter NOMBRRE
@@ -188,6 +203,13 @@ public class UsuarioRegistrado {
 	}
 
 	/**
+	 * Funcion que promociona a un usuario (se puede entender como setter de esPremium)
+	 */
+	public void promocionarUsuario() {
+		this.setEsPremium(true);
+	}
+	
+	/**
 	 * Funcion setter ESPREMIUM
 	 * @param esPremium
 	 */
@@ -219,13 +241,6 @@ public class UsuarioRegistrado {
 		return seguidos;
 	}
 
-	/**
-	 * Funcion setter SEGUIDOS
-	 * @param seguidos
-	 */
-	public void setSeguidos(ArrayList<UsuarioRegistrado> seguidos) {
-		this.seguidos = seguidos;
-	}
 
 	/**
 	 * Funcion getter SEGUIDORES
@@ -261,6 +276,12 @@ public class UsuarioRegistrado {
 		this.bloqueado = nuevo_estado;
 	}
 	
+	/**
+	 * Funcion getter del numero de tarjeta
+	 */
+	public String getNumTarjeta() {
+		return numTarjeta;
+	}
 	
 	/**
 	 * Funcion getter CANCIONES
@@ -286,20 +307,53 @@ public class UsuarioRegistrado {
 	public ArrayList<ListaReproducciones> getLista_reproducciones() {
 		return lista_reproducciones;
 	}
-
+	
+	
+	
+	
+	/**
+	 * @return
+	 */
+	public LocalDate getFechaBloqueo() {
+		return fechaBloqueo;
+	}
+	
+	/**
+	 * @param fecha
+	 */
+	public void setFechaBloqueo(LocalDate fecha) {
+		fechaBloqueo = fecha;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setBloqueoPermanente() {
+		bloqueado = true;
+		bloqueoPermanente = true;
+	}
+	
+	/**
+	 * @return
+	 */
+	public boolean getBloqueado() {
+		return bloqueado;
+	}
+	
+	/**
+	 * @return
+	 */
+	public boolean getBloqueoPermanente() {
+		return bloqueoPermanente;
+	}
+	
+	
 	
 	/*************************************************************************************************/
 	/*************************************************************************************************/
 	/*************************************************************************************************/
 
-
 	
-	
-	
-	/*************************************************************************************************/
-	/*************************************************************************************************/
-	/*************************************************************************************************/
-
 
 	/**
 	 * 
@@ -334,23 +388,46 @@ public class UsuarioRegistrado {
 	}
 	
 	
-
-
-	public String getNumTarjeta() {
-		return numTarjeta;
-	}
-
 	/**
-	 * Metodo que permite a un usuario notificar ccomo plagio una cancion
-	 * @param cancion
+	 * Este metodo comprueba que un usuario puede reproducir una cacnion o no dependiendo de su estado
+	 * @return
 	 */
-	public void notificarPlagio(Cancion cancion) {
-		cancion.setNotificada_plagio(true);
-		Sistema.getInstance().getCancionesNotificadas().add(cancion);
-		Sistema.getInstance().setNotificaciones(new Notificacion(cancion));
+	public boolean puedeReproducir() {
+		if(this.EsPremium()==false && this.getReproducciones()<Sistema.getInstance().getnRepRegistrado())
+			return true;
+		if(this.esPremium)
+			return true;
+		return false;
+	}
+	
+
+	
+	/**
+	 * Este metodo comprueba que un usuario puede reproducir una cacnion o no dependiendo de su estado
+	 * @return
+	 */
+	public boolean puedeComentar() {
+		if(this.EsPremium()==false && Sistema.getInstance().getUsuarios().contains(this))
+			return true;
+		else if(this.esPremium && Sistema.getInstance().getUsuarios().contains(this))
+			return true;
+		return false;/*llega aqui en el caso de usuario no registrado*/
 	}
 
-	/*********************************************/
+	
+	/**
+	 * Metodo que increment el numero de reproducciones de un autor cancion/es
+	 */
+	public void incrementaNumReproduccionesPropias() {
+		this.numReproduccionDeCancionesPropias++;
+	}
+	
+	/**
+	 * Metodo que se ocupa de incrementar las reproducciones del usuario
+	 */
+	public void incrementaReproducciones() {
+		this.reproducciones++;
+	}
 	
 	/**
 	 * Metodo que añade al array de canciones del usuario una nueva cancion
@@ -402,7 +479,10 @@ public class UsuarioRegistrado {
 	}
 	
 	
-	/**************************************************/
+	public void setCanciones() {
+		
+	}
+	
 	
 	/**
 	 * Metodo que permite a un usuario, seguir a otro
@@ -414,42 +494,20 @@ public class UsuarioRegistrado {
 		if (Sistema.getInstance().getUsuarios().contains(seguido) == true) {
 			this.seguidos.add(seguido);
 			seguido.seguidores.add(this);
-			Notificacion n = new Notificacion(seguido, this);
+			Notificacion n = new Notificacion(this, seguido);
 			return true;
 		}
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * Metodo que imprime por pantalla todos aquellos valores caracteristicos de UsuarioRegistrado
 	 */
 	@Override
 	public String toString() {
 		return "UsuarioRegistrado [" + nombre + "]: ";
 	}
-	
-	public void setCanciones(Cancion cancion) {
-		canciones.add(cancion);
-	}
-	
-	public LocalDate getFechaBloqueo() {
-		return fechaBloqueo;
-	}
-	
-	public void setFechaBloqueo(LocalDate fecha) {
-		fechaBloqueo = fecha;
-	}
-	
-	public void setBloqueoPermanente() {
-		bloqueado = true;
-		bloqueoPermanente = true;
-	}
-	
-	public boolean getBloqueado() {
-		return bloqueado;
-	}
-	
-	public boolean getBloqueoPermanente() {
-		return bloqueoPermanente;
-	}
+
+
+
 }
