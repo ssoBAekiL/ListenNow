@@ -48,7 +48,9 @@ public class Cancion extends ObjetoComentable{
 		this.setRechazada(false);
 		this.fechaRechazo=null;
 		this.setMarcada_plagio(false);
-		Sistema.getInstance().getCancionesValidar().add(this);
+		this.ruta=ruta;
+		//Sistema.getInstance().getCancionesValidar().add(this);
+
 	}
 	
 	
