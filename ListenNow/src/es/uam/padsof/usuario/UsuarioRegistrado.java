@@ -1,13 +1,10 @@
 package es.uam.padsof.usuario;
-<<<<<<< HEAD
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-=======
 import java.io.File;
 import java.io.FileWriter;
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -32,20 +29,16 @@ public class UsuarioRegistrado {
 	 * @param esPremium Status del usuario
 	 * @param isAdmin estado de Usuario admin
 	 */
-	public UsuarioRegistrado(String nombre, String contrasena, boolean esPremium,
-			boolean isAdmin) {
+	public UsuarioRegistrado(String nombre, String contrasena, boolean esPremium, boolean isAdmin) {
 		this.seguidos = new ArrayList<UsuarioRegistrado>();
 		this.seguidores = new ArrayList<UsuarioRegistrado>();
 		this.lista_reproducciones = new ArrayList<ListaReproducciones>();
 		this.canciones = new ArrayList<Cancion>();
 		this.albunes = new ArrayList<Album>();
 		this.saldo=100;
-<<<<<<< HEAD
 		this.numTarjeta = numTarjeta;
-=======
 		this.reproducciones=0;
 		this.numReproduccionDeCancionesPropias=0;
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		this.nombre = nombre;
 		this.contrasena = contrasena;
 		this.esPremium = esPremium;
@@ -56,14 +49,11 @@ public class UsuarioRegistrado {
 		this.bloqueoPermanente = false;
 		this.fechaBloqueo = null;
 	}
-<<<<<<< HEAD
     private double saldo;
-=======
 	
 
 	/**********************VARIABLES****************/
 
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 	/**
 	 * Numero de reproducciones 
 	 */

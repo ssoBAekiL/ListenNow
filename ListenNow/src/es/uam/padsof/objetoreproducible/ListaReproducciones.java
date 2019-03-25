@@ -29,26 +29,19 @@ public class ListaReproducciones extends ObjetoReproducible{
 	 * @throws IOException
 	 * @throws Mp3PlayerException
 	 */
-<<<<<<< HEAD
-	public ListaReproducciones (String titulo, UsuarioRegistrado autor, ArrayList<Cancion> c, ArrayList<Album> a, ArrayList<ListaReproducciones> l)throws IOException, Mp3PlayerException {
-=======
 	public ListaReproducciones (String titulo, UsuarioRegistrado autor)throws IOException, Mp3PlayerException {
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		super(titulo, autor, null);
-<<<<<<< HEAD
-		this.ListaCanciones=c;
-		this.ListaAlbumes=a;
-		this.Listas=l;
+		this.ListaCanciones=new ArrayList<Cancion>();
+		this.ListaAlbumes=new ArrayList<Album>();
+		this.Listas=new ArrayList<ListaReproducciones>();
 	}
 	
 	public ListaReproducciones (String titulo, UsuarioRegistrado autor, ArrayList<Cancion> c, ArrayList<Album> a)throws IOException, Mp3PlayerException {
 		super(titulo, autor, null);
 		this.ListaCanciones=c;
 		this.ListaAlbumes=a;
-=======
 		this.ListaCanciones=null;
 		this.ListaAlbumes=null;
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		this.Listas=null;
 	}
 
@@ -191,7 +184,6 @@ public class ListaReproducciones extends ObjetoReproducible{
 		}
 		for(Album a: this.ListaAlbumes) {
 			a.reproducir();
-<<<<<<< HEAD
 		}
 	}
 
@@ -203,19 +195,9 @@ public class ListaReproducciones extends ObjetoReproducible{
 		
 		for(Album a: this.ListaAlbumes) {
 			a.pararReproduccion();
-=======
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		}
 	}
 
-	/**
-	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
-	 */
-	@Override
-	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
 
 	
 }

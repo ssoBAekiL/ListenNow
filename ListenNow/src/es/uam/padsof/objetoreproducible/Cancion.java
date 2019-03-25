@@ -73,7 +73,7 @@ public class Cancion extends ObjetoComentable{
 	 * 
 	 * Esta clase se encarga de devolver el id de una cancion
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	

@@ -28,11 +28,7 @@ public class Album extends ObjetoComentable{
 	 * Este metodo es el constructor del objeto Album
 	 */
 	public Album (String titulo, UsuarioRegistrado autor)throws Mp3PlayerException, FileNotFoundException {
-<<<<<<< HEAD
 		super(titulo, autor, null);
-=======
-		super(titulo, autor,null);
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		this.canciones=new ArrayList<Cancion>();
 	}
 	
@@ -88,18 +84,9 @@ public class Album extends ObjetoComentable{
 	 * Este m�todo se encargar� de a�adir una canci�n al �lbum
 	 */
 	public void aniadirCancionAlbum(Cancion c) {
-<<<<<<< HEAD
-=======
 		ArrayList<Cancion> canciones = this.getCanciones();
 		if(this.canciones.contains(c))
 			return;
-		//no hace falta recorrer el array de canciones una a una, ya existe el metodo CONTAINS
-//		for(int i=0; i<canciones.size(); i++) {
-//			if(canciones.get(i)==c) {
-//				return;
-//			}
-//		}
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		canciones.add(c);
 		return;
 	}
@@ -178,8 +165,6 @@ public class Album extends ObjetoComentable{
 		return "Autor de album:"+this.getAutor()+"\n"+"Titulo �lbum: "+this.getTitulo();
 	}
 	
-=======
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 	/* IMPORTANTE COMPROBAR SI YA EXISTE LA CANCION EN EL ALBUM AL A�ADIR O SI NO EXISTE AL BORRAR O SI NO ES DEL AUTOR*/
 	
 }
