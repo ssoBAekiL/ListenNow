@@ -1,4 +1,5 @@
 package es.uam.padsof.objetoreproducible;
+import java.time.LocalDate;
 import java.util.*;
 
 import es.uam.padsof.usuario.UsuarioRegistrado;
@@ -8,22 +9,22 @@ import es.uam.padsof.usuario.UsuarioRegistrado;
  */
 public class Comentario    {
 	/**
-	 * 
+	 * cuerpo o texto del comentario
 	 */
 	private String texto;
 
 	/**
-	 * 
+	 * autor de comentario
 	 */
 	private UsuarioRegistrado autor;
 
 	/**
-	 * 
+	 * fecha de
 	 */
-	private Date fecha;
+	private LocalDate fecha;
 
 	/**
-	 * 
+	 * valoracion de la cancion a traves de un comentario
 	 */
 	private int valoracion;
 	
@@ -32,14 +33,23 @@ public class Comentario    {
 	/**
 	 * Default constructor
 	 */
-	public Comentario(String texto, UsuarioRegistrado autor, Date fecha, int valoracion) {
+	public Comentario(String texto, UsuarioRegistrado autor, LocalDate fecha, int valoracion) {
 		this.texto=texto;
 		this.autor=autor;
 		this.fecha=fecha;
 		this.valoracion=valoracion;
 	}
-
 	
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Comentario [texto=" + texto + ", autor=" + autor + ", fecha=" + fecha + ", valoracion=" + valoracion
+				+ "]";
+	}
+
 	/**
 	 * @return the texto
 	 */
@@ -71,14 +81,14 @@ public class Comentario    {
 	/**
 	 * @return the fecha
 	 */
-	public Date getFecha() {
+	public LocalDate getFecha() {
 		return fecha;
 	}
 
 	/**
 	 * @param fecha the fecha to set
 	 */
-	public void setFecha(Date fecha) {
+	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
 

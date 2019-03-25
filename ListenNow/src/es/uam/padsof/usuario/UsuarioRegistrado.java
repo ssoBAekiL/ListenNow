@@ -1,8 +1,13 @@
 package es.uam.padsof.usuario;
+<<<<<<< HEAD
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+=======
+import java.io.File;
+import java.io.FileWriter;
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -14,42 +19,33 @@ import es.uam.padsof.objetoreproducible.*;
 import es.uam.padsof.sistema.*;
 
 /**
- * Esta clase proporciona funcionalidades referentes a un usuario al igual que sus caracter�sticas principales
- * @author Carlos Miret, Pablo Borrelli y Julian Espada
- *
- */
-/**
- * 
+ * Esta clase proporciona funcionalidades referentes a un usuario al igual que sus características principales
  * @author Carlos Miret, Pablo Borrelli y Julian Espada
  *
  */
 public class UsuarioRegistrado {
-
 	/**
 	 * Metodo constructor de UsuarioRegistrado
-	 * @param numTarjeta
-	 * @param nombre
-	 * @param contrasena
-	 * @param esPremium
-	 * @param fechaPremium
-	 * @param seguidos
-	 * @param isAdmin
-	 * @param seguidores
-	 * @param canciones
-	 * @param albunes
-	 * @param lista_reproducciones
-	 * @param reproducciones
-	 * @param bloqueado
+	 * @param numTarjeta Numero de tarjeta del usuario
+	 * @param nombre nombre del usuario
+	 * @param contrasena contrasena del usuario
+	 * @param esPremium Status del usuario
+	 * @param isAdmin estado de Usuario admin
 	 */
-	public UsuarioRegistrado(String numTarjeta, String nombre, String contrasena, boolean esPremium,
+	public UsuarioRegistrado(String nombre, String contrasena, boolean esPremium,
 			boolean isAdmin) {
 		this.seguidos = new ArrayList<UsuarioRegistrado>();
-		this.seguidores = new ArrayList<UsuarioRegistrado>();;
+		this.seguidores = new ArrayList<UsuarioRegistrado>();
 		this.lista_reproducciones = new ArrayList<ListaReproducciones>();
 		this.canciones = new ArrayList<Cancion>();
 		this.albunes = new ArrayList<Album>();
 		this.saldo=100;
+<<<<<<< HEAD
 		this.numTarjeta = numTarjeta;
+=======
+		this.reproducciones=0;
+		this.numReproduccionDeCancionesPropias=0;
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		this.nombre = nombre;
 		this.contrasena = contrasena;
 		this.esPremium = esPremium;
@@ -60,37 +56,52 @@ public class UsuarioRegistrado {
 		this.bloqueoPermanente = false;
 		this.fechaBloqueo = null;
 	}
+<<<<<<< HEAD
     private double saldo;
+=======
+	
+
+	/**********************VARIABLES****************/
+
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 	/**
-	 * 
+	 * Numero de reproducciones 
+	 */
+	private int numReproduccionDeCancionesPropias;
+	/**
+     * Saldo inicial del usuario, para poder contratar el paquete premium
+     */
+    private double saldo;
+    
+	/**
+	 * Numero de tarjeta del usuario
 	 */
 	private String numTarjeta;
 	
 	/**
-	 * Nombre
+	 * Nombre del usuario
 	 */
 	private String nombre;
 
 	/**
-	 * Contrasena
+	 * Contrasena del usuario
 	 */
 	private String contrasena;
 
 	/**
-	 * esPremium
+	 * Atributo que permite identificar el estado de suscripción del usuario
 	 */
 	private boolean esPremium;
 
 	/**
-	 * fechaPremium
+	 * Fecha en la que se ha contratado el paquete premium
 	 */
 	private LocalDate fechaPremium;
 
 	/**
-	 * seguidos
+	 * Array de seguidos que posee el usuario 
 	 */
 	private ArrayList<UsuarioRegistrado> seguidos;
-	
 	
 	/**
 	 * ADMIN
@@ -98,51 +109,62 @@ public class UsuarioRegistrado {
 	private boolean isAdmin;
 
 	/**
-	 * seguidores
+	 * Array de seguidores que posee el usuario 
 	 */
 	private ArrayList<UsuarioRegistrado> seguidores;
 	
 	/**
-	 * canciones
+	 * Array de canciones del usuario
 	 */
 	private ArrayList<Cancion> canciones;
 	
 	/**
-	 * @return the isAdmin
-	 */
-	public boolean isAdmin() {
-		return isAdmin;
-	}
-
-	/**
-	 * albunes
+	 * Array de albunes del usuario
 	 */
 	private ArrayList<Album> albunes;
 	
 	/**
-	 * lista de reproducciones
+	 * Array de lista de reproducciones del usuario
 	 */
 	private ArrayList<ListaReproducciones> lista_reproducciones;
 
 	/**
-	 * reproducciones
+	 * Reproducciones que lleva un usuario determinado
 	 */
 	private int reproducciones;
-
+		
 	/**
 	 * bloqueado
 	 */
 	private boolean bloqueado;
 	
+	/**
+	 * bloqueo permanente a un usuario
+	 */
 	private boolean bloqueoPermanente;
 	
+	
+	/**
+	 * bloqueo permanente a un usuario
+	 */
 	private LocalDate fechaBloqueo;
-
-
-
+	
+	
+	
 	/*************************************************************************************************/
 	/*************************************************************************************************/
 	/*************************************************************************************************/
+	/*******************************GETTERS Y SETTERS*************************************************/
+	
+	/**
+	 * Metodo que permite distinguir si el usuario es ADMIn o no
+	 * @return the isAdmin
+	 */
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+	
+	
 	/**
 	 * Funcion getter NOMBRRE
 	 * @return nombre del usuario
@@ -150,6 +172,15 @@ public class UsuarioRegistrado {
 	public String getNombre() {
 		return nombre;
 	}
+	
+    /**
+     * Funcion getter del numero de reproducciones que acumula un autor determinado
+	 * @return the numReproduccionDeCancionesPropias
+	 */
+	public int getNumReproduccionDeCancionesPropias() {
+		return numReproduccionDeCancionesPropias;
+	}
+
 
 	/**
 	 * Funcion setter NOMBRRE
@@ -184,6 +215,13 @@ public class UsuarioRegistrado {
 	}
 
 	/**
+	 * Funcion que promociona a un usuario (se puede entender como setter de esPremium)
+	 */
+	public void promocionarUsuario() {
+		this.setEsPremium(true);
+	}
+	
+	/**
 	 * Funcion setter ESPREMIUM
 	 * @param esPremium
 	 */
@@ -215,13 +253,6 @@ public class UsuarioRegistrado {
 		return seguidos;
 	}
 
-	/**
-	 * Funcion setter SEGUIDOS
-	 * @param seguidos
-	 */
-	public void setSeguidos(ArrayList<UsuarioRegistrado> seguidos) {
-		this.seguidos = seguidos;
-	}
 
 	/**
 	 * Funcion getter SEGUIDORES
@@ -257,6 +288,7 @@ public class UsuarioRegistrado {
 		this.bloqueado = nuevo_estado;
 	}
 	
+
 	
 	/**
 	 * Funcion getter CANCIONES
@@ -282,20 +314,53 @@ public class UsuarioRegistrado {
 	public ArrayList<ListaReproducciones> getLista_reproducciones() {
 		return lista_reproducciones;
 	}
-
+	
+	
+	
+	
+	/**
+	 * @return
+	 */
+	public LocalDate getFechaBloqueo() {
+		return fechaBloqueo;
+	}
+	
+	/**
+	 * @param fecha
+	 */
+	public void setFechaBloqueo(LocalDate fecha) {
+		fechaBloqueo = fecha;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setBloqueoPermanente() {
+		bloqueado = true;
+		bloqueoPermanente = true;
+	}
+	
+	/**
+	 * @return
+	 */
+	public boolean getBloqueado() {
+		return bloqueado;
+	}
+	
+	/**
+	 * @return
+	 */
+	public boolean getBloqueoPermanente() {
+		return bloqueoPermanente;
+	}
+	
+	
 	
 	/*************************************************************************************************/
 	/*************************************************************************************************/
 	/*************************************************************************************************/
 
-
 	
-	
-	
-	/*************************************************************************************************/
-	/*************************************************************************************************/
-	/*************************************************************************************************/
-
 
 	/**
 	 * 
@@ -307,9 +372,14 @@ public class UsuarioRegistrado {
 	public boolean contratarPremium(String numTarjeta) throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException {
 			File file = new File("registro_pagos.txt");
 			FileWriter fw = null;	
+<<<<<<< HEAD
 			TeleChargeAndPaySystem.charge(this.numTarjeta,"Contratacion Premium",10);
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd. MM. yyyy");
 			System.out.println(saldo);
+=======
+			TeleChargeAndPaySystem.charge(numTarjeta,"Contratacion Premium",10);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd. MM. yyyy");
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 			if(saldo<10){
 				//System.out.println("NO EXISTEN FONDOS SUFICIENTES PARA REALIZAR LA OPERACION\n");
 			}
@@ -321,7 +391,11 @@ public class UsuarioRegistrado {
 	        try
 	        {
 	            fw = new FileWriter(file,true);
+<<<<<<< HEAD
 				fw.append(this.getNumTarjeta()+"| "+this.getNombre()+"|"+" PAGO DE 10 EUR |"+this.getFechaPremium().format(formatter)+"\n");
+=======
+				fw.append(numTarjeta+"| "+this.getNombre()+"|"+" PAGO DE 10 EUR |"+this.getFechaPremium().format(formatter)+"\n");
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 				fw.close();
 				return true;
 	        } catch (Exception e) {
@@ -331,32 +405,92 @@ public class UsuarioRegistrado {
 	}
 	
 	
+<<<<<<< HEAD
 
 
 	public String getNumTarjeta() {
 		return numTarjeta;
 	}
 
+=======
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 	/**
-	 * Metodo que permite a un usuario notificar ccomo plagio una cancion
-	 * @param cancion
+	 * Este metodo comprueba que un usuario puede reproducir una cacnion o no dependiendo de su estado
+	 * @return
 	 */
-	public void notificarPlagio(Cancion cancion) {
-		cancion.setNotificada_plagio(true);
-		Sistema.getInstance().getCancionesNotificadas().add(cancion);
-		Sistema.getInstance().setNotificaciones(new Notificacion(cancion));
+	public boolean puedeReproducir() {
+		if(this.EsPremium()==false && this.getReproducciones()<Sistema.getInstance().getnRepRegistrado())
+			return true;
+		if(this.esPremium)
+			return true;
+		return false;
+	}
+	
+
+	
+	/**
+	 * Este metodo comprueba que un usuario puede reproducir una cacnion o no dependiendo de su estado
+	 * @return
+	 */
+	public boolean puedeComentar() {
+		if(this.EsPremium()==false && Sistema.getInstance().getUsuarios().contains(this))
+			return true;
+		else if(this.esPremium && Sistema.getInstance().getUsuarios().contains(this))
+			return true;
+		return false;/*llega aqui en el caso de usuario no registrado*/
 	}
 
-	/*********************************************/
+	
+	/**
+	 * Metodo que increment el numero de reproducciones de un autor cancion/es
+	 */
+	public void incrementaNumReproduccionesPropias() {
+		this.numReproduccionDeCancionesPropias++;
+	}
+	
+	/**
+	 * Metodo que se ocupa de incrementar las reproducciones del usuario
+	 */
+	public void incrementaReproducciones() {
+		this.reproducciones++;
+	}
 	
 	/**
 	 * Metodo que añade al array de canciones del usuario una nueva cancion
 	 * @param cancion
 	 */
+<<<<<<< HEAD
+	public void notificarPlagio(Cancion cancion) {
+		cancion.setNotificada_plagio(true);
+		Sistema.getInstance().getCancionesNotificadas().add(cancion);
+		Sistema.getInstance().setNotificaciones(new Notificacion(cancion));
+=======
 	public void anadirCancion(Cancion cancion) {
 		this.getCanciones().add(cancion);
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
+	}
+<<<<<<< HEAD
+
+	/*********************************************/
+=======
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
+	
+	/**
+	 * Metodo que añade al array de canciones del usuario una nueva cancion
+<<<<<<< HEAD
+	 * @param cancion
+	 */
+	public void anadirCancion(Cancion cancion) {
+		this.getCanciones().add(cancion);
+=======
+	 * @param album
+	 */
+	public void anadirAlbum(Album album) {
+		this.getAlbunes().add(album);
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Metodo que añade al array de canciones del usuario una nueva cancion
 	 * @param album
@@ -365,6 +499,8 @@ public class UsuarioRegistrado {
 		this.getAlbunes().add(album);
 	}
 	
+=======
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 	/**
 	 * Metodo que añade al array de canciones del usuario una nueva cancion
 	 * @param album
@@ -398,7 +534,15 @@ public class UsuarioRegistrado {
 		Sistema.getInstance().borrarReproducible(lista);
 	}
 	
+<<<<<<< HEAD
 	/**************************************************/
+=======
+	
+	public void setCanciones(Cancion cancion) {
+		canciones.add(cancion);
+	}
+	
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 	
 	/**
 	 * Metodo que permite a un usuario, seguir a otro
@@ -410,42 +554,20 @@ public class UsuarioRegistrado {
 		if (Sistema.getInstance().getUsuarios().contains(seguido) == true) {
 			this.seguidos.add(seguido);
 			seguido.seguidores.add(this);
-			Notificacion n = new Notificacion(seguido, this);
+			Notificacion n = new Notificacion(this, seguido);
 			return true;
 		}
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * Metodo que imprime por pantalla todos aquellos valores caracteristicos de UsuarioRegistrado
 	 */
 	@Override
 	public String toString() {
 		return "UsuarioRegistrado [" + nombre + "]: ";
 	}
-	
-	public void setCanciones(Cancion cancion) {
-		canciones.add(cancion);
-	}
-	
-	public LocalDate getFechaBloqueo() {
-		return fechaBloqueo;
-	}
-	
-	public void setFechaBloqueo(LocalDate fecha) {
-		fechaBloqueo = fecha;
-	}
-	
-	public void setBloqueoPermanente() {
-		bloqueado = true;
-		bloqueoPermanente = true;
-	}
-	
-	public boolean getBloqueado() {
-		return bloqueado;
-	}
-	
-	public boolean getBloqueoPermanente() {
-		return bloqueoPermanente;
-	}
+
+
+
 }

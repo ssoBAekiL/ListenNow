@@ -23,14 +23,19 @@ public class ListaReproducciones extends ObjetoReproducible{
 	private ArrayList <ListaReproducciones> Listas;
 	
 	/**
-	 * Instantiates a new lista reproducciones.
-	 *
-	 * @param c Array de canciones
-	 * @param a Array de albumes
-	 * @param l Array de lista de reproducciones
+	 * Metodo constructor de lista de reproducciones
+	 * @param titulo
+	 * @param autor
+	 * @throws IOException
+	 * @throws Mp3PlayerException
 	 */
+<<<<<<< HEAD
 	public ListaReproducciones (String titulo, UsuarioRegistrado autor, ArrayList<Cancion> c, ArrayList<Album> a, ArrayList<ListaReproducciones> l)throws IOException, Mp3PlayerException {
+=======
+	public ListaReproducciones (String titulo, UsuarioRegistrado autor)throws IOException, Mp3PlayerException {
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		super(titulo, autor, null);
+<<<<<<< HEAD
 		this.ListaCanciones=c;
 		this.ListaAlbumes=a;
 		this.Listas=l;
@@ -40,12 +45,16 @@ public class ListaReproducciones extends ObjetoReproducible{
 		super(titulo, autor, null);
 		this.ListaCanciones=c;
 		this.ListaAlbumes=a;
+=======
+		this.ListaCanciones=null;
+		this.ListaAlbumes=null;
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		this.Listas=null;
 	}
 
+
 	/**
 	 * Devuelve las canciones.
-	 *
 	 * @return ListaCanciones Las canciones que tiene la lista de reproduccion
 	 */
 	public ArrayList<Cancion> getListaCanciones() {
@@ -62,8 +71,7 @@ public class ListaReproducciones extends ObjetoReproducible{
 	}
 
 	/**
-	 * Devuelve el array de albumes que tendr� la lista
-	 *
+	 * Devuelve el array de albumes que tendra la lista
 	 * @return ListaAlbumes El array de albumes de la lista
 	 */
 	public ArrayList<Album> getListaAlbumes() {
@@ -130,7 +138,7 @@ public class ListaReproducciones extends ObjetoReproducible{
 	}
 	
 	/**
-	 * A�ade una lista a la lista de reproduccion 
+	 * Anade una lista a la lista de reproduccion 
 	 * 
 	 * @param l
 	 */
@@ -173,13 +181,17 @@ public class ListaReproducciones extends ObjetoReproducible{
 		return;
 	}
 	
+	/**
+	 * 
+	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#reproducir()
+	 */
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
 		for(Cancion c: this.ListaCanciones) {
 			c.reproducir();
 		}
-		
 		for(Album a: this.ListaAlbumes) {
 			a.reproducir();
+<<<<<<< HEAD
 		}
 	}
 
@@ -191,7 +203,18 @@ public class ListaReproducciones extends ObjetoReproducible{
 		
 		for(Album a: this.ListaAlbumes) {
 			a.pararReproduccion();
+=======
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		}
+	}
+
+	/**
+	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
+	 */
+	@Override
+	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

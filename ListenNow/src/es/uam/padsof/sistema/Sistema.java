@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 import es.uam.padsof.objetoreproducible.*;
 import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
@@ -26,18 +27,13 @@ public class Sistema {
 	/**
 	 * Contador de lar reproducciones utilizadas por los usuarios no registrados
 	 */
-	private  int reproducciones;
+	private  int reproduccionesNoRegistrados;
 
 	/**
 	 * Indica si hay una sesion abierta
 	 */
 	private  boolean conectado;
 
-	/**
-	 * Indica si hay una sesion de administrador abierta
-	 */
-	private  boolean adminConectado;
-	/////??????????
 	/**
 	 * Indica el numero maximo de reproducciones que un usuario no registrado puede realizar.
 	 * Este parametro puede ser modificado por el administrador
@@ -67,6 +63,11 @@ public class Sistema {
 	 * Lista de canciones en el sistema que tienen que ser validadas
 	 */
 	private ArrayList<Cancion> cancionesValidar;
+	
+	/**
+	 * Lista de canciones en el sistema rechazadas
+	 */
+	private ArrayList<Cancion> cancionesRechazadas;
 	
 	/**
 	 * Lista de albunes en el sistema
@@ -101,50 +102,66 @@ public class Sistema {
 	 */
 	private UsuarioRegistrado usuarioEnSesion;
 
+	/**
+	 * Id de la cancion
+	 */
+	private AtomicLong generador=new AtomicLong(1);
 	
+	
+	
+	/**
+	 * Metodo constructor de sistema
+	 */
 	private Sistema() {
+<<<<<<< HEAD
 		this.reproducciones = 0;
 		this.conectado = false;
 		this.adminConectado = false;
 		this.nRepAnonimas = 0;
 		this.nRepRegistrado = 0;
 		this.nRepRecompensa = 0;
+=======
+		this.reproduccionesNoRegistrados = 0;
+		this.conectado = false;
+		this.nRepAnonimas = 10;
+		this.nRepRegistrado = 10;
+		this.nRepRecompensa = 10;
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		this.cancionesValidar = new ArrayList<Cancion>();
 		this.albunes = new ArrayList<Album>();
 		this.cancionesValidadas = new ArrayList<Cancion>();
+		this.cancionesRechazadas=new ArrayList<Cancion>();
 		this.cancionesNotificadas = new ArrayList<Cancion>();
 		this.notificaciones = new ArrayList<Notificacion>();
 		this.usuarios = new ArrayList<UsuarioRegistrado>();
-		this.admin=(new UsuarioRegistrado("0000000000000000"/*num tarjeta*/, "ADMIN"/*nombre*/, "soyadmin"/*contrasena*/, true/*premium*/, true));
+		this.admin=(new UsuarioRegistrado("ADMIN"/*nombre*/, "soyadmin"/*contrasena*/, true/*premium*/, true));
+		this.admin.setFechaPremium(LocalDate.now());
 		this.addUsuario(admin);
 	}
-	
 
-	//tener lista con usuarios potenciales y una refrencia a usuario ; inicio sesion en sistema, recorro los usuarios y si coinccide con algun usuario y si no compruebo con usua
-	//administrador
 	
 	
-	
-	//nombre de la clase.getInstance//Esta compartido por todasse puede obtener desde cualquier pare del codigo. estatico, se reserva memoria automatica, va a existir antes de su instanciacion
+    /**
+     * Funcion que crea la instancia Sistema, para poder ser accesible desde otras clases
+     */
     private synchronized static void createInstance() {
         if (sistema == null) { 
             sistema = new Sistema();
         }
     }
     
-	//garantizamos que solo exista una instancia del sistema
+    
+    /**
+     * Funcion getter de la instancia
+     * @return la instancia de Sistema ---> sistema
+     */
     public static Sistema getInstance() {
         if (sistema == null) createInstance();
         return sistema;
     }	
 	
 
-    
-    
 
-	
-	//private Mp3Player player = new Mp3Player();
-	
 	
 	
 	/**
@@ -154,13 +171,9 @@ public class Sistema {
 		for (UsuarioRegistrado u: usuarios) {
 			if (u.getBloqueado() == true && u.getBloqueoPermanente() == false)
 				desbloquearUsuario(u);
-			System.out.println("AAAA");
 			if (u.EsPremium() == true) {
-			System.out.println("ABAB");
 				caducaPremium(u);
-				System.out.println("BCBC");
 			}
-			System.out.println("CCCCC");
 		}
 	}
 	
@@ -217,14 +230,14 @@ public class Sistema {
 	 * @param contrasena
 	 */
 	public boolean login(String usuario, String contrasena) {
-		for (UsuarioRegistrado u: usuarios) {
-			if (u.getNombre().equals(usuario) && u.getContrasena() == contrasena && u.getBloqueado() == false) {
-				usuarioEnSesion = u;
-				conectado = true;
-				if (u.isAdmin() == true)
-					adminConectado = true;
-				mostrarNotificacion();
-				return true;
+		if (conectado == false) {
+			for (UsuarioRegistrado u: usuarios) {
+				if (u.getNombre().equals(usuario) && u.getContrasena() == contrasena && u.getBloqueado() == false) {
+					usuarioEnSesion = u;
+					conectado = true;
+					mostrarNotificacion();
+					return true;
+				}
 			}
 		}
 		return false;
@@ -235,7 +248,6 @@ public class Sistema {
 	 */
 	public void logout() {
 		usuarioEnSesion = null;
-		adminConectado = false;
 		conectado = false;
 	}
 
@@ -254,15 +266,28 @@ public class Sistema {
 	 * @param reproducible
 	 */
 	public void borrarReproducible(ObjetoReproducible reproducible) {
+<<<<<<< HEAD
 		if (reproducible instanceof Cancion && conectado == true) {
+=======
+		if (reproducible instanceof Cancion && (usuarioEnSesion == reproducible.getAutor() || usuarioEnSesion.equals(Sistema.getInstance().getAdmin()))) {
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 			if (cancionesValidadas.contains(reproducible))
 				cancionesValidadas.remove(reproducible);
 			else if (cancionesValidar.contains(reproducible))
 				cancionesValidar.remove(reproducible);
+			else if(cancionesNotificadas.contains(reproducible))
+				cancionesNotificadas.remove(reproducible);
+			else if(cancionesRechazadas.contains(reproducible)) 
+				cancionesRechazadas.contains(reproducible);
 		}
+<<<<<<< HEAD
 		else if (reproducible instanceof Album && conectado == true) {
+=======
+		else if (reproducible instanceof Album && usuarioEnSesion == reproducible.getAutor()) {
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 			albunes.remove(reproducible);
 		}
+		
 	}
 
 	/**
@@ -284,9 +309,10 @@ public class Sistema {
 	 * 
 	 */
 	public void caducaPremium(UsuarioRegistrado usuario) {
-		LocalDate fecha = LocalDate.now().minusDays(30);
+		LocalDate fecha = LocalDate.now().minusDays(29);
 		if(fecha.isAfter(usuario.getFechaPremium())) {
 			usuario.setEsPremium(false);
+			usuario.setFechaPremium(null);
 		}
 	}
 	
@@ -297,24 +323,29 @@ public class Sistema {
 	 * @param usuario
 	 */
 	public void bloquearUsuario(UsuarioRegistrado usuario, boolean permanente) {
-		if (permanente == false) {
-			usuario.setBloqueado(true);
-			usuario.setFechaBloqueo(LocalDate.now());
+		if(usuarioEnSesion == admin) {
+			if (permanente == false) {
+				usuario.setBloqueado(true);
+				usuario.setFechaBloqueo(LocalDate.now());
+			}
+			else
+				usuario.setBloqueoPermanente();
 		}
-		else
-			usuario.setBloqueoPermanente();
 	}
 
 	/**
+	 * Metodo que permite desbloquear un usuario
 	 * @param usuario
 	 */
 	public void desbloquearUsuario(UsuarioRegistrado usuario) {
-		LocalDate fecha = LocalDate.now().minusDays(30);
-		if (fecha.isAfter(usuario.getFechaBloqueo())) {
-			usuario.setBloqueado(false);
+		LocalDate fecha = LocalDate.now().minusDays(29);
+		if (usuario.getBloqueado() == true && usuario.getBloqueoPermanente() == false) {
+			if (fecha.isAfter(usuario.getFechaBloqueo())) {
+				usuario.setBloqueado(false);
+			}
+			else if (usuarioEnSesion == admin)
+				usuario.setBloqueado(false);
 		}
-		else if (adminConectado == true)
-			usuario.setBloqueado(false);
 		else return;
 	}
 	
@@ -328,11 +359,16 @@ public class Sistema {
 	/**
 	 * 
 	 */
-	public void mostrarNotificacion() {
-		for (Notificacion n: notificaciones) {
-			if(n.getUsuariosNotificados().contains(usuarioEnSesion))
-				System.out.println(n);
+	public ArrayList<Notificacion> mostrarNotificacion() {
+		if(conectado == true) {
+			ArrayList<Notificacion> notificaciones = new ArrayList<Notificacion>();
+			for (Notificacion n: this.notificaciones) {
+				if(n.getUsuariosNotificados().contains(usuarioEnSesion))
+					notificaciones.add(n);
+			}
+			return notificaciones;
 		}
+		return null;
 	}
 
 	/**
@@ -353,25 +389,43 @@ public class Sistema {
 		return nRepAnonimas;
 	}
 
-	public void setnRepAnonimas(int nRepAnonimas) {
-		this.nRepAnonimas = nRepAnonimas;
-	}
-
 	public int getnRepRegistrado() {
 		return nRepRegistrado;
 	}
-
-	public void setnRepRegistrado(int nRepRegistrado) {
-		this.nRepRegistrado = nRepRegistrado;
-	}
-
+	
+	
 	public int getnRepRecompensa() {
 		return nRepRecompensa;
 	}
+	
+	
+	/**
+	 * @return the generador
+	 */
+	public AtomicLong getGenerador() {
+		return generador;
+	}
+
+
+
+	/************************************************/
+	public void setnRepAnonimas(int nRepAnonimas) {
+		if(this.getUsuarioEnSesion().equals(this.admin))
+			this.nRepAnonimas = nRepAnonimas;
+	}
+
+	public void setnRepRegistrado(int nRepRegistrado) {
+		if(this.getUsuarioEnSesion().equals(this.admin))
+			this.nRepRegistrado = nRepRegistrado;
+	}
 
 	public void setnRepRecompensa(int nRepRecompensa) {
-		this.nRepRecompensa = nRepRecompensa;
+		if(this.getUsuarioEnSesion().equals(this.admin))
+			this.nRepRecompensa = nRepRecompensa;
 	}
+	/************************************************/
+
+
 
 	/**
 	 * @return the cancionesValidadas
@@ -394,8 +448,8 @@ public class Sistema {
 	/**
 	 * Metodo que incrementa el numero de reproducciones
 	 */
-	public void incremetaReproducciones() {
-		this.reproducciones++;
+	public void incremetareproduccionesNoRegistrados() {
+		this.reproduccionesNoRegistrados++;
 	}
 	
 	
@@ -427,6 +481,14 @@ public class Sistema {
 	
 	
 
+	/**
+	 * @return the cancionesRechazadas
+	 */
+	public ArrayList<Cancion> getCancionesRechazadas() {
+		return cancionesRechazadas;
+	}
+
+
 	public int getNumUsuarios() {
 		return this.usuarios.size();
 	}
@@ -446,11 +508,6 @@ public class Sistema {
 	public int getNumeroCanciones() {
 		return cancionesValidadas.size();
 	}
-	
-	public boolean esAdmin() {
-		return adminConectado;
-	}
-
 
 	public UsuarioRegistrado getAdmin() {
 		return admin;
@@ -466,6 +523,15 @@ public class Sistema {
 	}
 	
 	
+	
+	/**
+	 * @return the notificaciones
+	 */
+	public ArrayList<Notificacion> getNotificaciones() {
+		return notificaciones;
+	}
+
+
 	public ArrayList<Album> getAlbunes() {
 		return albunes;
 	}
@@ -475,11 +541,37 @@ public class Sistema {
 	public UsuarioRegistrado getUsuarioEnSesion() {
 		return usuarioEnSesion;
 	}
-	public boolean getAdminConectado() {
-		return adminConectado;
+	
+
+	/**
+	 * @param usuarioEnSesion the usuarioEnSesion to set
+	 */
+	public void setUsuarioEnSesion(UsuarioRegistrado usuarioEnSesion) {
+		this.usuarioEnSesion = usuarioEnSesion;
 	}
+
+
 	public boolean getConectado() {
 		return conectado;
+	}
+	
+	public int getReproduccionesNoRegistrados() {
+		return reproduccionesNoRegistrados;
+	}
+	
+	public void reset() {
+		this.reproduccionesNoRegistrados = 0;
+		this.conectado = false;
+		this.nRepAnonimas = 10;
+		this.nRepRegistrado = 10;
+		this.nRepRecompensa = 10;
+		this.cancionesValidar.clear();
+		this.albunes.clear();
+		this.cancionesValidadas.clear();
+		this.cancionesNotificadas.clear();
+		this.notificaciones.clear();
+		this.usuarios.clear();
+		this.addUsuario(admin);
 	}
 
 }

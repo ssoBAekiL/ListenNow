@@ -3,6 +3,7 @@ package es.uam.padsof.objetoreproducible;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import es.uam.padsof.sistema.Sistema;
 import es.uam.padsof.usuario.UsuarioRegistrado;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 //import es.uam.padsof.usuario.*;
@@ -12,25 +13,44 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  *
  * Esta clase se encarga de gestionar el objeto Album
  */
-public class Album extends ObjetoReproducible{
+public class Album extends ObjetoComentable{
 	/*private time duracion;*/
 	
 	/** Canciones del album*/
 	private ArrayList<Cancion> canciones;
 	
-	public ArrayList<Comentario> comentarios;
 	
 	/**
 	 * 
-	 * @param nCan Es el n�mero de canciones totales que tiene el album
-	 * @param canciones Es el array que tendr� las canciones de dicho �lbum
+	 * @param nCan Es el numero de canciones totales que tiene el album
+	 * @param canciones Es el array que tendra las canciones de dicho �lbum
 	 * 
-	 * Este m�todo es el constructor del objeto Album
+	 * Este metodo es el constructor del objeto Album
 	 */
 	public Album (String titulo, UsuarioRegistrado autor)throws Mp3PlayerException, FileNotFoundException {
+<<<<<<< HEAD
 		super(titulo, autor, null);
+=======
+		super(titulo, autor,null);
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		this.canciones=new ArrayList<Cancion>();
 	}
+	
+	/**
+	 * Metodo que anade un comentario a un album determinado
+	 * @return true en caso de todo correcto
+	 */
+	public boolean anadirComentario(Comentario c) {
+		if(Sistema.getInstance().getUsuarioEnSesion().puedeComentar()) {
+			super.comentarios.add(c);
+			return true;
+		}
+		return false;
+	}
+	
+	/********************************/
+	
+	
 	
 	/**
 	 * 
@@ -38,7 +58,7 @@ public class Album extends ObjetoReproducible{
 	 * 
 	 * Este m�todo devuelve el n�mero de canciones que tiene el �lbum
 	 */
-	public int getnCanciones() {
+	public int getNumCanciones() {
 		return canciones.size();
 	}
 	
@@ -68,26 +88,40 @@ public class Album extends ObjetoReproducible{
 	 * Este m�todo se encargar� de a�adir una canci�n al �lbum
 	 */
 	public void aniadirCancionAlbum(Cancion c) {
+<<<<<<< HEAD
+=======
+		ArrayList<Cancion> canciones = this.getCanciones();
+		if(this.canciones.contains(c))
+			return;
+		//no hace falta recorrer el array de canciones una a una, ya existe el metodo CONTAINS
+//		for(int i=0; i<canciones.size(); i++) {
+//			if(canciones.get(i)==c) {
+//				return;
+//			}
+//		}
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		canciones.add(c);
 		return;
 	}
 	
 	/**
 	 * 
-	 * @param c Canci�n a borrar
+	 * @param c Cancion a borrar
 	 * 
-	 * Este m�todo se encarga de borrar la canci�n que se le pasa como argumento del �lbum
+	 * Este metodo se encarga de borrar la cancion que se le pasa como argumento del album
 	 */
 	public void borrarCancionAlbum(Cancion c) {
-		canciones.remove(c);
-		return;
+		if(this.canciones.contains(c)) {
+			canciones.remove(c);
+			return;		
+		}
 	}
 	
 	/**
 	 * 
-	 * @param c Canciones a a�adir
+	 * @param c Canciones a anadir
 	 * 
-	 * Este m�todo se encarga de a�adir masivamente varias canciones al �lbum
+	 * Este metodo se encarga de anadir masivamente varias canciones al album
 	 */
 	public void aniadirCancionesAlbum(Cancion...c) {
 		int i=0;
@@ -111,9 +145,6 @@ public class Album extends ObjetoReproducible{
 		return;
 	}
 
-	public ArrayList<Comentario> getComentarios() {
-		return comentarios;
-	}
 	
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		for(int i=0;i<this.getGetTamanioAlbum();i++) {
@@ -147,6 +178,8 @@ public class Album extends ObjetoReproducible{
 		return "Autor de album:"+this.getAutor()+"\n"+"Titulo �lbum: "+this.getTitulo();
 	}
 	
+=======
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 	/* IMPORTANTE COMPROBAR SI YA EXISTE LA CANCION EN EL ALBUM AL A�ADIR O SI NO EXISTE AL BORRAR O SI NO ES DEL AUTOR*/
 	
 }
