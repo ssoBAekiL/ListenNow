@@ -1,10 +1,12 @@
-
+package pruebas;
 
 import java.io.IOException;
 import java.util.*;
+
+import es.uam.padsof.objetoreproducible.Cancion;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
-public class pruebaMusica {
+public class PruebaAlbum {
 	public static void main(String[] args) throws IOException, Mp3PlayerException, InterruptedException{
 		Cancion c1 = new Cancion("Girls Like you","Maroon5","maroon-5-girls-like-you-lyrics-ft-cardi-b.mp3");
 		Cancion c2 = new Cancion("Un año", "Sebastián Yatra", "sebastian-yatra-reik-un-ano.mp3");
