@@ -33,7 +33,6 @@ public class Sistema {
 	 */
 	private  boolean conectado;
 
-	/////??????????
 	/**
 	 * Indica el numero maximo de reproducciones que un usuario no registrado puede realizar.
 	 * Este parametro puede ser modificado por el administrador
