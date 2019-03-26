@@ -61,5 +61,10 @@ public class ListasReproduccionesTest {
 		assertFalse(l.aniadirAlbumALista(a1));
 		
 	}
+	
+	@Test
+	public void testBorrarAlbumLista() {
+		
+	}
 
 }
