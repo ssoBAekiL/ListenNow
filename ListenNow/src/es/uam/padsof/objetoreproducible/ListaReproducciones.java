@@ -181,12 +181,14 @@ public class ListaReproducciones extends ObjetoReproducible{
 	/**
 	 * Metodo parar reprod
 	 */
-	public void pararReproduccion()throws FileNotFoundException, Mp3PlayerException, InterruptedException {
-		for(int i=0;i<this.ListaCanciones.size();i++)	
-			if(Mp3Player.isValidMp3File(ruta)==true) {
-				player.add(this.ruta);
-				player.stop();
-			}
+	@Override
+	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+		for(Cancion c: this.ListaCanciones) {
+			c.pararReproduccion();
+		}
+		for(Album a: this.ListaAlbumes) {
+			a.pararReproduccion();
+		}
 	}
 
 	

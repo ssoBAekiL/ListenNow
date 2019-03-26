@@ -1,7 +1,12 @@
 package es.uam.padsof.objetoreproducible;
 
+import java.nio.file.*;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.io.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -50,6 +55,23 @@ public class Cancion extends ObjetoComentable{
 		this.ruta=ruta;
 	}
 	
+	
+	/**
+	 * Metodo que mueve una cancion al sistema
+	 * @return true en caso de 
+	 * @throws IOException
+	 */
+	public boolean moverCancionASistema() throws IOException{
+		try {
+			Path origen= Paths.get(this.getRuta());
+			Path destino= Paths.get("/CancionesSistema");
+		    Files.copy(origen,destino);
+		    return true;
+		} catch (IOException ex) {
+		    System.err.format("I/O Error when copying file");
+		}	
+		return true;
+	}
 	
 	/**
 	 * Fecha de rechazo de la cancion

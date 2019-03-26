@@ -107,6 +107,10 @@ public class Sistema {
 	private AtomicLong generador=new AtomicLong(1);
 	
 	
+	/**
+	 * Ruta en el sistema
+	 */
+	private String rutaDelSistema;
 	
 	/**
 	 * Metodo constructor de sistema
@@ -187,7 +191,16 @@ public class Sistema {
 		}
 		return null;
 	}
-
+	
+	
+	/**
+	 * Metodo getter de la ruta del sistema
+	 */
+	public String getRutaSistema() {
+		return this.rutaDelSistema;
+	}
+	
+	
 	/**
 	 * @param autor 
 	 * @return
