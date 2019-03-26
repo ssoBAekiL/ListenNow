@@ -385,6 +385,17 @@ public class UsuarioRegistrado implements Serializable {
 	
 	
 	/**
+	 * 
+	 */
+	public void caducaPremium() {
+		LocalDate fecha = LocalDate.now().minusDays(29);
+		if(fecha.isAfter(this.getFechaPremium())) {
+			this.setEsPremium(false);
+			this.setFechaPremium(null);
+		}
+	}
+	
+	/**
 	 * Este metodo comprueba que un usuario puede reproducir una cacnion o no dependiendo de su estado
 	 * @return
 	 */

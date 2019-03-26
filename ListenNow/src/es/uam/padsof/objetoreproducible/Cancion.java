@@ -135,7 +135,7 @@ public class Cancion extends ObjetoComentable {
 	 */
 	public void borradoTrasTercerDia(){
 		LocalDate fecha1 = LocalDate.now().minusDays(3);
-		if(this.rechazada=true && fecha1.isAfter(this.fechaRechazo) ) {
+		if(this.rechazada=true && this.marcada_plagio == false && fecha1.isAfter(this.fechaRechazo) ) {
 			Sistema.getInstance().borrarReproducible(this);
 		}
 	}
@@ -145,7 +145,7 @@ public class Cancion extends ObjetoComentable {
 	 * @return true en caso correcto
 	 */
 	public boolean rechazar() {
-		if(this.marcada_plagio && Sistema.getInstance().getUsuarioEnSesion()==Sistema.getInstance().getAdmin()) {
+		if(Sistema.getInstance().getUsuarioEnSesion()==Sistema.getInstance().getAdmin()) {
 			this.rechazada=true;
 			this.fechaRechazo=LocalDate.now();
 			Sistema.getInstance().getCancionesValidar().remove(this);
@@ -286,8 +286,8 @@ public class Cancion extends ObjetoComentable {
 	/**
 	 * Metodo que permite a un usuario notificar ccomo plagio una cancion
 	 */
-	public void notificarPlagio(UsuarioRegistrado u) {
-		if(Sistema.getInstance().getUsuarioEnSesion().equals(u)) {
+	public void notificarPlagio() {
+		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin())) {
 			this.setNotificada_plagio(true);
 			Sistema.getInstance().getCancionesNotificadas().add(this);
 			Sistema.getInstance().setNotificaciones(new Notificacion(this));
@@ -319,7 +319,7 @@ public class Cancion extends ObjetoComentable {
 	public boolean marcarComoPlagio() {
 		/*SI EL USUARIO EN SESION ES EL ADMIN*/
 		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin())) {
-				Sistema.getInstance().getCancionesNotificadas().add(this);
+				Sistema.getInstance().getCancionesRechazadas().add(this);
 				this.setMarcada_plagio(true);
 				return true;
 		}
