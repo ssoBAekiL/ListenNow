@@ -51,6 +51,9 @@ public class CancionTest {
 		System.out.println(c1.getId());
 	}
 	
+	/**
+	 * Metodo que se ejecuta despues de los diferentes tests
+	 */
 	@After
 	public void reset() {
 		sys.reset();
@@ -74,7 +77,6 @@ public class CancionTest {
 	/**
 	 * Test para la funcion validar cancion
 	 * Metodo que hace test sobre la funcion Validar cancion
-	 * @param cancion
 	 */
 	@Test
 	public final void testValidarCancion() {
@@ -89,7 +91,6 @@ public class CancionTest {
 	/**
 	 * Test para la funcion validar + 18 cancion
 	 * Metodo que permite al usuario admin validar + 18 una cancion pasada por parametro
-	 * @param cancion
 	 */
 	@Test
 	public final void testValidarCancion18() {
@@ -100,8 +101,7 @@ public class CancionTest {
 	}
 	
 	/**
-	 * Test para la funcion reproducir cancion
-	 * @param cancion
+	 * Test para la funcion notificar cancion 
 	 */
 	@Test
 	public final void testNotificarPlagio() {
@@ -112,7 +112,6 @@ public class CancionTest {
 	
 	/**
 	 * Test para la funcion marcar como plagio una cancion
-	 * @param cancion
 	 */
 	@Test
 	public final void marcarComoPlagio() {
@@ -124,7 +123,6 @@ public class CancionTest {
 	
 	/**
 	 * Test para la funcion borrado tras el tercer dia de haber sido mmarcada una cancion cancion
-	 * @param cancion
 	 */
 	@Test
 	public final void borradoTrasRechazada3DiasEspera() {
@@ -149,14 +147,14 @@ public class CancionTest {
 		assertTrue(c1.getComentarios().contains(comment));
 	}
 	
-	@Test
-	public final void testCopiarCancionASistema() throws IOException {
-	assertTrue(c1.copiaCancionASistema());
-	sys.borrarReproducible(c1);
-	assertFalse(sys.getCancionesValidar().contains(c1));
-	assertFalse(sys.getCancionesValidadas().contains(c1));
-	assertFalse(sys.getCancionesNotificadas().contains(c1));
-	assertFalse(sys.getCancionesRechazadas().contains(c1));
-	}
+//	@Test
+//	public final void testCopiarCancionASistema() throws IOException {
+//	assertTrue(c1.copiaCancionASistema());
+//	sys.borrarReproducible(c1);
+//	assertFalse(sys.getCancionesValidar().contains(c1));
+//	assertFalse(sys.getCancionesValidadas().contains(c1));
+//	assertFalse(sys.getCancionesNotificadas().contains(c1));
+//	assertFalse(sys.getCancionesRechazadas().contains(c1));
+//	}
 
 }

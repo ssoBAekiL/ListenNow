@@ -21,7 +21,7 @@ public class ListasReproduccionesTest {
 	private Cancion c2;
 	private Cancion c3;
 	private ListaReproducciones l;
-	
+	private Comentario comment;
 
 	@Before
 	public void setUp() throws Exception {

@@ -57,9 +57,10 @@ public class Album extends ObjetoComentable {
 	
 	/**
 	 * 
-	 * @return canciones.size() Es un m�todo que se encarga de devolver el tama�o del array canciones
+	 * Este metodo devuelve el numero de canciones que tiene el album
 	 * 
-	 * Este m�todo devuelve el n�mero de canciones que tiene el �lbum
+	 * @return canciones.size() Es un metodo que se encarga de devolver el tamanio del array canciones
+	 * 
 	 */
 	public int getNumCanciones() {
 		return canciones.size();
@@ -67,17 +68,15 @@ public class Album extends ObjetoComentable {
 	
 	
 	/**
-	 * 
-	 * @return canciones Es el array que tiene todas las canciones de un �lbum
-	 * 
-	 * Este m�todo se encarga de devolver el array con las canciones que tendr� un �lbum
+	 * getter de cancion
+	 * @return canciones Es el array que tiene todas las canciones de un album
 	 */
 	public ArrayList<Cancion> getCanciones() {
 		return canciones;
 	}
 	
 	/**
-	 * 
+	 * Setter de cancion
 	 * @param canciones Es el nuevo array que tendr� el �lbum a modificar
 	 */
 	public void setCanciones(ArrayList<Cancion> canciones) {
@@ -86,9 +85,9 @@ public class Album extends ObjetoComentable {
 	
 	/**
 	 * 
-	 * @param c Canci�n a a�adir
+	 * @param c Cancion a anadir
 	 * 
-	 * Este m�todo se encargar� de a�adir una canci�n al �lbum
+	 * Este metodo se encargara de anadir una cancion al album
 	 */
 	public boolean aniadirCancionAlbum(Cancion c) {
 		if(this.getCanciones().contains(c))
@@ -127,6 +126,7 @@ public class Album extends ObjetoComentable {
 	}
 	
 	/**
+	 * Funcion que borra las canciones presentes en un album
 	 * 
 	 * @param c
 	 */
@@ -140,12 +140,20 @@ public class Album extends ObjetoComentable {
 	}
 
 	
+	/**
+	 * Funcion reproducir, que recorre las diferentes canciones de un album una a una
+	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#reproducir()
+	 */
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		for(int i=0;i<this.getGetTamanioAlbum();i++) {
 			this.getNCancion(i).reproducir();
 		}
 	}
 	
+	/**
+	 * 
+	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
+	 */
 	public void pararReproduccion()throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		for(int i=0;i<this.getGetTamanioAlbum();i++) {
 			this.getNCancion(i).pararReproduccion();

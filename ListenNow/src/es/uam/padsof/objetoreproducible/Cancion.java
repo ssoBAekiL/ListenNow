@@ -16,33 +16,58 @@ import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 /**
- * @author Juli�n Espada, Pablo Borrelli y Carlos Miret
+ * @author Julian Espada, Pablo Borrelli y Carlos Miret
  * 
- * Esta clase se encarga de gestionar el objeto Cancion 
+ * Esta clase se encarga de gestionar todas
+ * las caracteristicas referentes a cancion
  */
 public class Cancion extends ObjetoComentable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * ID de la cancion
+	 */
 	private long id;
+	/**
+	 * Numero de reproducciones
+	 */
 	private int nreproducciones;
+	/**
+	 * Boolean que devuelve true si es aceptada +18
+	 */
 	private boolean aceptada_mas18;
+	/**
+	 * Flag de cancion notificada como plagio
+	 */
 	private boolean notificada_plagio;
+	/**
+	 * Flag de cancion que chequea si esta pendiente de verificacion
+	 */
 	private boolean pendiente_verificacion;
+	/**
+	 * Aceptada
+	 */
 	private boolean aceptada;
+	/**
+	 * Rechazada
+	 */
 	private boolean rechazada;
+	/**
+	 * Marcada como plagio (flag)
+	 */
 	private boolean marcada_plagio;
 	
+
 	/**
+	 * Metodo constructor de la clase Cancion
 	 * 
-	 * @param id Este es el id que tendr� la canci�n
-	 * @param ruta Este es el nombre de la ruta del fichero que contendr� la canci�n
-	 * @param nrep Este es el n�mero de reproducciones de la canci�n
-	 * @param m18 Este es el boolean que marcar� si la canci�n es apta para mayores de 18
-	 * @param val Este es el boolean que marcar� la canci�n como v�lida o no
-	 * @param plag Este es el boolean que marcar� la canci�n como plagio
-	 * Este m�todo es el constructor del objeto Cancion
+	 * @param titulo
+	 * @param autor
+	 * @param ruta
+	 * @throws IOException
+	 * @throws Mp3PlayerException
 	 */
 	public Cancion (String titulo, UsuarioRegistrado autor, String ruta)throws IOException, Mp3PlayerException {
 		super(titulo, autor,ruta);
@@ -111,7 +136,7 @@ public class Cancion extends ObjetoComentable {
 
 	/**
 	 * Esta clase modificara el id de la cancion
-	 * @param id El id nuevo que queremo que tenga la cancion
+	 * @param id El id nuevo que queremos que tenga la cancion
 	 * @return void
 	 * 
 	 */
@@ -129,7 +154,7 @@ public class Cancion extends ObjetoComentable {
 	}
 	
 	/**
-	 * 
+	 * Funcion que cumple el requisito de borrado tras ser rechazada hace 3 dias
 	 */
 	public void borradoTrasTercerDia(){
 		LocalDate fecha1 = LocalDate.now().minusDays(3);
@@ -139,7 +164,8 @@ public class Cancion extends ObjetoComentable {
 	}
 	
 	/**
-	 * Metodo rechazar, 
+	 * Metodo rechazar, que actuara sobre el objeto cancion y actualizara los diferentes arrays de
+	 * estados de canciones en el sistema 
 	 * @return true en caso correcto
 	 */
 	public boolean rechazar() {
@@ -163,16 +189,7 @@ public class Cancion extends ObjetoComentable {
 		this.fechaRechazo=LocalDate.now().minusDays(5);
 	}
 	
-	/**
-	 * 
-	 * @param nreproducciones Este es el nuevo n�mero de reproducciones para la canci�n
-	 * @return void
-	 * 
-	 * Este m�todo se encarga de modificar el n�mero de reproducciones de la canci�n
-	 */
-	public void setNreproducciones(int nreproducciones) {
-		this.nreproducciones = nreproducciones;
-	}
+
 
 	/**
 	 * Este metodo devuelve el boolean que tiene la cancion que indica si es apto para mayores de 18
@@ -198,16 +215,11 @@ public class Cancion extends ObjetoComentable {
 		return comentarios;
 	}
 
-	/**
-	 * @param comentarios the comentarios to set
-	 */
-	public void setComentarios(ArrayList<Comentario> comentarios) {
-		this.comentarios = comentarios;
-	}
 	
 	/**
 	 * Metodo que permite al usuario admin validar + 18 una cancion pasada por parametro
 	 * @param cancion
+	 * @return true en caso correcto
 	 */
 	public boolean validarCancion18() {
 		if(validarCancion() == true) {
@@ -218,8 +230,8 @@ public class Cancion extends ObjetoComentable {
 	}
 	
 	/**
-	 * Metodo que permite al usuario admin validar una cancion
-	 * @param cancion
+	 * Metodo que permite al usuario admin validar una cancion y unicamente al admin
+	 * @return true en caso correcto
 	 */
 	public boolean validarCancion() {
 		/*********CHEQUEO SI EL USUARIO EN SESION ES EL ADMIN*******/
@@ -308,8 +320,8 @@ public class Cancion extends ObjetoComentable {
 	
 	
 	/**
-	 * Funcion 
-	 * @return
+	 * Funcion que copia la cancion que tratamos en el sistema principal
+	 * @return true en caso correcto
 	 * @throws IOException
 	 */
 	public boolean copiarCancionASistema() throws IOException {
@@ -320,7 +332,8 @@ public class Cancion extends ObjetoComentable {
 	}
 	
 	/**
-	 * @return
+	 * Funcion que unicamente permite al usuario ADMIN marcar una funcion como plagio
+	 * @return true en caso correcto
 	 */
 	public boolean marcarComoPlagio() {
 		/*SI EL USUARIO EN SESION ES EL ADMIN*/
@@ -335,8 +348,9 @@ public class Cancion extends ObjetoComentable {
 	}
 	
 	
-	/* (non-Javadoc)
-	 * @see es.uam.padsof.objetoreproducible.ObjetoComentable#anadirComentario(es.uam.padsof.objetoreproducible.Comentario)
+	/**
+	 * Funcion que permite anadir un comentario al objeto comentable y reproducible cancion
+	 * @return true en caso correcto
 	 */
 	public boolean anadirComentario(Comentario c) {
 		if(Sistema.getInstance().getUsuarioEnSesion().puedeComentar()) {
@@ -399,6 +413,16 @@ public class Cancion extends ObjetoComentable {
 	/************************************************/
 	public void setReproucciones(int reproducciones) {
 		this.nreproducciones = reproducciones;
+	}
+
+
+
+
+
+	@Override
+	public boolean moverCancionASistema() throws IOException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	
