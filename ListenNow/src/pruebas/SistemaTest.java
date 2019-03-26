@@ -14,7 +14,6 @@ import org.junit.Test;
 import es.uam.eps.padsof.telecard.FailedInternetConnectionException;
 import es.uam.eps.padsof.telecard.InvalidCardNumberException;
 import es.uam.eps.padsof.telecard.OrderRejectedException;
-import es.uam.padsof.*;
 import es.uam.padsof.objetoreproducible.Album;
 import es.uam.padsof.objetoreproducible.Cancion;
 import es.uam.padsof.sistema.Notificacion;
@@ -74,18 +73,20 @@ public class SistemaTest {
 	}
 	
 	@Test
-	public void testInicializarSistema() throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException {
+	public void testInicializarSistema() throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException, ClassNotFoundException, IOException {
 		assertTrue(sys.login("ADMIN", "soyadmin"));
-		sys.bloquearUsuario(u2, false);
+		u2.bloquearUsuario(false);
 		u1.setEsPremium(true);
 		u1.setFechaPremium(LocalDate.now().minusDays(10));
 		u2.setFechaBloqueo(LocalDate.now().minusDays(10));
 		sys.logout();
+		sys.guardarSistema();
+		sys.reset();
 		sys.inicializarSistema();
 		assertTrue(u1.EsPremium());
 		assertTrue(u2.getBloqueado());
 		assertTrue(sys.login("ADMIN", "soyadmin"));
-		sys.bloquearUsuario(u2, false);
+		u2.bloquearUsuario(false);
 		u1.setEsPremium(true);
 		u1.setFechaPremium(LocalDate.now().minusDays(30));
 		u2.setFechaBloqueo(LocalDate.now().minusDays(30));
@@ -94,6 +95,18 @@ public class SistemaTest {
 		assertFalse(u1.EsPremium());
 		assertFalse(u2.getBloqueado());
 		
+	}
+	
+	
+	
+	@Test
+	public void testReadObject() throws FileNotFoundException, IOException, ClassNotFoundException {
+		assertTrue(sys.getUsuarios().size() > 1);
+		sys.guardarSistema();
+		reset();
+		assertTrue(sys.getUsuarios().size() == 1);
+		sys.readObject();
+		assertTrue(sys.getUsuarios().size() > 1);
 	}
 
 	@Test
@@ -197,42 +210,6 @@ public class SistemaTest {
 		u1.setFechaPremium(LocalDate.now().minusDays(30));
 		sys.caducaPremium(u1);
 		assertFalse(u1.EsPremium());
-	}
-
-	@Test
-	public void testBloquearUsuario() {
-		sys.bloquearUsuario(u1, false);
-		assertFalse(u1.getBloqueado());
-		assertFalse(u1.getBloqueoPermanente());
-		sys.login("ADMIN", "soyadmin");
-		sys.bloquearUsuario(u1, false);
-		assertTrue(u1.getBloqueado());
-		assertFalse(u1.getBloqueoPermanente());
-		sys.bloquearUsuario(u2, true);
-		assertTrue(u2.getBloqueado());
-		assertTrue(u2.getBloqueoPermanente());
-		sys.desbloquearUsuario(u2);
-		assertTrue(u2.getBloqueado());
-		
-	}
-
-	@Test
-	public void testDesbloquearUsuario() {
-		sys.login("ADMIN", "soyadmin");
-		sys.bloquearUsuario(u1, false);
-		sys.bloquearUsuario(u2, true);
-		u1.setFechaBloqueo(LocalDate.now().minusDays(14));
-		sys.logout();
-		sys.desbloquearUsuario(u1);
-		assertTrue(u1.getBloqueado());
-		u1.setFechaBloqueo(LocalDate.now().minusDays(30));
-		sys.desbloquearUsuario(u1);
-		assertFalse(u1.getBloqueado());
-		sys.login("ADMIN", "soyadmin");
-		sys.bloquearUsuario(u1, false);
-		u1.setFechaBloqueo(LocalDate.now().minusDays(14));
-		sys.desbloquearUsuario(u1);
-		assertFalse(u1.getBloqueado());
 	}
 
 	@Test

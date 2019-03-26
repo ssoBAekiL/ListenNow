@@ -1,22 +1,22 @@
 package es.uam.padsof.sistema;
 
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
-
 import es.uam.padsof.objetoreproducible.*;
-import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
 import es.uam.padsof.usuario.*;
-import pads.musicPlayer.Mp3Player;
-import pads.musicPlayer.exceptions.Mp3PlayerException;
 import java.io.*;
 
 /**
  * Clase sistema (principal)
  */
-public class Sistema {
+public class Sistema implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	/**
 	 * Variable Sistema
 	 */
@@ -156,19 +156,61 @@ public class Sistema {
 	
 	
 	/**
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 * 
 	 */
-	public void inicializarSistema() {
+	public void inicializarSistema() throws ClassNotFoundException, IOException {
+		readObject();
+		for (Cancion c: cancionesValidar) {
+			c.borradoTrasTercerDia();
+		}
 		for (UsuarioRegistrado u: usuarios) {
 			if (u.getBloqueado() == true && u.getBloqueoPermanente() == false)
-				desbloquearUsuario(u);
+				u.desbloquearUsuario();
 			if (u.EsPremium() == true) {
 				caducaPremium(u);
 			}
 		}
 	}
 	
-	/**
+	public void readObject() throws IOException, ClassNotFoundException {
+		FileInputStream is = new FileInputStream("guardarSistema.dat");
+		ObjectInputStream ois = new ObjectInputStream(is);
+		Sistema s = (Sistema) ois.readObject();
+		
+		this.reproduccionesNoRegistrados = s.reproduccionesNoRegistrados;
+		this.nRepAnonimas = s.nRepAnonimas;
+		this.nRepRecompensa = s.nRepRecompensa;
+		this.nRepRegistrado = s.nRepRegistrado;
+		this.usuarios = s.usuarios;
+		this.cancionesNotificadas = s.cancionesNotificadas;
+		this.cancionesRechazadas = s.cancionesRechazadas;
+		this.cancionesValidadas = s.cancionesValidadas;
+		this.cancionesValidar = s.cancionesValidar;
+		this.albunes = s.albunes;
+		this.notificaciones = s.notificaciones;
+		
+		ois.close();
+		is.close();
+	}
+	
+	public void guardarSistema() throws FileNotFoundException, IOException {
+		try {
+			FileOutputStream fos = new FileOutputStream("guardarSistema.dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			// write object to file
+			oos.writeObject(this);
+			System.out.println("Done");
+			// closing resources
+			oos.close();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+		 
+		 /**
 	 * @param titulo de la cancion que se quiere buscar
 	 * @return cancion buscada si se encuentra en la lista, null si no se encuentra
 	 */
@@ -232,7 +274,7 @@ public class Sistema {
 	public boolean login(String usuario, String contrasena) {
 		if (conectado == false) {
 			for (UsuarioRegistrado u: usuarios) {
-				if (u.getNombre().equals(usuario) && u.getContrasena() == contrasena && u.getBloqueado() == false) {
+				if (u.getNombre() == usuario && u.getContrasena() == contrasena && u.getBloqueado() == false) {
 					usuarioEnSesion = u;
 					conectado = true;
 					mostrarNotificacion();
@@ -266,7 +308,7 @@ public class Sistema {
 	 * @param reproducible
 	 */
 	public void borrarReproducible(ObjetoReproducible reproducible) {
-		if (reproducible instanceof Cancion && (usuarioEnSesion == reproducible.getAutor() || usuarioEnSesion.equals(Sistema.getInstance().getAdmin()))) {
+		if (reproducible instanceof Cancion && (usuarioEnSesion == reproducible.getAutor() || usuarioEnSesion == admin)) {
 			if (cancionesValidadas.contains(reproducible))
 				cancionesValidadas.remove(reproducible);
 			else if (cancionesValidar.contains(reproducible))
@@ -274,7 +316,7 @@ public class Sistema {
 			else if(cancionesNotificadas.contains(reproducible))
 				cancionesNotificadas.remove(reproducible);
 			else if(cancionesRechazadas.contains(reproducible)) 
-				cancionesRechazadas.contains(reproducible);
+				cancionesRechazadas.remove(reproducible);
 		}
 		else if (reproducible instanceof Album && usuarioEnSesion == reproducible.getAutor()) {
 			albunes.remove(reproducible);
@@ -309,38 +351,6 @@ public class Sistema {
 		}
 	}
 	
-	
-	
-
-	/**
-	 * @param usuario
-	 */
-	public void bloquearUsuario(UsuarioRegistrado usuario, boolean permanente) {
-		if(usuarioEnSesion == admin) {
-			if (permanente == false) {
-				usuario.setBloqueado(true);
-				usuario.setFechaBloqueo(LocalDate.now());
-			}
-			else
-				usuario.setBloqueoPermanente();
-		}
-	}
-
-	/**
-	 * Metodo que permite desbloquear un usuario
-	 * @param usuario
-	 */
-	public void desbloquearUsuario(UsuarioRegistrado usuario) {
-		LocalDate fecha = LocalDate.now().minusDays(29);
-		if (usuario.getBloqueado() == true && usuario.getBloqueoPermanente() == false) {
-			if (fecha.isAfter(usuario.getFechaBloqueo())) {
-				usuario.setBloqueado(false);
-			}
-			else if (usuarioEnSesion == admin)
-				usuario.setBloqueado(false);
-		}
-		else return;
-	}
 	
 	/**
 	 * @param usuario

@@ -1,6 +1,7 @@
 package es.uam.padsof.objetoreproducible;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
 import es.uam.padsof.usuario.UsuarioRegistrado;
@@ -12,8 +13,13 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  * 
  * Esta clase se encarga de gestionar el objeto ListaReproducciones
  */
-public class ListaReproducciones extends ObjetoReproducible{
+public class ListaReproducciones extends ObjetoReproducible {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/** The Lista canciones. */
 	private ArrayList <Cancion> ListaCanciones;
 	

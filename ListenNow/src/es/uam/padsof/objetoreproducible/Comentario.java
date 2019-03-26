@@ -1,4 +1,5 @@
 package es.uam.padsof.objetoreproducible;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -7,7 +8,12 @@ import es.uam.padsof.usuario.UsuarioRegistrado;
 /**
  * 
  */
-public class Comentario    {
+public class Comentario implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * cuerpo o texto del comentario
 	 */

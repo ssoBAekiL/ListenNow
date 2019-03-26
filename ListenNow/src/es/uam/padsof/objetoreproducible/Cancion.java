@@ -6,7 +6,11 @@ import java.nio.file.StandardCopyOption;
 import java.io.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+<<<<<<< HEAD
 import java.nio.file.Files;
+=======
+import java.io.Serializable;
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -21,7 +25,11 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  * 
  * Esta clase se encarga de gestionar el objeto Cancion 
  */
-public class Cancion extends ObjetoComentable{
+public class Cancion extends ObjetoComentable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private int nreproducciones;
 	private boolean aceptada_mas18;
@@ -122,8 +130,7 @@ public class Cancion extends ObjetoComentable{
 	 */
 	public void borradoTrasTercerDia(){
 		LocalDate fecha1 = LocalDate.now().minusDays(3);
-		if(this.rechazada=true && fecha1.isAfter(this.fechaRechazo)) {
-			Sistema.getInstance().getCancionesRechazadas().remove(this);
+		if(this.rechazada=true && fecha1.isAfter(this.fechaRechazo) ) {
 			Sistema.getInstance().borrarReproducible(this);
 		}
 	}
