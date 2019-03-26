@@ -208,6 +208,8 @@ public class ListaReproducciones extends ObjetoReproducible {
 //=======
 //	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
 //	 */
+	
+	
 	@Override
 	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		for(Cancion c: this.ListaCanciones) {

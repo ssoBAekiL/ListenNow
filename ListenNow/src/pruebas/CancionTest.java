@@ -45,10 +45,14 @@ public class CancionTest {
 	public void testCancion() throws IOException, Mp3PlayerException{
 		sys.login("ADMIN"/*user name*/, "soyadmin"/*pwd*/);
 		sys.setUsuarioEnSesion(Sistema.getInstance().getAdmin());
+<<<<<<< HEAD
 		c1 = new Cancion("Cancion 1", u1, "hive.mp3");
+=======
+		c1 = new Cancion("Cancion 1", u1, "np.mp3");
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		sys.anadirReproducible(c1);
 		comment=new Comentario("INCREIBLE",Sistema.getInstance().getUsuarioEnSesion(),LocalDate.now(),8);
-		
+		System.out.println(c1.getId());
 	}
 	
 	@After
@@ -62,13 +66,13 @@ public class CancionTest {
 	 * @throws Mp3PlayerException
 	 * @throws InterruptedException
 	 */
-	@Test
-	public final void testReproducirCancion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
-		int a= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
-		c1.reproducir();
-		int b= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
-		assertTrue(b>a);
-	}
+//	@Test
+//	public final void testReproducirCancion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+//		int a= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
+//		c1.reproducir();
+//		int b= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
+//		assertTrue(b>a);
+//	}
 	
 	
 	/**
@@ -120,6 +124,7 @@ public class CancionTest {
 		assertTrue(Sistema.getInstance().getCancionesRechazadas().contains(c1));
 	}
 	
+
 	
 	/**
 	 * Test para la funcion borrado tras el tercer dia de haber sido mmarcada una cancion cancion
@@ -154,11 +159,20 @@ public class CancionTest {
 	 * Test para la funcion anadir comentario a cancion
 	 * @throws IOException 
 	 */
+<<<<<<< HEAD
 //	@Test
 //	public final void testMoverCancionASistema() throws IOException {
 //		c1.moverCancionASistema();
 //		//assertTrue(c1.getComentarios().contains(comment));
 //	}
+=======
+	@Test
+	public final void testMoverCancionASistema() throws IOException {
+		assertTrue(c1.copiaCancionASistema());
+		sys.borrarReproducible(c1);
+		assertTrue(c1.copiaCancionASistema());
+	}
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 	
 
 }
