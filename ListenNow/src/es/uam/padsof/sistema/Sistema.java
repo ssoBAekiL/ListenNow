@@ -227,7 +227,7 @@ public class Sistema implements Serializable {
 	 * 
 	 * Funcion que busca una cancion a partir de su titulo
 	 * 
-	 * @return cancion buscada si se encuentra en la lista, null si no se encuentra
+	 * @return cancion buscada si se encuentra en la lista, null si no se encuentra 
 	 */
 	public Cancion buscarCancion(String titulo) {
 		for (Cancion c: cancionesValidadas) {
