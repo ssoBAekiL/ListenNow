@@ -20,7 +20,8 @@ import es.uam.padsof.usuario.UsuarioRegistrado;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 /**
- * @author carlosmiret
+ * Clase test del objeto comentable, que prueba las funciones de la clase Objeto Comentable
+ * @author Carlos Miret, Julian Espada y Pablo Borrelli
  *
  */
 public class ObjetoComentableTest {
@@ -32,19 +33,20 @@ public class ObjetoComentableTest {
 	private Comentario comment;
 	
 	/**
+	 * Funcion que se ejecuta antes de cualquier test con independencia entre ellos
 	 * @throws Mp3PlayerException 
 	 * @throws IOException 
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void testObjetoComentable() throws Mp3PlayerException, IOException{
-		u1=new UsuarioRegistrado("1234567891234567","carlos","6253", false,false);
+		u1=new UsuarioRegistrado("carlos","6253", false,false);
 		sys.addUsuario(u1);
 		//login();
-		u2=new UsuarioRegistrado("98092735671891927","julian","837382", false,false);
+		u2=new UsuarioRegistrado("julian","837382", false,false);
 		sys.addUsuario(u2);
-		obj_commentA=new Album("Album111111111", u1, "lib");
-		obj_commentB=new Cancion("Cancion93282", u2, "lib");
+		obj_commentA=new Album("Album111111111", u1);
+		obj_commentB=new Cancion("Cancion93282", u2, "chicle3.mp3");
 		comment=new Comentario("Me gusta!", u1, LocalDate.now(), 8);
 	}
 
@@ -53,9 +55,9 @@ public class ObjetoComentableTest {
 	 */
 	@Test
 	public void testAnadirComentario() {
-		obj_commentA.anadirComentario(u2, comment);
+		obj_commentA.anadirComentario(comment);
 		assertTrue(obj_commentA.getComentarios().contains(comment));
-		obj_commentB.anadirComentario(u1, comment);
+		obj_commentB.anadirComentario(comment);
 		assertTrue(obj_commentB.getComentarios().contains(comment));
 	}
 

@@ -85,8 +85,6 @@ public class Cancion extends ObjetoComentable {
 	
 	
 	
-	
-	
 	/**
 	 * Funcion que copia una cancion al sistema
 	 * @return true en caso correcto
@@ -366,14 +364,22 @@ public class Cancion extends ObjetoComentable {
 	
 	/**************************************/
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isNotificada_plagio() {
 		return notificada_plagio;
 	}
-
+	
 	public void setNotificada_plagio(boolean notificada_plagio) {
 		this.notificada_plagio = notificada_plagio;
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isPendiente_verificacion() {
 		return pendiente_verificacion;
 	}
@@ -382,6 +388,10 @@ public class Cancion extends ObjetoComentable {
 		this.pendiente_verificacion = pendiente_verificacion;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isAceptada() {
 		return aceptada;
 	}
@@ -390,6 +400,10 @@ public class Cancion extends ObjetoComentable {
 		this.aceptada = aceptada;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isMarcada_plagio() {
 		return marcada_plagio;
 	}
@@ -398,24 +412,30 @@ public class Cancion extends ObjetoComentable {
 		this.marcada_plagio = marcada_plagio;
 	}
 
+	/**
+	 * Funcion getter de rechazada
+	 * 
+	 * @return rechazada
+	 */
 	public boolean isRechazada() {
 		return rechazada;
 	}
 
+	/**
+	 * Funcion setter de rechazada
+	 */
 	public void setRechazada(boolean rechazada) {
 		this.rechazada = rechazada;
 	}
 
+	
+	
+	/**
+	 * Funcion que muestra por pantalla todos los atributos caracteristicos de una cancion
+	 */
 	public String toString(){
 		return "Autor: "+this.getAutor()+"\n"+"Titulo: "+this.getTitulo()+"\n";
 	}
-	
-	/************************************************/
-	public void setReproucciones(int reproducciones) {
-		this.nreproducciones = reproducciones;
-	}
-
-
 
 
 
@@ -425,5 +445,8 @@ public class Cancion extends ObjetoComentable {
 		return false;
 	}
 
+
+
+	
 	
 }

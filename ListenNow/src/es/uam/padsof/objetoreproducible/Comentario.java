@@ -1,11 +1,14 @@
 package es.uam.padsof.objetoreproducible;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.*;
 
 import es.uam.padsof.usuario.UsuarioRegistrado;
 
 /**
+ * 
+ * Clase comentario, que posee todos las caracteristicas propias 
+ * de un comentario al igual que funciones que trabajan sobre este
+ * @author Carlos Miret, Julian Espada y Pablo Borrelli
  * 
  */
 public class Comentario implements Serializable {
@@ -37,7 +40,11 @@ public class Comentario implements Serializable {
 
 
 	/**
-	 * Default constructor
+	 * Metodo constructor de la clase comentario
+	 * @param texto
+	 * @param autor
+	 * @param fecha
+	 * @param valoracion
 	 */
 	public Comentario(String texto, UsuarioRegistrado autor, LocalDate fecha, int valoracion) {
 		this.texto=texto;
@@ -47,8 +54,10 @@ public class Comentario implements Serializable {
 	}
 	
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * Metodo que muestra por pantalla las principales
+	 * 
+	 * @return cadena de caracteres
 	 */
 	@Override
 	public String toString() {
@@ -57,48 +66,35 @@ public class Comentario implements Serializable {
 	}
 
 	/**
+	 * Funcion getter del texto del comentario
 	 * @return the texto
 	 */
 	public String getTexto() {
 		return texto;
 	}
 
-	/**
-	 * @param texto the texto to set
-	 */
-	public void setTexto(String texto) {
-		this.texto = texto;
-	}
 
 	/**
+	 * Funcion getter del autor del comentario
 	 * @return the autor
 	 */
 	public UsuarioRegistrado getAutor() {
 		return autor;
 	}
 
-	/**
-	 * @param autor the autor to set
-	 */
-	public void setAutor(UsuarioRegistrado autor) {
-		this.autor = autor;
-	}
+
 
 	/**
+	 * Fecha en la que se publico el comentario
 	 * @return the fecha
 	 */
 	public LocalDate getFecha() {
 		return fecha;
 	}
 
-	/**
-	 * @param fecha the fecha to set
-	 */
-	public void setFecha(LocalDate fecha) {
-		this.fecha = fecha;
-	}
 
 	/**
+	 * Getter de valoracion del comentario
 	 * @return the valoracion
 	 */
 	public int getValoracion() {
@@ -106,13 +102,12 @@ public class Comentario implements Serializable {
 	}
 
 	/**
+	 * 
 	 * @param valoracion the valoracion to set
 	 */
 	public void setValoracion(int valoracion) {
 		this.valoracion = valoracion;
 	}
-
-    
-
+   
 
 }

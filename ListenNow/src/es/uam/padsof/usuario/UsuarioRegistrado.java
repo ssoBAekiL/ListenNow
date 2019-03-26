@@ -24,7 +24,6 @@ public class UsuarioRegistrado implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-
 	/**
 	 * Metodo constructor de UsuarioRegistrado
 	 * @param numTarjeta Numero de tarjeta del usuario
@@ -308,6 +307,7 @@ public class UsuarioRegistrado implements Serializable {
 	
 	
 	/**
+	 * Funcion getter de la fecha en la que ha sido bloqueado un usuario
 	 * @return
 	 */
 	public LocalDate getFechaBloqueo() {
@@ -315,6 +315,7 @@ public class UsuarioRegistrado implements Serializable {
 	}
 	
 	/**
+	 * Funcion setter de la fecha de bloqueo de la cancion
 	 * @param fecha
 	 */
 	public void setFechaBloqueo(LocalDate fecha) {
@@ -322,7 +323,7 @@ public class UsuarioRegistrado implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * Bloquea permanentemente a un usuario
 	 */
 	public void setBloqueoPermanente() {
 		bloqueado = true;
@@ -330,14 +331,16 @@ public class UsuarioRegistrado implements Serializable {
 	}
 	
 	/**
-	 * @return
+	 * Funcion getter del estado de bloqueado del usuario
+	 * @return estado en el que esta el usuario
 	 */
 	public boolean getBloqueado() {
 		return bloqueado;
 	}
 	
 	/**
-	 * @return
+	 * Metodo getter del atributo 
+	 * @return si esta realmente bloqueado o no
 	 */
 	public boolean getBloqueoPermanente() {
 		return bloqueoPermanente;
@@ -384,7 +387,8 @@ public class UsuarioRegistrado implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * Metodo caduca premium, que calculando una nueva fecha, la compara y determina si ha caducado
+	 * la suscripcion del usuario
 	 */
 	public void caducaPremium() {
 		LocalDate fecha = LocalDate.now().minusDays(29);
@@ -396,7 +400,7 @@ public class UsuarioRegistrado implements Serializable {
 	
 	/**
 	 * Este metodo comprueba que un usuario puede reproducir una cacnion o no dependiendo de su estado
-	 * @return
+	 * @return true en caso de que si que pueda reproducir el archivo
 	 */
 	public boolean puedeReproducir() {
 		if(this.EsPremium()==false && this.getReproducciones()<Sistema.getInstance().getnRepRegistrado())
@@ -410,7 +414,7 @@ public class UsuarioRegistrado implements Serializable {
 	
 	/**
 	 * Este metodo comprueba que un usuario puede reproducir una cacnion o no dependiendo de su estado
-	 * @return
+	 * @return true en caso de que sea apto para comentar, ya se sea un album o cancion
 	 */
 	public boolean puedeComentar() {
 		if(Sistema.getInstance().getUsuarios().contains(this))
@@ -420,7 +424,7 @@ public class UsuarioRegistrado implements Serializable {
 
 	
 	/**
-	 * Metodo que increment el numero de reproducciones de un autor cancion/es
+	 * Metodo que incremena el numero de reproducciones de un autor cancion/es
 	 */
 	public void incrementaNumReproduccionesPropias() {
 		this.numReproduccionDeCancionesPropias++;
@@ -482,14 +486,17 @@ public class UsuarioRegistrado implements Serializable {
 		Sistema.getInstance().borrarReproducible(lista);
 	}
 	
-	
+	/**
+	 * Metodo que aniade una cancion al array de canciones del usuario
+	 * @param cancion
+	 */
 	public void setCanciones(Cancion cancion) {
 		canciones.add(cancion);
 	}
 	
 	
 	/**
-	 * Metodo que permite a un usuario, seguir a otro
+	 * Metodo que permite a un usuario seguir a otro, siempre y cuando el usuario al que quiero seguir exista
 	 * @param UsuarioRegistrado seguido
 	 * @return true en caso de poder realizar la accion de forma correcta
 	 */
@@ -513,7 +520,8 @@ public class UsuarioRegistrado implements Serializable {
 	}
 	
 	/**
-	 * @param usuario
+	 * Metodo que bloquea a un usuario siempre cuando el usuario que bloquea es el ADMDIN
+	 * @param permanente que modifica el estado en el que se encuentra el usuario
 	 */
 	public void bloquearUsuario(boolean permanente) {
 		if(Sistema.getInstance().getUsuarioEnSesion().getNombre().equals(Sistema.getInstance().getAdmin().getNombre())) {
@@ -528,8 +536,7 @@ public class UsuarioRegistrado implements Serializable {
 
 
 	/**
-	 * Metodo que permite desbloquear un usuario
-	 * @param usuario
+	 * Metodo que permite desbloquear un usuario si ya han pasado 30 dias despues de su primer bloqueo
 	 */
 	public void desbloquearUsuario() {
 		LocalDate fecha = LocalDate.now().minusDays(29);

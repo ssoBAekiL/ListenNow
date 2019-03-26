@@ -6,7 +6,6 @@ package pruebas;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -16,10 +15,8 @@ import org.junit.Test;
 
 import es.uam.padsof.objetoreproducible.Cancion;
 import es.uam.padsof.objetoreproducible.Comentario;
-import es.uam.padsof.sistema.Notificacion;
 import es.uam.padsof.sistema.Sistema;
 import es.uam.padsof.usuario.UsuarioRegistrado;
-import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 /**
