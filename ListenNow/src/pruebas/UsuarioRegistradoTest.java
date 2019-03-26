@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -195,4 +196,5 @@ public class UsuarioRegistradoTest {
 		u1.caducaPremium();
 		assertFalse(u1.EsPremium());
 	}
+	
 } 

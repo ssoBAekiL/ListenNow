@@ -168,13 +168,13 @@ public class Sistema implements Serializable {
 		for (UsuarioRegistrado u: usuarios) {
 			if (u.getBloqueado() == true && u.getBloqueoPermanente() == false)
 				u.desbloquearUsuario();
-			if (u.EsPremium() == true) {
+			if(u.EsPremium() == true)
 				u.caducaPremium();
-			}
 		}
 	}
 	
 	public void readObject() throws IOException, ClassNotFoundException {
+		try {
 		FileInputStream is = new FileInputStream("guardarSistema.dat");
 		ObjectInputStream ois = new ObjectInputStream(is);
 		Sistema s = (Sistema) ois.readObject();
@@ -184,15 +184,18 @@ public class Sistema implements Serializable {
 		this.nRepRecompensa = s.nRepRecompensa;
 		this.nRepRegistrado = s.nRepRegistrado;
 		this.usuarios = s.usuarios;
+		System.out.println(s.usuarios.get(0));
 		this.cancionesNotificadas = s.cancionesNotificadas;
 		this.cancionesRechazadas = s.cancionesRechazadas;
 		this.cancionesValidadas = s.cancionesValidadas;
 		this.cancionesValidar = s.cancionesValidar;
 		this.albunes = s.albunes;
-		this.notificaciones = s.notificaciones;
+		this.notificaciones = s.notificaciones;		
 		
 		ois.close();
 		is.close();
+		}
+		catch (IOException e) {e.printStackTrace();}
 	}
 	
 	public void guardarSistema() throws FileNotFoundException, IOException {
@@ -201,7 +204,6 @@ public class Sistema implements Serializable {
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			// write object to file
 			oos.writeObject(this);
-			System.out.println("Done");
 			// closing resources
 			oos.close();
 			fos.close();
@@ -216,7 +218,7 @@ public class Sistema implements Serializable {
 	 */
 	public Cancion buscarCancion(String titulo) {
 		for (Cancion c: cancionesValidadas) {
-			if (c.getTitulo() == titulo)
+			if (c.getTitulo().equals(titulo))
 				return c;
 		}
 		return null;
@@ -228,7 +230,7 @@ public class Sistema implements Serializable {
 	 */
 	public Album buscarAlbum(String titulo) {
 		for (Album a: albunes) {
-			if (a.getTitulo() == titulo)
+			if (a.getTitulo().equals(titulo))
 				return a;
 		}
 		return null;
@@ -250,7 +252,7 @@ public class Sistema implements Serializable {
 	public ArrayList<Cancion> buscarAutor(String autor) {
 		ArrayList<Cancion> cancionesAutor = new ArrayList<Cancion>();
 		for (Cancion c: cancionesValidadas)
-			if (c.getAutor().getNombre() == autor)
+			if (c.getAutor().getNombre().equals(autor))
 				cancionesAutor.add(c);
 		return cancionesAutor;
 	}
@@ -271,7 +273,7 @@ public class Sistema implements Serializable {
 	public boolean login(String usuario, String contrasena) {
 		if (conectado == false) {
 			for (UsuarioRegistrado u: usuarios) {
-				if (u.getNombre() == usuario && u.getContrasena() == contrasena && u.getBloqueado() == false) {
+				if (u.getNombre().equals(usuario) && u.getContrasena().equals(contrasena) && u.getBloqueado() == false) {
 					usuarioEnSesion = u;
 					conectado = true;
 					mostrarNotificacion();
@@ -304,41 +306,24 @@ public class Sistema implements Serializable {
 	/**
 	 * @param reproducible
 	 */
-	public void borrarReproducible(ObjetoReproducible reproducible) {
-		if (reproducible instanceof Cancion && (usuarioEnSesion == reproducible.getAutor() || usuarioEnSesion == admin)) {
+	public void borrarReproducible(ObjetoReproducible reproducible ) {
+		if(conectado == true && (usuarioEnSesion.getNombre().equals(reproducible.getAutor().getNombre()) || usuarioEnSesion.getNombre().equals(admin.getNombre()))) {
+		if (reproducible instanceof Cancion) {
 			if (cancionesValidadas.contains(reproducible))
 				cancionesValidadas.remove(reproducible);
-			else if (cancionesValidar.contains(reproducible))
+			if (cancionesValidar.contains(reproducible))
 				cancionesValidar.remove(reproducible);
-			else if(cancionesNotificadas.contains(reproducible))
+			if(cancionesNotificadas.contains(reproducible))
 				cancionesNotificadas.remove(reproducible);
-			else if(cancionesRechazadas.contains(reproducible)) 
+			if(cancionesRechazadas.contains(reproducible)) 
 				cancionesRechazadas.remove(reproducible);
 		}
-		else if (reproducible instanceof Album && usuarioEnSesion == reproducible.getAutor()) {
+		else if (reproducible instanceof Album) {
 			albunes.remove(reproducible);
-		}
+		}}
+		else return;
 		
 	}
-
-	/**
-	 * 
-	 * @param usuario
-	 */
-	public void recompensaPremium(UsuarioRegistrado usuario) {
-		LocalDate fecha = LocalDate.now();
-		int reproducciones = 0;
-		for (Cancion c: usuario.getCanciones()) {
-			reproducciones += c.getNreproducciones();
-		}
-		if (reproducciones >= nRepRecompensa && usuario.EsPremium() == false) {
-			usuario.setEsPremium(true);
-			usuario.setFechaPremium(fecha);
-		}
-	}
-
-
-	
 	
 	/**
 	 * @param usuario

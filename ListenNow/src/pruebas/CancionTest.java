@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,10 +45,15 @@ public class CancionTest {
 	public void testCancion() throws IOException, Mp3PlayerException{
 		sys.login("ADMIN"/*user name*/, "soyadmin"/*pwd*/);
 		sys.setUsuarioEnSesion(Sistema.getInstance().getAdmin());
-		c1 = new Cancion("Cancion 1", u1, "chicle3.mp3");
+		c1 = new Cancion("Cancion 1", u1, "hive.mp3");
 		sys.anadirReproducible(c1);
 		comment=new Comentario("INCREIBLE",Sistema.getInstance().getUsuarioEnSesion(),LocalDate.now(),8);
 		
+	}
+	
+	@After
+	public void reset() {
+		sys.reset();
 	}
 	
 	/**
@@ -111,7 +117,7 @@ public class CancionTest {
 	@Test
 	public final void marcarComoPlagio() {
 		c1.marcarComoPlagio();
-		assertTrue(Sistema.getInstance().getCancionesNotificadas().contains(c1));
+		assertTrue(Sistema.getInstance().getCancionesRechazadas().contains(c1));
 	}
 	
 	
@@ -148,11 +154,11 @@ public class CancionTest {
 	 * Test para la funcion anadir comentario a cancion
 	 * @throws IOException 
 	 */
-	@Test
-	public final void testMoverCancionASistema() throws IOException {
-		c1.moverCancionASistema();
-		//assertTrue(c1.getComentarios().contains(comment));
-	}
+//	@Test
+//	public final void testMoverCancionASistema() throws IOException {
+//		c1.moverCancionASistema();
+//		//assertTrue(c1.getComentarios().contains(comment));
+//	}
 	
 
 }

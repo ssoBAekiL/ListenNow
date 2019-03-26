@@ -84,4 +84,34 @@ public class Notificacion implements Serializable {
 		return null;
 	}
 
+
+
+	public TipoNotificacion getTipo() {
+		return tipo;
+	}
+
+
+
+	public void setTipo(TipoNotificacion tipo) {
+		this.tipo = tipo;
+	}
+
+
+
+	public String getTexto() {
+		return texto;
+	}
+
+
+
+	public void setTexto(String texto) {
+		this.texto = texto;
+	}
+
+
+
+	public void setUsuariosNotificados(ArrayList<UsuarioRegistrado> usuariosNotificados) {
+		this.usuariosNotificados = usuariosNotificados;
+	}
+
 }

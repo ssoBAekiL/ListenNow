@@ -383,7 +383,6 @@ public class UsuarioRegistrado implements Serializable {
 			return false;
 	}
 	
-	
 	/**
 	 * 
 	 */
@@ -510,14 +509,14 @@ public class UsuarioRegistrado implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "UsuarioRegistrado [" + nombre + "]: ";
+		return "UsuarioRegistrado [" + nombre + "]: " + contrasena;
 	}
 	
 	/**
 	 * @param usuario
 	 */
 	public void bloquearUsuario(boolean permanente) {
-		if(Sistema.getInstance().getUsuarioEnSesion() == Sistema.getInstance().getAdmin()) {
+		if(Sistema.getInstance().getUsuarioEnSesion().getNombre().equals(Sistema.getInstance().getAdmin().getNombre())) {
 			if (permanente == false) {
 				this.bloqueado = true;
 				this.setFechaBloqueo(LocalDate.now());

@@ -6,11 +6,8 @@ import java.nio.file.StandardCopyOption;
 import java.io.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-<<<<<<< HEAD
 import java.nio.file.Files;
-=======
 import java.io.Serializable;
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -130,7 +127,7 @@ public class Cancion extends ObjetoComentable {
 	 */
 	public void borradoTrasTercerDia(){
 		LocalDate fecha1 = LocalDate.now().minusDays(3);
-		if(this.rechazada=true && this.marcada_plagio == false && fecha1.isAfter(this.fechaRechazo) ) {
+		if(this.rechazada==true && fecha1.isAfter(this.fechaRechazo) ) {
 			Sistema.getInstance().borrarReproducible(this);
 		}
 	}
@@ -144,7 +141,8 @@ public class Cancion extends ObjetoComentable {
 			this.rechazada=true;
 			this.fechaRechazo=LocalDate.now();
 			Sistema.getInstance().getCancionesValidar().remove(this);
-			Sistema.getInstance().getCancionesRechazadas().add(this);
+			if (Sistema.getInstance().getCancionesRechazadas().contains(this) == false)
+				Sistema.getInstance().getCancionesRechazadas().add(this);
 			return true;
 		}
 		return false;
@@ -309,8 +307,10 @@ public class Cancion extends ObjetoComentable {
 	public boolean marcarComoPlagio() {
 		/*SI EL USUARIO EN SESION ES EL ADMIN*/
 		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin())) {
+			if (Sistema.getInstance().getCancionesRechazadas().contains(this) == false)
 				Sistema.getInstance().getCancionesRechazadas().add(this);
 				this.setMarcada_plagio(true);
+				this.autor.bloquearUsuario(false);
 				return true;
 		}
 		return false;

@@ -36,7 +36,7 @@ public class SistemaTest {
 	private Notificacion n3;
 	
 	@Before
-	public void setUp() throws IOException, Mp3PlayerException {
+	public void setUp() throws IOException, Mp3PlayerException, ClassNotFoundException {
 		u1 = new UsuarioRegistrado("usuario1", "pass", false, false);
 		u2 = new UsuarioRegistrado("usuario2", "pass123", false, false);
 		sys.addUsuario(u1);
@@ -65,6 +65,9 @@ public class SistemaTest {
 		sys.setNotificaciones(n1);
 		sys.setNotificaciones(n2);
 		sys.setNotificaciones(n3);
+		sys.guardarSistema();
+		sys.reset();
+		sys.readObject();
 	}
 	
 	@After
@@ -111,14 +114,15 @@ public class SistemaTest {
 
 	@Test
 	public void testBuscarCancion() {
-		assertSame(c1, sys.buscarCancion("Cancion 1"));
+		assertEquals(c1.getAutor().getNombre(), sys.buscarCancion("Cancion 1").getAutor().getNombre());
+		assertEquals(c1.getTitulo(), sys.buscarCancion("Cancion 1").getTitulo());
 		assertNotSame(c1, sys.buscarCancion("Cancion 2"));
 		assertNull(sys.buscarCancion("Abc def"));
 	}
 
 	@Test
 	public void testBuscarAlbum() {
-		assertSame(a1.getTitulo(), sys.buscarAlbum("Album 1").getTitulo());
+		assertEquals(a1.getTitulo(), sys.buscarAlbum("Album 1").getTitulo());
 	}
 
 	@Test
@@ -185,21 +189,18 @@ public class SistemaTest {
 		sys.anadirReproducible(a2);
 		sys.borrarReproducible(a2);
 		assertFalse(sys.getAlbunes().contains(a2));
+		sys.logout();
+		sys.login("usuario2", "pass123");
+		sys.anadirReproducible(a2);
+		sys.logout();
+		sys.login("ADMIN", "soyadmin");
+		sys.borrarReproducible(a2);
+		assertFalse(sys.getAlbunes().contains(a2));
 		sys.borrarReproducible(c4);
 		assertFalse(sys.getCancionesValidar().contains(c4));
 	}
 
-	@Test
-	public void testRecompensaPremium() {
-		c1.setReproucciones(4);
-		c2.setReproucciones(12);
-		assertFalse(u1.EsPremium());
-		assertFalse(u2.EsPremium());
-		sys.recompensaPremium(u1);
-		assertFalse(u1.EsPremium());
-		sys.recompensaPremium(u2);
-		assertTrue(u2.EsPremium());
-	}
+
 
 	@Test
 	public void testDarDeBaja() {
@@ -211,14 +212,14 @@ public class SistemaTest {
 	public void testMostrarNotificacion() {
 		assertNull(sys.mostrarNotificacion());
 		sys.login("ADMIN", "soyadmin");
-		assertEquals(n1, sys.mostrarNotificacion().get(0));
+		assertEquals(n1.getTexto(), sys.mostrarNotificacion().get(0).getTexto());
 		sys.logout();
 		sys.login("usuario1", "pass");
-		assertEquals(n2, sys.mostrarNotificacion().get(0));
+		assertEquals(n2.getTexto(), sys.mostrarNotificacion().get(0).getTexto());
 		sys.logout();
 		sys.login("usuario2", "pass123");
-		assertEquals(n2, sys.mostrarNotificacion().get(0));
-		assertEquals(n3, sys.mostrarNotificacion().get(1));
+		assertEquals(n2.getTexto(), sys.mostrarNotificacion().get(0).getTexto());
+		assertEquals(n3.getTexto(), sys.mostrarNotificacion().get(1).getTexto());
 	}
 	
 	@Test
