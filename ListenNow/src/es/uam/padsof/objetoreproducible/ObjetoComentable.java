@@ -18,9 +18,14 @@ public abstract class ObjetoComentable extends ObjetoReproducible {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Array de comentarios que tiene un album
+	 */
 	protected ArrayList<Comentario> comentarios;
 	
 	/**
+	 * Metodo constructor de la clase ObjetoComentable
 	 * @param titulo
 	 * @param autor
 	 * @param ruta
@@ -42,6 +47,7 @@ public abstract class ObjetoComentable extends ObjetoReproducible {
 	
 	
 	/**
+	 * Funcion getter de comentarios
 	 * @return the comentarios
 	 */
 	public ArrayList<Comentario> getComentarios() {

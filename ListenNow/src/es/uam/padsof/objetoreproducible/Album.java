@@ -1,6 +1,7 @@
 package es.uam.padsof.objetoreproducible;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -174,6 +175,12 @@ public class Album extends ObjetoComentable {
 			dur=Mp3Player.getDuration(c.getRuta());
 			duracionAcumulada=duracionAcumulada+dur;
 		}
+	}
+
+	@Override
+	public boolean moverCancionASistema() throws IOException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	/* IMPORTANTE COMPROBAR SI YA EXISTE LA CANCION EN EL ALBUM AL A�ADIR O SI NO EXISTE AL BORRAR O SI NO ES DEL AUTOR*/
