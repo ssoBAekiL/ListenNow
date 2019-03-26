@@ -12,7 +12,7 @@ import java.io.*;
  */
 public class Sistema implements Serializable {
 	/**
-	 * 
+	 * Identificador serial utilizado para serializar la clase
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -80,13 +80,13 @@ public class Sistema implements Serializable {
 	private ArrayList<Cancion> cancionesValidadas;
 
 	/**
-	 * Lista de notificaciones para el usuario que ha realizado el login
+	 * Lista de tadas las notificaciones del sistema
 	 */
 	private ArrayList<Notificacion> notificaciones;
 	
 	
 	/**
-	 * Canciones notificadas
+	 * Canciones notificadas como plagio
 	 */
 	private ArrayList<Cancion> cancionesNotificadas;
 
@@ -106,11 +106,6 @@ public class Sistema implements Serializable {
 	 */
 	private AtomicLong generador=new AtomicLong(1);
 	
-	
-	/**
-	 * Ruta en el sistema
-	 */
-	private String rutaDelSistema;
 	
 	/**
 	 * Metodo constructor de sistema
@@ -159,6 +154,9 @@ public class Sistema implements Serializable {
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 * 
+	 * Funcion que se ejecuta al inicializar el sistema y carga tdos los datos guadrados en la sesion anterior.
+	 * A continuacion borra las canciones que hayan sido rechazadas hace mas de 3 dias, desbloquea a los usuarios
+	 * que llevan mas de 30 dias bloqueados y quita el premium a los usuarios que lo tengan desde mas de 30 dias
 	 */
 	public void inicializarSistema() throws ClassNotFoundException, IOException {
 		readObject();
@@ -173,6 +171,12 @@ public class Sistema implements Serializable {
 		}
 	}
 	
+	/**
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * 
+	 * Funcion que lee de un fichero datos guardados de la clase sistema y los carga en el sistema
+	 */
 	public void readObject() throws IOException, ClassNotFoundException {
 		try {
 		FileInputStream is = new FileInputStream("guardarSistema.dat");
@@ -198,6 +202,12 @@ public class Sistema implements Serializable {
 		catch (IOException e) {e.printStackTrace();}
 	}
 	
+	/**
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * 
+	 * Funcion que guarda en un fichero todos los datos de la instancia actual de sistema
+	 */
 	public void guardarSistema() throws FileNotFoundException, IOException {
 		try {
 			FileOutputStream fos = new FileOutputStream("guardarSistema.dat");
@@ -212,8 +222,11 @@ public class Sistema implements Serializable {
 		}
 	}
 		 
-		 /**
+	/**
 	 * @param titulo de la cancion que se quiere buscar
+	 * 
+	 * Funcion que busca una cancion a partir de su titulo
+	 * 
 	 * @return cancion buscada si se encuentra en la lista, null si no se encuentra
 	 */
 	public Cancion buscarCancion(String titulo) {
@@ -225,8 +238,11 @@ public class Sistema implements Serializable {
 	}
 
 	/**
-	 * @param album 
-	 * @return
+	 * @param titulo del album que se quiere buscar
+	 * 	
+	 *  Funcion que busca un album a partir de su titulo 
+	 *  
+	 * @return album buscado si se encuentra en la lista, null si no se encuentra
 	 */
 	public Album buscarAlbum(String titulo) {
 		for (Album a: albunes) {

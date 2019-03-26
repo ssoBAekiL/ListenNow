@@ -3,17 +3,9 @@ package es.uam.padsof.objetoreproducible;
 import java.nio.file.*;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.io.*;
 import java.io.FileNotFoundException;
-<<<<<<< HEAD
 import java.io.IOException;
 import java.nio.file.Files;
-import java.io.Serializable;
-=======
-import java.io.IOException;
-import java.nio.file.Files;
-import java.io.Serializable;
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 import java.time.LocalDate;
 import java.util.ArrayList;
 

@@ -65,9 +65,9 @@ public class SistemaTest {
 		sys.setNotificaciones(n1);
 		sys.setNotificaciones(n2);
 		sys.setNotificaciones(n3);
-		sys.guardarSistema();
-		sys.reset();
-		sys.readObject();
+//		sys.guardarSistema();
+//		sys.reset();
+//		sys.readObject();
 	}
 	
 	@After
