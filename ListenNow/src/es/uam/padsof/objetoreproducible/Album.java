@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import es.uam.padsof.sistema.Sistema;
 import es.uam.padsof.usuario.UsuarioRegistrado;
+import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 //import es.uam.padsof.usuario.*;
 
@@ -14,7 +15,7 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  * Esta clase se encarga de gestionar el objeto Album
  */
 public class Album extends ObjetoComentable{
-	/*private time duracion;*/
+	private double duracionAcumulada;
 	
 	/** Canciones del album*/
 	private ArrayList<Cancion> canciones;
@@ -155,6 +156,18 @@ public class Album extends ObjetoComentable{
 	
 	public int getGetTamanioAlbum() {
 		return this.canciones.size();
+	}
+
+	public double getDuracionAcumulada() {
+		return duracionAcumulada;
+	}
+
+	public void setDuracionAcumulada() throws FileNotFoundException {
+		double dur;
+		for(Cancion c: canciones) {
+			dur=Mp3Player.getDuration(c.getRuta());
+			duracionAcumulada=duracionAcumulada+dur;
+		}
 	}
 	
 	/* IMPORTANTE COMPROBAR SI YA EXISTE LA CANCION EN EL ALBUM AL A�ADIR O SI NO EXISTE AL BORRAR O SI NO ES DEL AUTOR*/
