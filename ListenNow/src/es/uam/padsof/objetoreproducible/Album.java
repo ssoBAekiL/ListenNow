@@ -82,12 +82,11 @@ public class Album extends ObjetoComentable{
 	 * 
 	 * Este m�todo se encargar� de a�adir una canci�n al �lbum
 	 */
-	public void aniadirCancionAlbum(Cancion c) {
-		ArrayList<Cancion> canciones = this.getCanciones();
-		if(this.canciones.contains(c))
-			return;
+	public boolean aniadirCancionAlbum(Cancion c) {
+		if(this.getCanciones().contains(c))
+			return false;
 		canciones.add(c);
-		return;
+		return true;
 	}
 	
 	/**
@@ -96,11 +95,12 @@ public class Album extends ObjetoComentable{
 	 * 
 	 * Este metodo se encarga de borrar la cancion que se le pasa como argumento del album
 	 */
-	public void borrarCancionAlbum(Cancion c) {
+	public boolean borrarCancionAlbum(Cancion c) {
 		if(this.canciones.contains(c)) {
 			canciones.remove(c);
-			return;		
+			return true;		
 		}
+		return false;
 	}
 	
 	/**
