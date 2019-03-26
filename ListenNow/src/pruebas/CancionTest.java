@@ -47,6 +47,7 @@ public class CancionTest {
 		//u2=new UsuarioRegistrado("1904567891227567","pablo","74884", false,false);
 		//sys.addUsuario(u2);
 		c1 = new Cancion("Cancion 1", u1, "chicle3.mp3");
+		sys.anadirReproducible(c1);
 		comment=new Comentario("INCREIBLE",Sistema.getInstance().getUsuarioEnSesion(),LocalDate.now(),8);
 		
 	}
