@@ -144,12 +144,14 @@ public class CancionTest {
 	
 	
 	/**
+	 * Test de la funcion MoverCancionASistema
 	 * Test para la funcion anadir comentario a cancion
+	 * @throws IOException 
 	 */
 	@Test
-	public final void testMoverCancionASistema() {
-		c1.anadirComentario(comment);
-		assertTrue(c1.getComentarios().contains(comment));
+	public final void testMoverCancionASistema() throws IOException {
+		c1.moverCancionASistema();
+		//assertTrue(c1.getComentarios().contains(comment));
 	}
 	
 

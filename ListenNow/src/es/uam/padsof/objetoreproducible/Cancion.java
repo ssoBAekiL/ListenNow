@@ -62,16 +62,94 @@ public class Cancion extends ObjetoComentable{
 	 * @throws IOException
 	 */
 	public boolean moverCancionASistema() throws IOException{
-		try {
-			Path origen= Paths.get(this.getRuta());
-			Path destino= Paths.get("/CancionesSistema");
-		    Files.copy(origen,destino);
-		    return true;
-		} catch (IOException ex) {
-		    System.err.format("I/O Error when copying file");
-		}	
-		return true;
+		String origen = this.getRuta();
+		String destino = ":\\ListenNow\\ListenNow\\"+this.getRuta();
+		Cancion.copyFile(origen,destino);
+		return true;	
 	}
+
+    /**
+     * Metodo que copia un fichero
+     * @param filePath
+     * @param dir
+     */
+    public static void copyFile(String filePath, String dir) {
+        Path sourceFile = Paths.get(filePath);
+        Path targetDir = Paths.get(dir);
+        Path targetFile = targetDir.resolve(sourceFile.getFileName());
+ 
+        try {
+ 
+            Files.copy(sourceFile, targetFile);
+ 
+        } catch (FileAlreadyExistsException ex) {
+            System.err.format("File %s already exists.", targetFile);
+        } catch (IOException ex) {
+            System.err.format("I/O Error when copying file");
+        }
+    }
+
+
+///**
+// * Copia un arhivo de una ubicación a otra.
+// * Devuelve true si y solo si se completó la operación correctamente. 
+// * de otro modo devuelve false 
+// * @param origen
+// * @param destino
+// * @return boolean
+// */
+//private boolean copiar(String origen, String destino){
+//    File archivoOrigen;
+//    File archivoDestino;
+//    FileInputStream in = null;
+//    FileOutputStream out = null;
+//    boolean b;
+//    try{
+//        archivoOrigen = new File(origen);
+//        archivoDestino = new File(destino);
+//       
+//        /**
+//         * Validamos que el archivo de origen exista. En caso de que no 
+//         * exista saldremos del método
+//         */
+//        if(b = archivoOrigen.exists()) {
+//            /**
+//             * Validamos que el archivo de origen se pueda leer
+//             */
+//            if(b = archivoOrigen.canRead()) {
+//                /**
+//                 * Creamos el lector y el escritor
+//                 */
+//                in = new FileInputStream(archivoOrigen);
+//                out = new FileOutputStream(archivoDestino);
+//
+//                /**
+//                 * Mientras se lee de un lado por otro lado se escribe
+//                 */
+//                int c;
+//                while( (c = in.read() ) != -1) {
+//                    out.write(c);
+//                }
+//            }
+//        }
+//    } catch(IOException ex){
+//        ex.printStackTrace(System.out);
+//        b = false;
+//    } finally {
+//        try{
+//            if(in != null) {
+//                in.close();
+//            }
+//            if(out != null) {
+//                out.close();
+//            }
+//        } catch(IOException ex) {
+//            ex.printStackTrace(System.out);
+//            b = false;
+//        }
+//    }
+//    return b;
+//}
 	
 	/**
 	 * Fecha de rechazo de la cancion

@@ -38,7 +38,7 @@ public class PruebaAlbum{
 	 * Test de reproducir un album entero
 	 */
 	@Test
-	public void testReproducirAlbum() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+	public void testReproducirAlbum()throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		album.aniadirCancionAlbum(c1);
 		album.aniadirCancionAlbum(c2);
 		int a= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
@@ -51,27 +51,36 @@ public class PruebaAlbum{
 	 * Test de añadir una cancion a un album
 	 */
 	@Test
-	public void testAniadirCancionAlbum() {
+	public void testAniadirCancionAlbum() throws FileNotFoundException {
 		assertTrue(album.aniadirCancionAlbum(c1));
 		assertTrue(album.aniadirCancionAlbum(c2));
+		assertFalse(album.aniadirCancionAlbum(c1));
+		assertFalse(album.aniadirCancionAlbum(c2));
 	}
 	
 	/*
 	 * Test de borrar cancion de un album
 	 */
 	@Test
-	public void testBorrarCancionAlbum() {
+	public void testBorrarCancionAlbum() throws FileNotFoundException {
 		album.aniadirCancionAlbum(c1);
 		album.aniadirCancionAlbum(c2);
 		assertTrue(album.borrarCancionAlbum(c1));
 		assertTrue(album.borrarCancionAlbum(c2));
 		assertFalse(album.getCanciones().contains(c1));
 		assertFalse(album.getCanciones().contains(c2));
+		assertFalse(album.borrarCancionAlbum(c1));
+		assertFalse(album.borrarCancionAlbum(c2));
 	}
 	
+	/*
+	 * Test de añadir comentario a album correctamente
+	 */
 	@Test
-	public void testAniadirComentario() {
-		
+	public void testAniadirComentarioAlbum() {
+		assertTrue(album.anadirComentario(comment));
+		assertTrue(album.getComentarios().contains(comment));
 	}
+	
 
 }
