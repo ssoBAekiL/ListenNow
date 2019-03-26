@@ -58,10 +58,6 @@ public class UsuarioRegistrado {
      */
     private double saldo;
     
-	/**
-	 * Numero de tarjeta del usuario
-	 */
-	private String numTarjeta;
 	
 	/**
 	 * Nombre del usuario
@@ -399,9 +395,7 @@ public class UsuarioRegistrado {
 	 * @return
 	 */
 	public boolean puedeComentar() {
-		if(this.EsPremium()==false && Sistema.getInstance().getUsuarios().contains(this))
-			return true;
-		else if(this.esPremium && Sistema.getInstance().getUsuarios().contains(this))
+		if(Sistema.getInstance().getUsuarios().contains(this))
 			return true;
 		return false;/*llega aqui en el caso de usuario no registrado*/
 	}

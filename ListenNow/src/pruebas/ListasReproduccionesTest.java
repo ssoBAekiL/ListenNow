@@ -62,9 +62,4 @@ public class ListasReproduccionesTest {
 		
 	}
 	
-	@Test
-	public void testBorrarAlbumLista() {
-		
-	}
-
 }
