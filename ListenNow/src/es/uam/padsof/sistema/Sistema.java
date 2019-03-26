@@ -1,15 +1,10 @@
 package es.uam.padsof.sistema;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
-
 import es.uam.padsof.objetoreproducible.*;
-import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
 import es.uam.padsof.usuario.*;
-import pads.musicPlayer.Mp3Player;
-import pads.musicPlayer.exceptions.Mp3PlayerException;
 import java.io.*;
 
 /**
@@ -157,9 +152,15 @@ public class Sistema implements Serializable {
 	
 	
 	/**
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 * 
 	 */
-	public void inicializarSistema() {
+	public void inicializarSistema() throws ClassNotFoundException, IOException {
+		readObject();
+		for (Cancion c: cancionesValidar) {
+			c.borradoTrasTercerDia();
+		}
 		for (UsuarioRegistrado u: usuarios) {
 			if (u.getBloqueado() == true && u.getBloqueoPermanente() == false)
 				u.desbloquearUsuario();
@@ -169,33 +170,41 @@ public class Sistema implements Serializable {
 		}
 	}
 	
-	public void abrirSistema() throws IOException, ClassNotFoundException {
-	      FileInputStream fis = new FileInputStream("guardarSistema.dat");
-	      ObjectInputStream ois = new ObjectInputStream(fis);
-
-	      Sistema s = (Sistema) ois.readObject();
-	      
-
-	      ois.close();
+	public void readObject() throws IOException, ClassNotFoundException {
+		FileInputStream is = new FileInputStream("guardarSistema.dat");
+		ObjectInputStream ois = new ObjectInputStream(is);
+		Sistema s = (Sistema) ois.readObject();
+		
+		this.reproduccionesNoRegistrados = s.reproduccionesNoRegistrados;
+		this.nRepAnonimas = s.nRepAnonimas;
+		this.nRepRecompensa = s.nRepRecompensa;
+		this.nRepRegistrado = s.nRepRegistrado;
+		this.usuarios = s.usuarios;
+		this.cancionesNotificadas = s.cancionesNotificadas;
+		this.cancionesRechazadas = s.cancionesRechazadas;
+		this.cancionesValidadas = s.cancionesValidadas;
+		this.cancionesValidar = s.cancionesValidar;
+		this.albunes = s.albunes;
+		this.notificaciones = s.notificaciones;
+		
+		ois.close();
+		is.close();
 	}
 	
-	public void cerrarSistema() throws FileNotFoundException, IOException {
-	      FileOutputStream fos = new FileOutputStream("guardarSistema.dat");
-	      ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-	      oos.writeObject(this);
-
-	      oos.close();
+	public void guardarSistema() throws FileNotFoundException, IOException {
+		try {
+			FileOutputStream fos = new FileOutputStream("guardarSistema.dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			// write object to file
+			oos.writeObject(this);
+			System.out.println("Done");
+			// closing resources
+			oos.close();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
-	 private void readObject(java.io.ObjectInputStream stream)
-		     throws IOException, ClassNotFoundException {
-		 System.out.println("ERROR");
-	}
-	private void writeObject(java.io.ObjectOutputStream stream)
-			throws IOException{
-		 System.out.println("ERROR");
-	 }
 		 
 		 /**
 	 * @param titulo de la cancion que se quiere buscar
@@ -252,7 +261,7 @@ public class Sistema implements Serializable {
 	public boolean login(String usuario, String contrasena) {
 		if (conectado == false) {
 			for (UsuarioRegistrado u: usuarios) {
-				if (u.getNombre().equals(usuario) && u.getContrasena() == contrasena && u.getBloqueado() == false) {
+				if (u.getNombre() == usuario && u.getContrasena() == contrasena && u.getBloqueado() == false) {
 					usuarioEnSesion = u;
 					conectado = true;
 					mostrarNotificacion();
@@ -294,7 +303,7 @@ public class Sistema implements Serializable {
 			else if(cancionesNotificadas.contains(reproducible))
 				cancionesNotificadas.remove(reproducible);
 			else if(cancionesRechazadas.contains(reproducible)) 
-				cancionesRechazadas.contains(reproducible);
+				cancionesRechazadas.remove(reproducible);
 		}
 		else if (reproducible instanceof Album && usuarioEnSesion == reproducible.getAutor()) {
 			albunes.remove(reproducible);

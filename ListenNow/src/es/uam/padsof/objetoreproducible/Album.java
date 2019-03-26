@@ -1,10 +1,12 @@
 package es.uam.padsof.objetoreproducible;
 
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import es.uam.padsof.sistema.Sistema;
 import es.uam.padsof.usuario.UsuarioRegistrado;
+import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 //import es.uam.padsof.usuario.*;
 
@@ -13,8 +15,13 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  *
  * Esta clase se encarga de gestionar el objeto Album
  */
-public class Album extends ObjetoComentable{
-	/*private time duracion;*/
+public class Album extends ObjetoComentable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private double duracionAcumulada;
 	
 	/** Canciones del album*/
 	private ArrayList<Cancion> canciones;
@@ -82,12 +89,11 @@ public class Album extends ObjetoComentable{
 	 * 
 	 * Este m�todo se encargar� de a�adir una canci�n al �lbum
 	 */
-	public void aniadirCancionAlbum(Cancion c) {
-		ArrayList<Cancion> canciones = this.getCanciones();
-		if(this.canciones.contains(c))
-			return;
+	public boolean aniadirCancionAlbum(Cancion c) {
+		if(this.getCanciones().contains(c))
+			return false;
 		canciones.add(c);
-		return;
+		return true;
 	}
 	
 	/**
@@ -96,11 +102,12 @@ public class Album extends ObjetoComentable{
 	 * 
 	 * Este metodo se encarga de borrar la cancion que se le pasa como argumento del album
 	 */
-	public void borrarCancionAlbum(Cancion c) {
+	public boolean borrarCancionAlbum(Cancion c) {
 		if(this.canciones.contains(c)) {
 			canciones.remove(c);
-			return;		
+			return true;		
 		}
+		return false;
 	}
 	
 	/**
@@ -155,6 +162,18 @@ public class Album extends ObjetoComentable{
 	
 	public int getGetTamanioAlbum() {
 		return this.canciones.size();
+	}
+
+	public double getDuracionAcumulada() {
+		return duracionAcumulada;
+	}
+
+	public void setDuracionAcumulada() throws FileNotFoundException {
+		double dur;
+		for(Cancion c: canciones) {
+			dur=Mp3Player.getDuration(c.getRuta());
+			duracionAcumulada=duracionAcumulada+dur;
+		}
 	}
 	
 	/* IMPORTANTE COMPROBAR SI YA EXISTE LA CANCION EN EL ALBUM AL A�ADIR O SI NO EXISTE AL BORRAR O SI NO ES DEL AUTOR*/

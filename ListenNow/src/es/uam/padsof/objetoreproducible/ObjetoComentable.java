@@ -1,9 +1,9 @@
 package es.uam.padsof.objetoreproducible;
 
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.*;
 
-import es.uam.padsof.sistema.Sistema;
 import es.uam.padsof.usuario.UsuarioRegistrado;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
@@ -12,8 +12,12 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  * @author carlosmiret
  *
  */
-public abstract class ObjetoComentable extends ObjetoReproducible{
+public abstract class ObjetoComentable extends ObjetoReproducible {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected ArrayList<Comentario> comentarios;
 	
 	/**

@@ -2,6 +2,7 @@ package es.uam.padsof.objetoreproducible;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -16,7 +17,11 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  * 
  * Esta clase se encarga de gestionar el objeto Cancion 
  */
-public class Cancion extends ObjetoComentable{
+public class Cancion extends ObjetoComentable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private int nreproducciones;
 	private boolean aceptada_mas18;
@@ -40,7 +45,7 @@ public class Cancion extends ObjetoComentable{
 		super(titulo, autor,ruta);
 		this.id= Sistema.getInstance().getGenerador().getAndIncrement();
 		this.nreproducciones=0;
-		this.setAceptada_mas18(false);;
+		this.setAceptada_mas18(false);
 		this.setAceptada(false);
 		this.setNotificada_plagio(false);
 		this.setPendiente_verificacion(false);
@@ -52,23 +57,22 @@ public class Cancion extends ObjetoComentable{
 	
 	
 	/**
-	 * 
+	 * Fecha de rechazo de la cancion
 	 */
 	private LocalDate fechaRechazo;
 	
 	
 	/**
-	 * @return
+	 * Metodo getter de la fecha de rechazo
+	 * @return fecha del rechazo
 	 */
 	public LocalDate getFechaRechazo() {
 		return this.fechaRechazo;
 	}
 
 	/**
-	 * 
-	 * @return id 
-	 * 
 	 * Esta clase se encarga de devolver el id de una cancion
+	 * @return id 
 	 */
 	public long getId() {
 		return id;
@@ -106,8 +110,7 @@ public class Cancion extends ObjetoComentable{
 	 */
 	public void borradoTrasTercerDia(){
 		LocalDate fecha1 = LocalDate.now().minusDays(3);
-		if(this.rechazada=true && fecha1.isAfter(this.fechaRechazo)) {
-			Sistema.getInstance().getCancionesRechazadas().remove(this);
+		if(this.rechazada=true && fecha1.isAfter(this.fechaRechazo) ) {
 			Sistema.getInstance().borrarReproducible(this);
 		}
 	}
@@ -117,7 +120,7 @@ public class Cancion extends ObjetoComentable{
 	 * @return true en caso correcto
 	 */
 	public boolean rechazar() {
-		if(this.marcada_plagio) {
+		if(this.marcada_plagio && Sistema.getInstance().getUsuarioEnSesion()==Sistema.getInstance().getAdmin()) {
 			this.rechazada=true;
 			this.fechaRechazo=LocalDate.now();
 			Sistema.getInstance().getCancionesValidar().remove(this);
@@ -183,18 +186,6 @@ public class Cancion extends ObjetoComentable{
 	 * @param cancion
 	 */
 	public boolean validarCancion18() {
-		/*for(int i=0;i<Sistema.getNumUsuarios();i++) {
-			if(Sistema.getInstance().getUsuario(i).isAdmin()==true) {
-=======
-	public void validarCancion18(Cancion cancion) {
-		for(int i=0;i<Sistema.getInstance().getNumUsuarios();i++) {
-			if(Sistema.getInstance().getUsuarioItera(i).isAdmin()==true) {
->>>>>>> branch 'master' of https://github.com/ssoBAekiL/ListenNow.git
-				this.setaceptada_mas18(true);
-				Sistema.getInstance().getCancionesValidadas().add(cancion);
-			}
-		}
-		return;*/
 		if(validarCancion() == true) {
 			aceptada_mas18 = true;
 			return true;

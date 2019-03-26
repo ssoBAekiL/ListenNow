@@ -1,6 +1,7 @@
 package es.uam.padsof.usuario;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -16,7 +17,14 @@ import es.uam.padsof.sistema.*;
  * @author Carlos Miret, Pablo Borrelli y Julian Espada
  *
  */
-public class UsuarioRegistrado {
+public class UsuarioRegistrado implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+
 	/**
 	 * Metodo constructor de UsuarioRegistrado
 	 * @param numTarjeta Numero de tarjeta del usuario
@@ -58,10 +66,6 @@ public class UsuarioRegistrado {
      */
     private double saldo;
     
-	/**
-	 * Numero de tarjeta del usuario
-	 */
-	private String numTarjeta;
 	
 	/**
 	 * Nombre del usuario
@@ -399,9 +403,7 @@ public class UsuarioRegistrado {
 	 * @return
 	 */
 	public boolean puedeComentar() {
-		if(this.EsPremium()==false && Sistema.getInstance().getUsuarios().contains(this))
-			return true;
-		else if(this.esPremium && Sistema.getInstance().getUsuarios().contains(this))
+		if(Sistema.getInstance().getUsuarios().contains(this))
 			return true;
 		return false;/*llega aqui en el caso de usuario no registrado*/
 	}

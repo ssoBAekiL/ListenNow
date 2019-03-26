@@ -14,7 +14,6 @@ import org.junit.Test;
 import es.uam.eps.padsof.telecard.FailedInternetConnectionException;
 import es.uam.eps.padsof.telecard.InvalidCardNumberException;
 import es.uam.eps.padsof.telecard.OrderRejectedException;
-import es.uam.padsof.*;
 import es.uam.padsof.objetoreproducible.Album;
 import es.uam.padsof.objetoreproducible.Cancion;
 import es.uam.padsof.sistema.Notificacion;
@@ -74,13 +73,15 @@ public class SistemaTest {
 	}
 	
 	@Test
-	public void testInicializarSistema() throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException {
+	public void testInicializarSistema() throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException, ClassNotFoundException, IOException {
 		assertTrue(sys.login("ADMIN", "soyadmin"));
 		u2.bloquearUsuario(false);
 		u1.setEsPremium(true);
 		u1.setFechaPremium(LocalDate.now().minusDays(10));
 		u2.setFechaBloqueo(LocalDate.now().minusDays(10));
 		sys.logout();
+		sys.guardarSistema();
+		sys.reset();
 		sys.inicializarSistema();
 		assertTrue(u1.EsPremium());
 		assertTrue(u2.getBloqueado());
@@ -99,12 +100,12 @@ public class SistemaTest {
 	
 	
 	@Test
-	public void testAbrirSistema() throws FileNotFoundException, IOException, ClassNotFoundException {
+	public void testReadObject() throws FileNotFoundException, IOException, ClassNotFoundException {
 		assertTrue(sys.getUsuarios().size() > 1);
-		sys.cerrarSistema();
+		sys.guardarSistema();
 		reset();
 		assertTrue(sys.getUsuarios().size() == 1);
-		sys.abrirSistema();
+		sys.readObject();
 		assertTrue(sys.getUsuarios().size() > 1);
 	}
 
