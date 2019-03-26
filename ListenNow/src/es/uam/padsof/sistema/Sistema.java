@@ -10,6 +10,14 @@ import java.io.*;
 /**
  * Clase sistema (principal)
  */
+/**
+ * @author pablo
+ *
+ */
+/**
+ * @author pablo
+ *
+ */
 public class Sistema implements Serializable {
 	/**
 	 * Identificador serial utilizado para serializar la clase
@@ -314,11 +322,12 @@ public class Sistema implements Serializable {
 
 	/**
 	 * @param reproducible
+	 * @throws IOException
 	 * 
 	 * Funcion que anade un reproducible al sistema.
 	 * Si se trata de una cancion la anade al array de canciones en espera de ser validadas y copia el archivo mp3 a la carpeta del programa
-	 * Si se trata de un album 
-	 * @throws IOException 
+	 * Si se trata de un album lo anade al array de albunes
+	 *
 	 */
 	public void anadirReproducible(ObjetoReproducible reproducible) throws IOException {
 		if (reproducible instanceof Cancion && conectado == true) {
@@ -331,6 +340,12 @@ public class Sistema implements Serializable {
 
 	/**
 	 * @param reproducible
+	 * 
+	 * Funcion que borra un reproducible del sistema.
+	 * Si se trata de una cancion la busca en cada array de canciones y si la encuentra la borra y a continuacion borra el archivo mp3
+	 * Si se trata de un album lo borra del array de albunes
+	 * 
+	 * @return true en caso de exito, false si no
 	 */
 	public boolean borrarReproducible(ObjetoReproducible reproducible ) {
 		if(conectado == true && (usuarioEnSesion.getNombre().equals(reproducible.getAutor().getNombre()) || usuarioEnSesion.getNombre().equals(admin.getNombre()))) {
@@ -359,13 +374,17 @@ public class Sistema implements Serializable {
 	
 	/**
 	 * @param usuario
+	 * 
+	 * Funcion que elimina a un usuario del sistema
 	 */
 	public void darDeBaja(UsuarioRegistrado usuario) {
 		usuarios.remove(usuario);
 	}
 
 	/**
+	 * Funcion que recorre las notificaciones y recoge en un array las que van dirigidas al usuario que se encuentra en sesion
 	 * 
+	 * @return array con las notificaciones para el usuario en sesion, null si no existe ninguna
 	 */
 	public ArrayList<Notificacion> mostrarNotificacion() {
 		if(conectado == true) {
@@ -380,7 +399,9 @@ public class Sistema implements Serializable {
 	}
 
 	/**
-	 * @return the usuarios
+	 * Funcion geter del array de usuarios
+	 * 
+	 * @return usuarios
 	 */
 	public ArrayList<UsuarioRegistrado> getUsuarios() {
 		return usuarios;
@@ -388,54 +409,87 @@ public class Sistema implements Serializable {
 
 	/**
 	 * @param usuarios the usuarios to set
+	 * 
+	 * Funcion seter de usuarios que anade un nuevo usuario al array de usuarios
 	 */
 	public void setUsuarios(ArrayList<UsuarioRegistrado> usuarios) {
 		this.usuarios = usuarios;
 	}
 
+	/**
+	 * Funcion geter del numero maximo de reproducciones anonimas que es posible realizar
+	 * 
+	 * @return nRepAnonimas
+	 */
 	public int getnRepAnonimas() {
 		return nRepAnonimas;
 	}
 
+	/**
+	 * Funcion geter del numero maximo de reproducciones que un usuario registrado puede realizar
+	 * 
+	 * @return nRepRegistrado
+	 */
 	public int getnRepRegistrado() {
 		return nRepRegistrado;
 	}
 	
-	
+	/**
+	 * Funcion geter del numero minimo de reproducciones que hay que recibir para recibir la recompensa de premium
+	 * 
+	 * @return nRepRecompensa
+	 */
 	public int getnRepRecompensa() {
 		return nRepRecompensa;
 	}
 	
 	
 	/**
-	 * @return the generador
+	 * Funcion geter de generador
+	 * 
+	 * @return generador
 	 */
 	public AtomicLong getGenerador() {
 		return generador;
 	}
-
-
-
-	/************************************************/
+	
+	/**
+	 * @param nRepAnonimas
+	 * 
+	 * Funcion seter del limite maximo de reproducciones anonimas que es posible realizar
+	 * Esta funcion solo se ejecuta para el usuario admin
+	 */
 	public void setnRepAnonimas(int nRepAnonimas) {
 		if(this.getUsuarioEnSesion().equals(this.admin))
 			this.nRepAnonimas = nRepAnonimas;
 	}
 
+	/**
+	 * @param nRepRegistrado
+	 * 
+	 * Funcion seter del limite maximo de reproducciones que un usuario registrado puede realizar
+	 * Esta funcion solo se ejecuta para el usuario admin
+	 */
 	public void setnRepRegistrado(int nRepRegistrado) {
 		if(this.getUsuarioEnSesion().equals(this.admin))
 			this.nRepRegistrado = nRepRegistrado;
 	}
 
+	/**
+	 * @param nRepRecompensa
+	 * 
+	 * Funcion seter del tope minimo de reproducciones que hay que recibir para recibir la recompensa de premium
+	 * Esta funcion solo se ejecuta para el usuario admin
+	 */
 	public void setnRepRecompensa(int nRepRecompensa) {
 		if(this.getUsuarioEnSesion().equals(this.admin))
 			this.nRepRecompensa = nRepRecompensa;
 	}
-	/************************************************/
-
 
 
 	/**
+	 * Funcion geter del array de canciones que ya han sido validadas
+	 * 
 	 * @return the cancionesValidadas
 	 */
 	public ArrayList<Cancion> getCancionesValidadas() {
@@ -443,18 +497,25 @@ public class Sistema implements Serializable {
 	}
 
 	/**
-	 * @param cancionesValidadas the cancionesValidadas to set
+	 * @param cancionesValidadas
+	 * 
+	 * Funcion seter del array cancionesValidadas
 	 */
 	public void setCancionesValidadas(ArrayList<Cancion> cancionesValidadas) {
 		this.cancionesValidadas = cancionesValidadas;
 	}
 	
+	/**
+	 * @param cancionValidada
+	 * 
+	 * Funcion seter que anade una cancion al array cancionesValidadas
+	 */
 	public void setCancionValidada(Cancion cancionValidada) {
 		this.cancionesValidadas.add(cancionValidada);
 	}
 	
 	/**
-	 * Metodo que incrementa el numero de reproducciones
+	 * Metodo que incrementa el numero de reproducciones realizadas por usuarios no registrados
 	 */
 	public void incremetareproduccionesNoRegistrados() {
 		this.reproduccionesNoRegistrados++;
@@ -462,7 +523,9 @@ public class Sistema implements Serializable {
 	
 	
 	/**
-	 * @return the cancionesNotificadas
+	 * Funcion geter del array de canciones que han sido notificadas como plagio
+	 * 
+	 * @return cancionesNotificadas
 	 */
 	public ArrayList<Cancion> getCancionesNotificadas() {
 		return cancionesNotificadas;
@@ -470,18 +533,22 @@ public class Sistema implements Serializable {
 
 
 	/**
-	 * Metodo que devuelve un usuario registrado dentro del Sistema de la aplicacion
 	 * @param i
-	 * @return 
+	 * 
+	 * Funcion geter que devuelve un usuario registrado dentro del Sistema de la aplicacion
+	 * 
+	 * @return el UsuarioRegistrado del array usuarios que se encuentra en la posicion i
 	 */
 	public UsuarioRegistrado getUsuarioItera(int i) {
 		return usuarios.get(i);
 	}
 	
 	/**
-	 * Metodo que devuelve un usuario registrado dentro del Sistema de la aplicacion
 	 * @param i
-	 * @return 
+	 * 
+	 * Funcion geter que devuelve una cancion dentro del Sistema de la aplicacion
+	 * 
+	 * @return el UsuarioRegistrado del array usuarios que se encuentra en la posicion i 
 	 */
 	public Cancion getCancionItera(int i) {
 		return this.cancionesValidadas.get(i);
@@ -490,49 +557,81 @@ public class Sistema implements Serializable {
 	
 
 	/**
-	 * @return the cancionesRechazadas
+	 * Funcion geter del array de canciones rechazadas
+	 * 
+	 * @return cancionesRechazadas
 	 */
 	public ArrayList<Cancion> getCancionesRechazadas() {
 		return cancionesRechazadas;
 	}
 
 
+	/**
+	 * Funcion geter de la dimension del array usuarios
+	 * 
+	 * @return numero de elementos en el array usuarios
+	 */
 	public int getNumUsuarios() {
 		return this.usuarios.size();
 	}
 
+	/**
+	 * @param u
+	 * 
+	 * Funcion seter que anade el UsuarioRegistrado u al array de usuarios
+	 */
 	public void addUsuario(UsuarioRegistrado u) {
 		this.usuarios.add(u);
 	}
 
+	/**
+	 * Funcion geter del array canciones por validar
+	 * 
+	 * @return cancionesValidar
+	 */
 	public ArrayList<Cancion> getCancionesValidar() {
 		return cancionesValidar;
 	}
 	
+	/**
+	 * @param notificacion
+	 * 
+	 * Funcion seter que anade la notificacion notificacion al array de notificaciones
+	 */
 	public void setNotificaciones(Notificacion notificacion) {
 		notificaciones.add(notificacion);
 	}
 	
+	/**
+	 * Funcion geter de la dimension del array cancionesValidadas
+	 * 
+	 * @return numero de elementos en el array cancionesValidadas
+	 */
 	public int getNumeroCanciones() {
 		return cancionesValidadas.size();
 	}
 
+	/**
+	 * Funcion geter del UsuarioRegistrado admin
+	 * 
+	 * @return admin
+	 */
 	public UsuarioRegistrado getAdmin() {
 		return admin;
 	}
-
-
-	public void setAdmin(UsuarioRegistrado admin) {
-		this.admin = admin;
-	}
 	
+	/**
+	 * @param album
+	 * 
+	 * Funcion seter del array de albunes
+	 */
 	public void setAlbum(Album album) {
 		albunes.add(album);
 	}
 	
-	
-	
 	/**
+	 * Funcion geter del array de notificaciones del sistema
+	 * 
 	 * @return the notificaciones
 	 */
 	public ArrayList<Notificacion> getNotificaciones() {
@@ -540,33 +639,60 @@ public class Sistema implements Serializable {
 	}
 
 
+	/**
+	 * Funcion geter del array de albunes
+	 * 
+	 * @return albunes
+	 */
 	public ArrayList<Album> getAlbunes() {
 		return albunes;
 	}
 
 
 	//**************************************************
+	
+	
+	/**
+	 * Funcion geter de UsuarioEnSesion
+	 * 
+	 * @return usuarioEnSesion
+	 */
 	public UsuarioRegistrado getUsuarioEnSesion() {
 		return usuarioEnSesion;
 	}
 	
 
 	/**
-	 * @param usuarioEnSesion the usuarioEnSesion to set
+	 * @param usuarioEnSesion
+	 * 
+	 * Funcion seter de UsuarioEnSesion
 	 */
 	public void setUsuarioEnSesion(UsuarioRegistrado usuarioEnSesion) {
 		this.usuarioEnSesion = usuarioEnSesion;
 	}
 
 
+	/**
+	 * Funcion geter del boolean conectado
+	 * 
+	 * @return conectado
+	 */
 	public boolean getConectado() {
 		return conectado;
 	}
 	
+	/**
+	 * Funcion geter de reproduccionesNoRegistrados
+	 * 
+	 * @return reproduccionesNoRegistrados
+	 */
 	public int getReproduccionesNoRegistrados() {
 		return reproduccionesNoRegistrados;
 	}
 	
+	/**
+	 * Funcion que realiza un reset de todos los datos contenidos en el sistema
+	 */
 	public void reset() {
 		this.reproduccionesNoRegistrados = 0;
 		this.conectado = false;
