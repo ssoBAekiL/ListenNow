@@ -307,10 +307,17 @@ public class Cancion extends ObjetoComentable {
 	}
 	
 	
-	
-	
-	
-	
+	/**
+	 * Funcion 
+	 * @return
+	 * @throws IOException
+	 */
+	public boolean copiarCancionASistema() throws IOException {
+		Path FROM = Paths.get(this.getRuta());
+		Path TO = Paths.get("CancionesSistemavyhtbbh/to.mp3"); 
+		Files.copy(FROM, TO, StandardCopyOption.COPY_ATTRIBUTES);
+	return false;
+	}
 	
 	/**
 	 * @return

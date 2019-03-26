@@ -255,19 +255,26 @@ public class Sistema implements Serializable {
 	
 	/**
 	 * @param autor 
-	 * @return
+	 * 
+	 * Funcion que busca un array de canciones a partir de su autor
+	 * 
+	 * @return array de canciones si el autor tiene alguna, null si no
 	 */
 	public ArrayList<Cancion> buscarAutor(String autor) {
 		ArrayList<Cancion> cancionesAutor = new ArrayList<Cancion>();
 		for (Cancion c: cancionesValidadas)
-			if (c.getAutor().getNombre().equals(autor))
+			if (c.getAutor().getNombre().equals(autor)) {
 				cancionesAutor.add(c);
-		return cancionesAutor;
+				return cancionesAutor;
+			}
+		return null;
 	}
 
 
 	/**
 	 * @param usuario
+	 * 
+	 * Funcion que permite a un usuario registrarse anadiendolo al array de usuarios registrados.
 	 */
 	public void registrarse(UsuarioRegistrado usuario) {
 		usuarios.add(usuario);
@@ -277,6 +284,11 @@ public class Sistema implements Serializable {
 	/**
 	 * @param usuario 
 	 * @param contrasena
+	 * 
+	 * Funcion que realiza el login comparando el nombre de usuario y la contrasena introducidos con el array
+	 * de usuarios registrados
+	 * 
+	 * @return true en caso de exito, false si no
 	 */
 	public boolean login(String usuario, String contrasena) {
 		if (conectado == false) {
@@ -293,7 +305,7 @@ public class Sistema implements Serializable {
 	}
 
 	/**
-	 * 
+	 * Funcion que desconecta a un usuario registrado
 	 */
 	public void logout() {
 		usuarioEnSesion = null;
@@ -302,10 +314,14 @@ public class Sistema implements Serializable {
 
 	/**
 	 * @param reproducible
+	 * 
+	 * Funcion que anade un reproducible al sistema anadiendolo
+	 * @throws IOException 
 	 */
-	public void anadirReproducible(ObjetoReproducible reproducible) {
+	public void anadirReproducible(ObjetoReproducible reproducible) throws IOException {
 		if (reproducible instanceof Cancion && conectado == true) {
 			cancionesValidar.add((Cancion) reproducible);
+			//reproducible.copiarCancionASistema();
 		}
 		else if (reproducible instanceof Album && conectado == true)
 			albunes.add((Album) reproducible);
@@ -314,23 +330,29 @@ public class Sistema implements Serializable {
 	/**
 	 * @param reproducible
 	 */
-	public void borrarReproducible(ObjetoReproducible reproducible ) {
+	public boolean borrarReproducible(ObjetoReproducible reproducible ) {
 		if(conectado == true && (usuarioEnSesion.getNombre().equals(reproducible.getAutor().getNombre()) || usuarioEnSesion.getNombre().equals(admin.getNombre()))) {
-		if (reproducible instanceof Cancion) {
-			if (cancionesValidadas.contains(reproducible))
-				cancionesValidadas.remove(reproducible);
-			if (cancionesValidar.contains(reproducible))
-				cancionesValidar.remove(reproducible);
-			if(cancionesNotificadas.contains(reproducible))
-				cancionesNotificadas.remove(reproducible);
-			if(cancionesRechazadas.contains(reproducible)) 
-				cancionesRechazadas.remove(reproducible);
+			if (reproducible instanceof Cancion) {
+				if (cancionesValidadas.contains(reproducible))
+					cancionesValidadas.remove(reproducible);
+				if (cancionesValidar.contains(reproducible))
+					cancionesValidar.remove(reproducible);
+				if(cancionesNotificadas.contains(reproducible))
+					cancionesNotificadas.remove(reproducible);
+				if(cancionesRechazadas.contains(reproducible)) 
+					cancionesRechazadas.remove(reproducible);
+
+			File fichero = new File(reproducible.getRuta());
+				if(fichero.delete())
+					return true;
+			}
+			else if (reproducible instanceof Album) {
+				albunes.remove(reproducible);
+				return true;
+			}
 		}
-		else if (reproducible instanceof Album) {
-			albunes.remove(reproducible);
-		}}
-		else return;
-		
+		return false;
+
 	}
 	
 	/**

@@ -45,11 +45,7 @@ public class CancionTest {
 	public void testCancion() throws IOException, Mp3PlayerException{
 		sys.login("ADMIN"/*user name*/, "soyadmin"/*pwd*/);
 		sys.setUsuarioEnSesion(Sistema.getInstance().getAdmin());
-<<<<<<< HEAD
-		c1 = new Cancion("Cancion 1", u1, "hive.mp3");
-=======
-		c1 = new Cancion("Cancion 1", u1, "np.mp3");
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
+		c1 = new Cancion("Cancion 1", u1, "sebastian-yatra-reik-un-ano.mp3");
 		sys.anadirReproducible(c1);
 		comment=new Comentario("INCREIBLE",Sistema.getInstance().getUsuarioEnSesion(),LocalDate.now(),8);
 		System.out.println(c1.getId());
@@ -153,26 +149,14 @@ public class CancionTest {
 		assertTrue(c1.getComentarios().contains(comment));
 	}
 	
-	
-	/**
-	 * Test de la funcion MoverCancionASistema
-	 * Test para la funcion anadir comentario a cancion
-	 * @throws IOException 
-	 */
-<<<<<<< HEAD
-//	@Test
-//	public final void testMoverCancionASistema() throws IOException {
-//		c1.moverCancionASistema();
-//		//assertTrue(c1.getComentarios().contains(comment));
-//	}
-=======
 	@Test
-	public final void testMoverCancionASistema() throws IOException {
-		assertTrue(c1.copiaCancionASistema());
-		sys.borrarReproducible(c1);
-		assertTrue(c1.copiaCancionASistema());
+	public final void testCopiarCancionASistema() throws IOException {
+	assertTrue(c1.copiaCancionASistema());
+	sys.borrarReproducible(c1);
+	assertFalse(sys.getCancionesValidar().contains(c1));
+	assertFalse(sys.getCancionesValidadas().contains(c1));
+	assertFalse(sys.getCancionesNotificadas().contains(c1));
+	assertFalse(sys.getCancionesRechazadas().contains(c1));
 	}
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
-	
 
 }

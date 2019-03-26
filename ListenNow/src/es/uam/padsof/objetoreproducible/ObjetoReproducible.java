@@ -1,6 +1,7 @@
 package es.uam.padsof.objetoreproducible;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 
 import es.uam.padsof.sistema.Sistema;
@@ -52,6 +53,11 @@ public abstract class ObjetoReproducible implements Serializable {
 		return player;
 	}
 
+	/**
+	 * @return
+	 * @throws IOException
+	 */
+	public abstract boolean moverCancionASistema() throws IOException;
 
 	/**
 	 * @param player the player to set
