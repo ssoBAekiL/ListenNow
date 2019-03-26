@@ -315,7 +315,9 @@ public class Sistema implements Serializable {
 	/**
 	 * @param reproducible
 	 * 
-	 * Funcion que anade un reproducible al sistema anadiendolo
+	 * Funcion que anade un reproducible al sistema.
+	 * Si se trata de una cancion la anade al array de canciones en espera de ser validadas y copia el archivo mp3 a la carpeta del programa
+	 * Si se trata de un album 
 	 * @throws IOException 
 	 */
 	public void anadirReproducible(ObjetoReproducible reproducible) throws IOException {
