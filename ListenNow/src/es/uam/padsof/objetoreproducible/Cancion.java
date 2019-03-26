@@ -255,7 +255,7 @@ public class Cancion extends ObjetoComentable {
 	 * satisface diferentes condiciones (estrictas)
 	 */
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
-		if(Mp3Player.isValidMp3File(ruta)==true && this.marcada_plagio==false) {//no se podra reproducir una cancion marcada como plagio
+		if(Mp3Player.isValidMp3File(ruta)==true && this.marcada_plagio==false) {
 			if(Sistema.getInstance().getConectado()==true &&(Sistema.getInstance().getUsuarioEnSesion().puedeReproducir())) {
 				player.add(ruta);
 				player.play();/*Reproducimos la cancion*/

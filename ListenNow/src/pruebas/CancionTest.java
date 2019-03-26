@@ -6,6 +6,7 @@ package pruebas;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -41,8 +42,8 @@ public class CancionTest {
 	@Before
 	public void testCancion() throws IOException, Mp3PlayerException{
 		sys.login("ADMIN"/*user name*/, "soyadmin"/*pwd*/);
-		sys.setUsuarioEnSesion(Sistema.getInstance().getAdmin());
-		c1 = new Cancion("Cancion 1", u1, "\\CancionesSistema\\chicle3.mp3");
+		//sys.setUsuarioEnSesion(Sistema.getInstance().getAdmin());
+		c1 = new Cancion("Cancion 1", u1, "chicle3.mp3");
 		sys.anadirReproducible(c1);
 		comment=new Comentario("INCREIBLE",Sistema.getInstance().getUsuarioEnSesion(),LocalDate.now(),8);
 		System.out.println(c1.getId());
@@ -62,13 +63,13 @@ public class CancionTest {
 	 * @throws Mp3PlayerException
 	 * @throws InterruptedException
 	 */
-//	@Test
-//	public final void testReproducirCancion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
-//		int a= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
-//		c1.reproducir();
-//		int b= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
-//		assertTrue(b>a);
-//	}
+	@Test
+	public final void testReproducirCancion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+		int a= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
+		c1.reproducir();
+		int b= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
+		assertTrue(b>a);
+	}
 	
 	
 	/**

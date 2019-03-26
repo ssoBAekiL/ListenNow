@@ -193,9 +193,8 @@ public class ListaReproducciones extends ObjetoReproducible {
 		return numeroDeCanciones;
 	}
 
-//
-//	/**
-//<<<<<<< HEAD
+
+	/**
 //	 * Metodo parar reprod
 //	 */
 //	@Override
@@ -234,6 +233,13 @@ public class ListaReproducciones extends ObjetoReproducible {
 		for(Album a: ListaAlbumes) {
 			duracionAcumulada=duracionAcumulada+a.getDuracionAcumulada();
 		}
+	}
+
+
+	@Override
+	public boolean moverCancionASistema() throws IOException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	
