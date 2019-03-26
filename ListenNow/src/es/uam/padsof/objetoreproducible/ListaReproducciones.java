@@ -116,6 +116,7 @@ public class ListaReproducciones extends ObjetoReproducible {
 				return false;
 			}
 		}
+		
 		for(i=0; i<this.ListaAlbumes.size(); i++) {
 			for(j=0; j<this.ListaAlbumes.get(i).getGetTamanioAlbum(); j++) {
 				if(this.ListaAlbumes.get(i).getNCancion(j).equals(c)) {
