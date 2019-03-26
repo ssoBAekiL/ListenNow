@@ -499,7 +499,38 @@ public class UsuarioRegistrado {
 	public String toString() {
 		return "UsuarioRegistrado [" + nombre + "]: ";
 	}
+	
+	/**
+	 * @param usuario
+	 */
+	public void bloquearUsuario(boolean permanente) {
+		if(Sistema.getInstance().getUsuarioEnSesion() == Sistema.getInstance().getAdmin()) {
+			if (permanente == false) {
+				this.bloqueado = true;
+				this.setFechaBloqueo(LocalDate.now());
+			}
+			else
+				this.setBloqueoPermanente();
+		}
+	}
 
+
+	/**
+	 * Metodo que permite desbloquear un usuario
+	 * @param usuario
+	 */
+	public void desbloquearUsuario() {
+		LocalDate fecha = LocalDate.now().minusDays(29);
+		if (this.bloqueado == true && this.bloqueoPermanente == false) {
+			if (fecha.isAfter(this.fechaBloqueo)) {
+				this.bloqueado = false;
+			}
+			else if (Sistema.getInstance().getUsuarioEnSesion() == Sistema.getInstance().getAdmin())
+				this.bloqueado = false;
+		}
+		else return;
+	}
+	
 
 
 }
