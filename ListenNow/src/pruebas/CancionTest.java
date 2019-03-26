@@ -28,7 +28,7 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  */
 public class CancionTest {
 	Sistema sys=Sistema.getInstance();
-	private UsuarioRegistrado u1=new UsuarioRegistrado("carlos","6253", false,false);;
+	private UsuarioRegistrado u1=new UsuarioRegistrado("carlos","6253", false,false);
 	private Cancion c1;
 	private Comentario comment;
 
@@ -44,8 +44,6 @@ public class CancionTest {
 	public void testCancion() throws IOException, Mp3PlayerException{
 		sys.login("ADMIN"/*user name*/, "soyadmin"/*pwd*/);
 		sys.setUsuarioEnSesion(Sistema.getInstance().getAdmin());
-		//u2=new UsuarioRegistrado("1904567891227567","pablo","74884", false,false);
-		//sys.addUsuario(u2);
 		c1 = new Cancion("Cancion 1", u1, "chicle3.mp3");
 		sys.anadirReproducible(c1);
 		comment=new Comentario("INCREIBLE",Sistema.getInstance().getUsuarioEnSesion(),LocalDate.now(),8);

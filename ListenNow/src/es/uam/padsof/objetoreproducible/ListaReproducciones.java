@@ -182,7 +182,12 @@ public class ListaReproducciones extends ObjetoReproducible{
 	 */
 	@Override
 	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
-		// TODO Auto-generated method stub
+		for(Cancion c: this.ListaCanciones) {
+			c.pararReproduccion();
+		}
+		for(Album a: this.ListaAlbumes) {
+			a.pararReproduccion();
+		}
 	}
 
 	

@@ -40,7 +40,7 @@ public class Cancion extends ObjetoComentable{
 		super(titulo, autor,ruta);
 		this.id= Sistema.getInstance().getGenerador().getAndIncrement();
 		this.nreproducciones=0;
-		this.setAceptada_mas18(false);;
+		this.setAceptada_mas18(false);
 		this.setAceptada(false);
 		this.setNotificada_plagio(false);
 		this.setPendiente_verificacion(false);
