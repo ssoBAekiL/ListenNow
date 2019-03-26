@@ -181,4 +181,18 @@ public class UsuarioRegistradoTest {
 		u1.desbloquearUsuario();
 		assertFalse(u1.getBloqueado());
 	}
-}
+
+	/**
+	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#caducaPremium(es.uam.padsof.usuario.UsuarioRegistrado)}.
+	 */
+	@Test
+	public void testCaducaPremium() throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException {
+		u1.setEsPremium(true);
+		u1.setFechaPremium(LocalDate.now().minusDays(14));
+		u1.caducaPremium();
+		assertTrue(u1.EsPremium());
+		u1.setFechaPremium(LocalDate.now().minusDays(30));
+		u1.caducaPremium();
+		assertFalse(u1.EsPremium());
+	}
+} 

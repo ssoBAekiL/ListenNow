@@ -158,14 +158,14 @@ public class Sistema implements Serializable {
 	 */
 	public void inicializarSistema() throws ClassNotFoundException, IOException {
 		readObject();
-		for (Cancion c: cancionesValidar) {
+		for (Cancion c: cancionesRechazadas) {
 			c.borradoTrasTercerDia();
 		}
 		for (UsuarioRegistrado u: usuarios) {
 			if (u.getBloqueado() == true && u.getBloqueoPermanente() == false)
 				u.desbloquearUsuario();
 			if (u.EsPremium() == true) {
-				caducaPremium(u);
+				u.caducaPremium();
 			}
 		}
 	}
@@ -239,9 +239,6 @@ public class Sistema implements Serializable {
 		for (Cancion c: cancionesValidadas)
 			if (c.getAutor().getNombre() == autor)
 				cancionesAutor.add(c);
-		/*for (UsuarioRegistrado u: usuarios)
-			if (u.getNombre() == autor)
-				return u.getCanciones();*/
 		return cancionesAutor;
 	}
 
@@ -327,16 +324,7 @@ public class Sistema implements Serializable {
 		}
 	}
 
-	/**
-	 * 
-	 */
-	public void caducaPremium(UsuarioRegistrado usuario) {
-		LocalDate fecha = LocalDate.now().minusDays(29);
-		if(fecha.isAfter(usuario.getFechaPremium())) {
-			usuario.setEsPremium(false);
-			usuario.setFechaPremium(null);
-		}
-	}
+
 	
 	
 	/**

@@ -202,17 +202,6 @@ public class SistemaTest {
 	}
 
 	@Test
-	public void testCaducaPremium() throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException {
-		u1.setEsPremium(true);
-		u1.setFechaPremium(LocalDate.now().minusDays(14));
-		sys.caducaPremium(u1);
-		assertTrue(u1.EsPremium());
-		u1.setFechaPremium(LocalDate.now().minusDays(30));
-		sys.caducaPremium(u1);
-		assertFalse(u1.EsPremium());
-	}
-
-	@Test
 	public void testDarDeBaja() {
 		sys.darDeBaja(u1);
 		assertFalse(sys.getUsuarios().contains(u1));
