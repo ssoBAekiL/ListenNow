@@ -6,11 +6,8 @@ import java.nio.file.StandardCopyOption;
 import java.io.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-<<<<<<< HEAD
 import java.nio.file.Files;
-=======
 import java.io.Serializable;
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -62,17 +59,25 @@ public class Cancion extends ObjetoComentable {
 		this.setMarcada_plagio(false);
 		this.ruta=ruta;
 	}
-
-
-	public void saveFile(File file) throws IOException {
-	    Path sourcePath = file.toPath();
-
-	    String fileName = file.getName();
-	    String targetPath = Paths.get("/TestFolder", this.getRuta());
-
-	    Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
-	}
 	
+	
+	
+	
+	
+	/**
+	 * Funcion que copia una cancion al sistema
+	 * @return true en caso correcto
+	 * @throws IOException
+	 */
+	public boolean copiaCancionASistema() throws IOException {
+	    Path FROM = Paths.get(this.getRuta());
+	    if(FROM!=null) {
+	    	Path TO = Paths.get("\\CancionesSistema\\to.mp3"); 
+	    	Files.copy(FROM, TO, StandardCopyOption.COPY_ATTRIBUTES);
+	    	return true;
+	    }
+		return false;
+	}
 
 
 	
@@ -301,6 +306,11 @@ public class Cancion extends ObjetoComentable {
 		}
 		return false;
 	}
+	
+	
+	
+	
+	
 	
 	
 	/**

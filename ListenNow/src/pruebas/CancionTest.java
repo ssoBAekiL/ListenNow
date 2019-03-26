@@ -44,10 +44,10 @@ public class CancionTest {
 	public void testCancion() throws IOException, Mp3PlayerException{
 		sys.login("ADMIN"/*user name*/, "soyadmin"/*pwd*/);
 		sys.setUsuarioEnSesion(Sistema.getInstance().getAdmin());
-		c1 = new Cancion("Cancion 1", u1, "chicle3.mp3");
+		c1 = new Cancion("Cancion 1", u1, "np.mp3");
 		sys.anadirReproducible(c1);
 		comment=new Comentario("INCREIBLE",Sistema.getInstance().getUsuarioEnSesion(),LocalDate.now(),8);
-		
+		System.out.println(c1.getId());
 	}
 	
 	/**
@@ -56,13 +56,13 @@ public class CancionTest {
 	 * @throws Mp3PlayerException
 	 * @throws InterruptedException
 	 */
-	@Test
-	public final void testReproducirCancion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
-		int a= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
-		c1.reproducir();
-		int b= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
-		assertTrue(b>a);
-	}
+//	@Test
+//	public final void testReproducirCancion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+//		int a= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
+//		c1.reproducir();
+//		int b= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
+//		assertTrue(b>a);
+//	}
 	
 	
 	/**
@@ -114,6 +114,7 @@ public class CancionTest {
 		assertTrue(Sistema.getInstance().getCancionesNotificadas().contains(c1));
 	}
 	
+
 	
 	/**
 	 * Test para la funcion borrado tras el tercer dia de haber sido mmarcada una cancion cancion
@@ -150,8 +151,9 @@ public class CancionTest {
 	 */
 	@Test
 	public final void testMoverCancionASistema() throws IOException {
-		c1.moverCancionASistema();
-		//assertTrue(c1.getComentarios().contains(comment));
+		assertTrue(c1.copiaCancionASistema());
+		sys.borrarReproducible(c1);
+		assertTrue(c1.copiaCancionASistema());
 	}
 	
 
