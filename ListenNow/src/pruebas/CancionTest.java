@@ -42,7 +42,7 @@ public class CancionTest {
 	public void testCancion() throws IOException, Mp3PlayerException{
 		sys.login("ADMIN"/*user name*/, "soyadmin"/*pwd*/);
 		sys.setUsuarioEnSesion(Sistema.getInstance().getAdmin());
-		c1 = new Cancion("Cancion 1", u1, "sebastian-yatra-reik-un-ano.mp3");
+		c1 = new Cancion("Cancion 1", u1, "\\CancionesSistema\\chicle3.mp3");
 		sys.anadirReproducible(c1);
 		comment=new Comentario("INCREIBLE",Sistema.getInstance().getUsuarioEnSesion(),LocalDate.now(),8);
 		System.out.println(c1.getId());
@@ -147,7 +147,7 @@ public class CancionTest {
 //	@Test
 //	public final void testCopiarCancionASistema() throws IOException {
 //	assertTrue(c1.copiaCancionASistema());
-//	sys.borrarReproducible(c1);
+//	//sys.borrarReproducible(c1);
 //	assertFalse(sys.getCancionesValidar().contains(c1));
 //	assertFalse(sys.getCancionesValidadas().contains(c1));
 //	assertFalse(sys.getCancionesNotificadas().contains(c1));

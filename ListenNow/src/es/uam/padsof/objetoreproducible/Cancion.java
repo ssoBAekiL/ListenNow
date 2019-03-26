@@ -93,7 +93,7 @@ public class Cancion extends ObjetoComentable {
 	public boolean copiaCancionASistema() throws IOException {
 	    Path FROM = Paths.get(this.getRuta());
 	    if(FROM!=null) {
-	    	Path TO = Paths.get("\\CancionesSistema\\to.mp3"); 
+	    	Path TO = Paths.get("\\CancionesugigSistema\\to.mp3"); 
 	    	Files.copy(FROM, TO, StandardCopyOption.COPY_ATTRIBUTES);
 	    	return true;
 	    }
