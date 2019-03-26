@@ -193,10 +193,21 @@ public class ListaReproducciones extends ObjetoReproducible {
 		return numeroDeCanciones;
 	}
 
-
-	/**
-	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
-	 */
+//
+//	/**
+//<<<<<<< HEAD
+//	 * Metodo parar reprod
+//	 */
+//	@Override
+//	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+//		for(Cancion c: this.ListaCanciones) {
+//			c.pararReproduccion();
+//		}
+//		for(Album a: this.ListaAlbumes) {
+//			a.pararReproduccion();
+//=======
+//	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
+//	 */
 	@Override
 	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		for(Cancion c: this.ListaCanciones) {

@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 1234567891234567| usuario1| PAGO DE 10 EUR |22. 03. 2019
 1234567891234567| usuario1| PAGO DE 10 EUR |22. 03. 2019
 1234567891234567| usuario1| PAGO DE 10 EUR |22. 03. 2019
@@ -106,3 +107,5 @@
 1234567891234567| carlos| PAGO DE 10 EUR |25. 03. 2019
 1234567891234567| carlos| PAGO DE 10 EUR |26. 03. 2019
 1234567891234567| carlos| PAGO DE 10 EUR |26. 03. 2019
+=======
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git

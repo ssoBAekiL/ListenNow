@@ -135,7 +135,6 @@ public class CancionTest {
 	
 	/**
 	 * Test para la funcion anadir comentario a cancion
-	 * @param cancion
 	 */
 	@Test
 	public final void testAnadirComentario() {
@@ -143,6 +142,17 @@ public class CancionTest {
 		assertTrue(c1.getComentarios().contains(comment));
 	}
 	
+	
+	/**
+	 * Test de la funcion MoverCancionASistema
+	 * Test para la funcion anadir comentario a cancion
+	 * @throws IOException 
+	 */
+	@Test
+	public final void testMoverCancionASistema() throws IOException {
+		c1.moverCancionASistema();
+		//assertTrue(c1.getComentarios().contains(comment));
+	}
 	
 
 }
