@@ -227,7 +227,7 @@ public class Sistema implements Serializable {
 	 * 
 	 * Funcion que busca una cancion a partir de su titulo
 	 * 
-	 * @return cancion buscada si se encuentra en la lista, null si no se encuentra 
+	 * @return cancion buscada si se encuentra en la lista, null si no se encuentra
 	 */
 	public Cancion buscarCancion(String titulo) {
 		for (Cancion c: cancionesValidadas) {
@@ -250,14 +250,6 @@ public class Sistema implements Serializable {
 				return a;
 		}
 		return null;
-	}
-	
-	
-	/**
-	 * Metodo getter de la ruta del sistema
-	 */
-	public String getRutaSistema() {
-		return this.rutaDelSistema;
 	}
 	
 	
