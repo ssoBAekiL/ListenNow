@@ -306,7 +306,8 @@ public class Sistema implements Serializable {
 	/**
 	 * @param reproducible
 	 */
-	public void borrarReproducible(ObjetoReproducible reproducible ) {
+	public boolean borrarReproducible(ObjetoReproducible reproducible ) {
+		
 		if(conectado == true && (usuarioEnSesion.getNombre().equals(reproducible.getAutor().getNombre()) || usuarioEnSesion.getNombre().equals(admin.getNombre()))) {
 		if (reproducible instanceof Cancion) {
 			if (cancionesValidadas.contains(reproducible))
@@ -317,11 +318,17 @@ public class Sistema implements Serializable {
 				cancionesNotificadas.remove(reproducible);
 			if(cancionesRechazadas.contains(reproducible)) 
 				cancionesRechazadas.remove(reproducible);
+			
+			File fichero = new File(reproducible.getRuta());
+			if(fichero.delete())
+				return true;
 		}
 		else if (reproducible instanceof Album) {
 			albunes.remove(reproducible);
-		}}
-		else return;
+			return true;
+		}
+		}
+		return false;
 		
 	}
 	

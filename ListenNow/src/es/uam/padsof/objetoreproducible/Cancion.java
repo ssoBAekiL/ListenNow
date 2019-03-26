@@ -5,15 +5,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.io.*;
 import java.io.FileNotFoundException;
-<<<<<<< HEAD
 import java.io.IOException;
 import java.nio.file.Files;
 import java.io.Serializable;
-=======
-import java.io.IOException;
-import java.nio.file.Files;
-import java.io.Serializable;
->>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -67,21 +61,15 @@ public class Cancion extends ObjetoComentable {
 	}
 	
 	
-	
-	
-	
 	/**
 	 * Funcion que copia una cancion al sistema
-	 * @return true en caso correcto
+	 * @return
 	 * @throws IOException
 	 */
 	public boolean copiaCancionASistema() throws IOException {
 	    Path FROM = Paths.get(this.getRuta());
-	    if(FROM!=null) {
-	    	Path TO = Paths.get("\\CancionesSistema\\to.mp3"); 
-	    	Files.copy(FROM, TO, StandardCopyOption.COPY_ATTRIBUTES);
-	    	return true;
-	    }
+	    Path TO = Paths.get("\\CancionesSistema\\to.mp3"); 
+	    Files.copy(FROM, TO, StandardCopyOption.COPY_ATTRIBUTES);
 		return false;
 	}
 
@@ -141,7 +129,7 @@ public class Cancion extends ObjetoComentable {
 	 */
 	public void borradoTrasTercerDia(){
 		LocalDate fecha1 = LocalDate.now().minusDays(3);
-		if(this.rechazada==true && fecha1.isAfter(this.fechaRechazo) ) {
+		if(this.rechazada=true && fecha1.isAfter(this.fechaRechazo) ) {
 			Sistema.getInstance().borrarReproducible(this);
 		}
 	}
@@ -151,12 +139,11 @@ public class Cancion extends ObjetoComentable {
 	 * @return true en caso correcto
 	 */
 	public boolean rechazar() {
-		if(Sistema.getInstance().getUsuarioEnSesion()==Sistema.getInstance().getAdmin()) {
+		if(this.marcada_plagio && Sistema.getInstance().getUsuarioEnSesion()==Sistema.getInstance().getAdmin()) {
 			this.rechazada=true;
 			this.fechaRechazo=LocalDate.now();
 			Sistema.getInstance().getCancionesValidar().remove(this);
-			if (Sistema.getInstance().getCancionesRechazadas().contains(this) == false)
-				Sistema.getInstance().getCancionesRechazadas().add(this);
+			Sistema.getInstance().getCancionesRechazadas().add(this);
 			return true;
 		}
 		return false;
@@ -293,8 +280,8 @@ public class Cancion extends ObjetoComentable {
 	/**
 	 * Metodo que permite a un usuario notificar ccomo plagio una cancion
 	 */
-	public void notificarPlagio() {
-		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin())) {
+	public void notificarPlagio(UsuarioRegistrado u) {
+		if(Sistema.getInstance().getUsuarioEnSesion().equals(u)) {
 			this.setNotificada_plagio(true);
 			Sistema.getInstance().getCancionesNotificadas().add(this);
 			Sistema.getInstance().setNotificaciones(new Notificacion(this));
@@ -326,10 +313,8 @@ public class Cancion extends ObjetoComentable {
 	public boolean marcarComoPlagio() {
 		/*SI EL USUARIO EN SESION ES EL ADMIN*/
 		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin())) {
-			if (Sistema.getInstance().getCancionesRechazadas().contains(this) == false)
-				Sistema.getInstance().getCancionesRechazadas().add(this);
+				Sistema.getInstance().getCancionesNotificadas().add(this);
 				this.setMarcada_plagio(true);
-				this.autor.bloquearUsuario(false);
 				return true;
 		}
 		return false;
