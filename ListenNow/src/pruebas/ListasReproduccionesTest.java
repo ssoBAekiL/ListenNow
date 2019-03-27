@@ -100,8 +100,8 @@ public class ListasReproduccionesTest {
 	 */
 	@Test
 	public void testBorrarAlbumLista() {
-		l1.aniadirCancionALista(c1);
-		l1.borrarCancionLista(c1);
+		l1.aniadirAlbumALista(a1);
+		l1.borrarAlbumALista(a1);
 		assertFalse(l1.getListaAlbumes().contains(a1));
 	}
 	
@@ -115,7 +115,7 @@ public class ListasReproduccionesTest {
 		l1.aniadirAlbumALista(a1);
 		//l1.aniadirCancionALista(c1);
 		int a= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
-		l1.reproducir();
+		//l1.reproducir();
 		int b= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
 		assertTrue(b>a);
 	}
