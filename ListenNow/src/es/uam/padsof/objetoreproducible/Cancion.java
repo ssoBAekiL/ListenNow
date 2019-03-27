@@ -3,6 +3,7 @@ package es.uam.padsof.objetoreproducible;
 import java.nio.file.*;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -54,6 +55,11 @@ public class Cancion extends ObjetoComentable {
 	 * Rechazada
 	 */
 	private boolean rechazada;
+	
+	/**
+	 * Duracion de la cancion
+	 */
+	private double duracion;
 	/**
 	 * Marcada como plagio (flag)
 	 */
@@ -81,27 +87,11 @@ public class Cancion extends ObjetoComentable {
 		this.fechaRechazo=null;
 		this.setMarcada_plagio(false);
 		this.ruta=ruta;
-		//meter crear cancion
-	}
-	
-	
-	
-	/**
-	 * Funcion que copia una cancion al sistema
-	 * @return true en caso correcto
-	 * @throws IOException
-	 */
-	public boolean copiaCancionASistema() throws IOException {
-	    Path FROM = Paths.get(this.getRuta());
-	    if(FROM!=null) {
-	    	Path TO = Paths.get("\\CancionesugigSistema\\to.mp3"); 
-	    	Files.copy(FROM, TO, StandardCopyOption.COPY_ATTRIBUTES);
-	    	return true;
-	    }
-		return false;
+		this.duracion=Mp3Player.getDuration(this.ruta);
+		//meter copiar cancion
 	}
 
-
+	
 	
 	/**
 	 * Fecha de rechazo de la cancion
@@ -125,6 +115,14 @@ public class Cancion extends ObjetoComentable {
 		return id;
 	}
 	
+	
+	/**
+	 * Metodo getter de la duracion de la cancion 
+	 * @return duracion de la cancion
+	 */
+	public double getDuracion(){
+		return this.duracion;
+	}
 	
 	/**
 	 * Metodo que incrementa las reproducciones de una cancion de
@@ -256,7 +254,7 @@ public class Cancion extends ObjetoComentable {
 	 * satisface diferentes condiciones (estrictas)
 	 */
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
-		if(Mp3Player.isValidMp3File(ruta)==true && this.marcada_plagio==false) {//no se podra reproducir una cancion marcada como plagio
+		if(Mp3Player.isValidMp3File(ruta)==true && this.marcada_plagio==false) {
 			if(Sistema.getInstance().getConectado()==true &&(Sistema.getInstance().getUsuarioEnSesion().puedeReproducir())) {
 				player.add(ruta);
 				player.play();/*Reproducimos la cancion*/
@@ -282,8 +280,8 @@ public class Cancion extends ObjetoComentable {
 	
 	
 	
-	/* (non-Javadoc)
-	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
+	/**
+	 * Metodo que para una reproduccion
 	 */
 	public void pararReproduccion()throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		if(Mp3Player.isValidMp3File(ruta)==true) {
@@ -324,9 +322,11 @@ public class Cancion extends ObjetoComentable {
 	 * @throws IOException
 	 */
 	public boolean copiarCancionASistema() throws IOException {
-		Path FROM = FileSystems.getDefault().getPath("", this.getRuta());
-		Path TO = FileSystems.getDefault().getPath("cancionesSistema", "chicle3.mp3");
-		Files.copy(FROM, TO, StandardCopyOption.COPY_ATTRIBUTES);
+		File original=new File (this.getRuta());
+		File destino=new File("hola.mp3");
+//		Path FROM = FileSystems.getDefault().getPath("", this.getRuta());
+//		Path TO = FileSystems.getDefault().getPath("cancionesSistema", this.getRuta());
+		Files.copy(original.toPath(), destino.toPath());
 	return false;
 	}
 	
@@ -345,6 +345,8 @@ public class Cancion extends ObjetoComentable {
 		}
 		return false;
 	}
+	
+	
 	
 	
 	/**

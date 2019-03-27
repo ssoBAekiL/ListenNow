@@ -116,6 +116,7 @@ public class ListaReproducciones extends ObjetoReproducible {
 				return false;
 			}
 		}
+		
 		for(i=0; i<this.ListaAlbumes.size(); i++) {
 			for(j=0; j<this.ListaAlbumes.get(i).getGetTamanioAlbum(); j++) {
 				if(this.ListaAlbumes.get(i).getNCancion(j).equals(c)) {
@@ -129,7 +130,7 @@ public class ListaReproducciones extends ObjetoReproducible {
 	}
 	
 	/**
-	 * A�ade un album a la lista de reproduccion 
+	 * Anade un album a la lista de reproduccion 
 	 * 
 	 * @param a El album nuevo a introducir en la lista de reproduccion
 	 */
@@ -174,7 +175,7 @@ public class ListaReproducciones extends ObjetoReproducible {
 	
 	
 	/**
-	 * 
+	 * Funcion reproducir de la clase lista de reproducciones
 	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#reproducir()
 	 */
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
@@ -187,29 +188,20 @@ public class ListaReproducciones extends ObjetoReproducible {
 	}
 	
 	/**
+	 * Funcion getter
 	 * @return the numeroDeCanciones
 	 */
 	public int getNumeroDeCanciones() {
 		return numeroDeCanciones;
 	}
 
-//
-//	/**
-//<<<<<<< HEAD
-//	 * Metodo parar reprod
-//	 */
-//	@Override
-//	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
-//		for(Cancion c: this.ListaCanciones) {
-//			c.pararReproduccion();
-//		}
-//		for(Album a: this.ListaAlbumes) {
-//			a.pararReproduccion();
-//=======
-//	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
-//	 */
+
 	
 	
+	/**
+	 * Metodo parar reproduccion de un objeto reproducible que es la lista de reproduccion
+	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
+	 */
 	@Override
 	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		for(Cancion c: this.ListaCanciones) {
@@ -221,19 +213,28 @@ public class ListaReproducciones extends ObjetoReproducible {
 	}
 
 
-	public double getDuracionAcumulada() {
+
+
+	/**
+	 * Setter de la duracion acumulada en una lista de reproduccion
+	 * @throws FileNotFoundException
+	 */
+	public double getDuracionAcumulada() throws FileNotFoundException {
+		for(Cancion c: ListaCanciones) {
+			duracionAcumulada=duracionAcumulada+Mp3Player.getDuration(c.ruta);
+			System.out.println(Mp3Player.getDuration(c.ruta));
+		}
+		for(Album a: ListaAlbumes) {
+			duracionAcumulada=duracionAcumulada+a.getDuracionAcumulada();
+		}
 		return duracionAcumulada;
 	}
 
 
-	public void setDuracionAcumulada() throws FileNotFoundException {
-		for(Cancion c: ListaCanciones) {
-			duracionAcumulada=duracionAcumulada+Mp3Player.getDuration(c.ruta);
-		}
-		
-		for(Album a: ListaAlbumes) {
-			duracionAcumulada=duracionAcumulada+a.getDuracionAcumulada();
-		}
+	@Override
+	public boolean moverCancionASistema() throws IOException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	

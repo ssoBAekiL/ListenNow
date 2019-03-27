@@ -28,7 +28,7 @@ public class PruebaAlbum{
 	public void setUp() throws Exception {
 		sys.login("ADMIN", "soyadmin");
 		sys.setUsuarioEnSesion(Sistema.getInstance().getAdmin());
-		c1 = new Cancion ("Cancion 1", u1, "chicle.mp3");
+		c1 = new Cancion ("Cancion 1", u1, "chicle3.mp3");
 		c2 = new Cancion("Cancion 2", u1, "hive.mp3");
 		comment = new Comentario("INCREIBLE", sys.getUsuarioEnSesion(), LocalDate.now(), 8);
 		album = new Album ("Album 1", sys.getUsuarioEnSesion());
