@@ -81,6 +81,7 @@ public class Cancion extends ObjetoComentable {
 		this.fechaRechazo=null;
 		this.setMarcada_plagio(false);
 		this.ruta=ruta;
+		//meter crear cancion
 	}
 	
 	
@@ -323,8 +324,8 @@ public class Cancion extends ObjetoComentable {
 	 * @throws IOException
 	 */
 	public boolean copiarCancionASistema() throws IOException {
-		Path FROM = Paths.get(this.getRuta());
-		Path TO = Paths.get("CancionesSistemavyhtbbh/to.mp3"); 
+		Path FROM = FileSystems.getDefault().getPath("", this.getRuta());
+		Path TO = FileSystems.getDefault().getPath("cancionesSistema", "chicle3.mp3");
 		Files.copy(FROM, TO, StandardCopyOption.COPY_ATTRIBUTES);
 	return false;
 	}
