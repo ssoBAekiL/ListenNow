@@ -87,7 +87,6 @@ public class Cancion extends ObjetoComentable {
 		this.fechaRechazo=null;
 		this.setMarcada_plagio(false);
 		this.ruta=ruta;
-		this.duracion=Mp3Player.getDuration(this.ruta);
 		//meter copiar cancion
 	}
 

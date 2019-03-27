@@ -49,6 +49,7 @@ public class ListaReproducciones extends ObjetoReproducible {
 		this.ListaAlbumes=new ArrayList<Album>();
 		this.Listas=new ArrayList<ListaReproducciones>();
 		this.numeroDeCanciones=0;
+		this.duracionAcumulada=0;
 	}
 
 
@@ -111,15 +112,13 @@ public class ListaReproducciones extends ObjetoReproducible {
 	 */
 	public boolean aniadirCancionALista(Cancion c) {
 		int i, j;
-		for(i=0; i<ListaCanciones.size(); i++) {
-			if(ListaCanciones.get(i)==c) {
-				return false;
-			}
+		if(ListaCanciones.contains(c)) {
+			return false;
 		}
 		
 		for(i=0; i<this.ListaAlbumes.size(); i++) {
 			for(j=0; j<this.ListaAlbumes.get(i).getGetTamanioAlbum(); j++) {
-				if(this.ListaAlbumes.get(i).getNCancion(j).equals(c)) {
+				if(this.ListaAlbumes.get(i).getCanciones().contains(c)) {
 					return false;
 				}
 			}
@@ -175,6 +174,16 @@ public class ListaReproducciones extends ObjetoReproducible {
 	
 	
 	/**
+	 * Elimina una cancion de una lista de reproduccion
+	 * @param a cancion a borrar
+	 */
+	public void borrarCancionLista(Cancion c) {
+		ListaCanciones.remove(c);
+		return;
+	}
+	
+	
+	/**
 	 * Funcion reproducir de la clase lista de reproducciones
 	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#reproducir()
 	 */
@@ -195,7 +204,6 @@ public class ListaReproducciones extends ObjetoReproducible {
 		return numeroDeCanciones;
 	}
 
-
 	
 	
 	/**
@@ -213,8 +221,6 @@ public class ListaReproducciones extends ObjetoReproducible {
 	}
 
 
-
-
 	/**
 	 * Setter de la duracion acumulada en una lista de reproduccion
 	 * @throws FileNotFoundException
@@ -222,10 +228,9 @@ public class ListaReproducciones extends ObjetoReproducible {
 	public double getDuracionAcumulada() throws FileNotFoundException {
 		for(Cancion c: ListaCanciones) {
 			duracionAcumulada=duracionAcumulada+Mp3Player.getDuration(c.ruta);
-			System.out.println(Mp3Player.getDuration(c.ruta));
 		}
 		for(Album a: ListaAlbumes) {
-			duracionAcumulada=duracionAcumulada+a.getDuracionAcumulada();
+			duracionAcumulada = duracionAcumulada+a.getDuracionAcumulada();
 		}
 		return duracionAcumulada;
 	}
