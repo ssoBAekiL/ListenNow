@@ -44,7 +44,7 @@ public class CancionTest {
 		sys.login("ADMIN"/*user name*/, "soyadmin"/*pwd*/);
 		sys.setUsuarioEnSesion(Sistema.getInstance().getAdmin());
 		//sys.setUsuarioEnSesion(Sistema.getInstance().getAdmin());
-		c1 = new Cancion("Cancion 1", u1, "hive.mp3");
+		c1 = new Cancion("Cancion 1", u1, "Audio - corto de hallel sefaradi.mp3");
 		sys.anadirReproducible(c1);
 		comment=new Comentario("INCREIBLE",Sistema.getInstance().getUsuarioEnSesion(),LocalDate.now(),8);
 		System.out.println(c1.getId());
@@ -130,7 +130,9 @@ public class CancionTest {
 		assertTrue(Sistema.getInstance().getCancionesRechazadas().contains(c1));
 		assertFalse(Sistema.getInstance().getCancionesValidar().contains(c1));
 		c1.modificarFechaRechazo();
-		c1.borradoTrasTercerDia();
+		/*antes de ejecutar este test, ver carpeta del proyecto, donde se encuentra este archivo
+		 * CUIDADO, PORQUE SE BORRARRA EL ARCHIVO*/
+		//c1.borradoTrasTercerDia();
 		assertFalse(Sistema.getInstance().getCancionesRechazadas().contains(c1));
 		assertFalse(Sistema.getInstance().getCancionesNotificadas().contains(c1));
 		assertFalse(Sistema.getInstance().getCancionesValidadas().contains(c1));
