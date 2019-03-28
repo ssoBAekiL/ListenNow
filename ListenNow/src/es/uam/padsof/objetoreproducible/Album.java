@@ -92,7 +92,7 @@ public class Album extends ObjetoComentable {
 	public boolean aniadirCancionAlbum(Cancion c) {
 		if(this.getCanciones().contains(c))
 			return false;
-		canciones.add(c);
+		this.canciones.add(c);
 		return true;
 	}
 	
@@ -161,6 +161,17 @@ public class Album extends ObjetoComentable {
 	}
 	
 	
+	
+	
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Album [duracionAcumulada=" + duracionAcumulada + ", canciones=" + canciones + "]";
+	}
+
 	public Cancion getNCancion(int i) {
 		return this.canciones.get(i);
 	}
@@ -173,16 +184,14 @@ public class Album extends ObjetoComentable {
 		return this.canciones.size();
 	}
 
-	public double getDuracionAcumulada() {
-		return duracionAcumulada;
-	}
 
-	public void setDuracionAcumulada() throws FileNotFoundException {
+	public double getDuracionAcumulada() throws FileNotFoundException {
 		double dur;
 		for(Cancion c: canciones) {
 			dur=Mp3Player.getDuration(c.getRuta());
 			duracionAcumulada=duracionAcumulada+dur;
 		}
+		return duracionAcumulada;
 	}
 
 	@Override

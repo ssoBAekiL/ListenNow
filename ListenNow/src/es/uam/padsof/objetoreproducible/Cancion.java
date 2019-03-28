@@ -3,6 +3,7 @@ package es.uam.padsof.objetoreproducible;
 import java.nio.file.*;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -54,6 +55,11 @@ public class Cancion extends ObjetoComentable {
 	 * Rechazada
 	 */
 	private boolean rechazada;
+	
+	/**
+	 * Duracion de la cancion
+	 */
+	private double duracion;
 	/**
 	 * Marcada como plagio (flag)
 	 */
@@ -81,26 +87,10 @@ public class Cancion extends ObjetoComentable {
 		this.fechaRechazo=null;
 		this.setMarcada_plagio(false);
 		this.ruta=ruta;
-	}
-	
-	
-	
-	/**
-	 * Funcion que copia una cancion al sistema
-	 * @return true en caso correcto
-	 * @throws IOException
-	 */
-	public boolean copiaCancionASistema() throws IOException {
-	    Path FROM = Paths.get(this.getRuta());
-	    if(FROM!=null) {
-	    	Path TO = Paths.get("\\CancionesugigSistema\\to.mp3"); 
-	    	Files.copy(FROM, TO, StandardCopyOption.COPY_ATTRIBUTES);
-	    	return true;
-	    }
-		return false;
+		//meter copiar cancion
 	}
 
-
+	
 	
 	/**
 	 * Fecha de rechazo de la cancion
@@ -124,6 +114,14 @@ public class Cancion extends ObjetoComentable {
 		return id;
 	}
 	
+	
+	/**
+	 * Metodo getter de la duracion de la cancion 
+	 * @return duracion de la cancion
+	 */
+	public double getDuracion(){
+		return this.duracion;
+	}
 	
 	/**
 	 * Metodo que incrementa las reproducciones de una cancion de
@@ -281,8 +279,8 @@ public class Cancion extends ObjetoComentable {
 	
 	
 	
-	/* (non-Javadoc)
-	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
+	/**
+	 * Metodo que para una reproduccion
 	 */
 	public void pararReproduccion()throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		if(Mp3Player.isValidMp3File(ruta)==true) {
@@ -323,10 +321,13 @@ public class Cancion extends ObjetoComentable {
 	 * @throws IOException
 	 */
 	public boolean copiarCancionASistema() throws IOException {
-		Path FROM = Paths.get(this.getRuta());
-		Path TO = Paths.get("CancionesSistemavyhtbbh/to.mp3"); 
-		Files.copy(FROM, TO, StandardCopyOption.COPY_ATTRIBUTES);
-	return false;
+		try {
+			File original=new File (this.getRuta());
+			Files.copy(original.toPath(), FileSystems.getDefault().getPath("cancionesSistema", this.getRuta()));
+			return true;
+		}catch(Exception e) {System.out.println("Error al hacer la copia del archivo");}
+	
+		return false;
 	}
 	
 	/**
@@ -344,6 +345,8 @@ public class Cancion extends ObjetoComentable {
 		}
 		return false;
 	}
+	
+	
 	
 	
 	/**

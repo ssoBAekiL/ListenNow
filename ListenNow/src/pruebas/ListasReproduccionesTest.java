@@ -15,6 +15,10 @@ import es.uam.padsof.objetoreproducible.ListaReproducciones;
 import es.uam.padsof.sistema.Sistema;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
+/**
+ * @author Carlos Miret, Julian espada y Pablo Borrelli
+ *
+ */
 public class ListasReproduccionesTest {
 	Sistema sys = Sistema.getInstance();
 	private Album a1;
@@ -23,23 +27,25 @@ public class ListasReproduccionesTest {
 	private Cancion c2;
 	private Cancion c3;
 	private ListaReproducciones l1, l2;
-	private Comentario comment;
 
+	/**
+	 * Funcion que se ejecutara antes de cada test
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		sys.login("ADMIN", "soyadmin");
 		a1 = new Album("Album 1",sys.getUsuarioEnSesion());
 		a2 = new Album("Album 2", sys.getUsuarioEnSesion());
-		c1 = new Cancion("Cancion 1", sys.getUsuarioEnSesion(), "chicle3.mp3");
+		c1 = new Cancion("Cancion 1", sys.getUsuarioEnSesion(), "GB 10sec video.mp3");
 		c2 = new Cancion("Cancion 2", sys.getUsuarioEnSesion(), "hive.mp3");
-		c3 = new Cancion("Cancion 3", sys.getUsuarioEnSesion(), "hive.mp3");
+		c3 = new Cancion("Cancion 3", sys.getUsuarioEnSesion(), "hive289.mp3");
 		l1 = new ListaReproducciones("Lista 1", sys.getUsuarioEnSesion());
 		l2 = new ListaReproducciones("Lista 2", sys.getUsuarioEnSesion());
-		comment = new Comentario("INCREIBLE", sys.getUsuarioEnSesion(), LocalDate.now(), 8);
 	}
 
-	/*
-	 * Test de aï¿½adir cancion a lista de reproduccion
+	/**
+	 * Test de anadir cancion a lista de reproduccion
 	 */
 	@Test
 	public void testAniadirCancionLista() {
@@ -47,16 +53,19 @@ public class ListasReproduccionesTest {
 		a2.aniadirCancionAlbum(c2);
 		l1.aniadirAlbumALista(a1);
 		l1.aniadirAlbumALista(a2);
+		l1.aniadirCancionALista(c2);
 		assertTrue(l1.aniadirCancionALista(c3));
 		assertFalse(l1.aniadirCancionALista(c2));
 		assertFalse(l1.aniadirCancionALista(c1));
 	}
 	
-	/*
-	 * Test para añadir un album a una lista
+	/**
+	 * Test para anadir un album a una lista
+	 * @throws FileNotFoundException 
+	 * 
 	 */
 	@Test
-	public void testAniadirAlbumLista() {
+	public void testAniadirAlbumLista() throws FileNotFoundException {
 		a1.aniadirCancionAlbum(c1);
 		a2.aniadirCancionAlbum(c2);
 		l1.aniadirCancionALista(c3);
@@ -64,11 +73,10 @@ public class ListasReproduccionesTest {
 		assertTrue(l1.aniadirAlbumALista(a2));
 		a1.aniadirCancionAlbum(c3);
 		assertFalse(l1.aniadirAlbumALista(a1));
-		
 	}
 	
-	/*
-	 * Test para añadir una lista a una lista
+	/**
+	 * Test para anadir una lista a una lista
 	 */
 	@Test
 	public void testAniadirListaLista() {
@@ -77,33 +85,35 @@ public class ListasReproduccionesTest {
 		assertTrue(l1.aniadirListaALista(l2));
 	}
 	
-	/*
+	/**
 	 * Test de comprobar que cuando se borra una cancion del sistema no existe en la lista
 	 */
 	@Test
-	public void testComprobarCancionLista() {
-		sys.borrarReproducible(c1);
+	public void testBorrarCancionLista() {
+		l1.aniadirCancionALista(c1);
+		l1.borrarCancionLista(c1);
 		assertFalse(l1.getListaCanciones().contains(c1));
 	}
 	
-	/*
+	/**
 	 * Test de comprobar que cuando se borra un album del sistema, no existe en la lista
 	 */
 	@Test
-	public void testComprobarAlbumLista() {
-		sys.borrarReproducible(a1);
+	public void testBorrarAlbumLista() {
+		l1.aniadirAlbumALista(a1);
+		l1.borrarAlbumALista(a1);
 		assertFalse(l1.getListaAlbumes().contains(a1));
 	}
 	
-	/*
+	/**
 	 * Test de reproduccion de listas
 	 */
 	@Test
 	public void testReproducirLista() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		a1.aniadirCancionAlbum(c3);
-		a1.aniadirCancionAlbum(c2);
+		a1.aniadirCancionAlbum(c1);
 		l1.aniadirAlbumALista(a1);
-		l1.aniadirCancionALista(c1);
+		l1.aniadirCancionALista(c2);
 		int a= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
 		l1.reproducir();
 		int b= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
