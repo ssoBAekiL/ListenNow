@@ -132,7 +132,7 @@ public class CancionTest {
 		c1.modificarFechaRechazo();
 		/*antes de ejecutar este test, ver carpeta del proyecto, donde se encuentra este archivo
 		 * CUIDADO, PORQUE SE BORRARRA EL ARCHIVO*/
-		//c1.borradoTrasTercerDia();
+		c1.borradoTrasTercerDia();
 		assertFalse(Sistema.getInstance().getCancionesRechazadas().contains(c1));
 		assertFalse(Sistema.getInstance().getCancionesNotificadas().contains(c1));
 		assertFalse(Sistema.getInstance().getCancionesValidadas().contains(c1));
@@ -148,9 +148,14 @@ public class CancionTest {
 		assertTrue(c1.getComentarios().contains(comment));
 	}
 	
+	/**
+	 * Test para copiar una cancion a una carpeta previamente creada
+	 * @throws IOException
+	 */
 	@Test
 	public final void testCopiarCancionASistema() throws IOException {
 	assertTrue(c1.copiarCancionASistema());
+	/*CUIDADO AL BORRAR, NO SE PODRA RECUPERAR EL ARCHIVO BORRADO, VER CARPERTA CANCIONES DEL SISTEMA PARA RECUPERAR ARCHIVO MP3*/
 //	sys.borrarReproducible(c1);
 //	assertFalse(sys.getCancionesValidar().contains(c1));
 //	assertFalse(sys.getCancionesValidadas().contains(c1));

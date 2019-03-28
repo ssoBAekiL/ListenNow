@@ -37,9 +37,9 @@ public class ListasReproduccionesTest {
 		sys.login("ADMIN", "soyadmin");
 		a1 = new Album("Album 1",sys.getUsuarioEnSesion());
 		a2 = new Album("Album 2", sys.getUsuarioEnSesion());
-		//c1 = new Cancion("Cancion 1", sys.getUsuarioEnSesion(), "maroon-5-girls-like-you-lyrics-ft-cardi-b.mp3");
+		c1 = new Cancion("Cancion 1", sys.getUsuarioEnSesion(), "GB 10sec video.mp3");
 		c2 = new Cancion("Cancion 2", sys.getUsuarioEnSesion(), "hive.mp3");
-		c3 = new Cancion("Cancion 3", sys.getUsuarioEnSesion(), "athenas-jesus-eres-digno-de-alabar.mp3");
+		c3 = new Cancion("Cancion 3", sys.getUsuarioEnSesion(), "hive289.mp3");
 		l1 = new ListaReproducciones("Lista 1", sys.getUsuarioEnSesion());
 		l2 = new ListaReproducciones("Lista 2", sys.getUsuarioEnSesion());
 	}
@@ -50,12 +50,12 @@ public class ListasReproduccionesTest {
 	@Test
 	public void testAniadirCancionLista() {
 		a1.aniadirCancionAlbum(c1);
-//		a2.aniadirCancionAlbum(c2);
+		a2.aniadirCancionAlbum(c2);
 		l1.aniadirAlbumALista(a1);
 		l1.aniadirAlbumALista(a2);
-//		l1.aniadirCancionALista(c2);
+		l1.aniadirCancionALista(c2);
 		assertTrue(l1.aniadirCancionALista(c3));
-//		assertFalse(l1.aniadirCancionALista(c2));
+		assertFalse(l1.aniadirCancionALista(c2));
 		assertFalse(l1.aniadirCancionALista(c1));
 	}
 	
@@ -67,10 +67,10 @@ public class ListasReproduccionesTest {
 	@Test
 	public void testAniadirAlbumLista() throws FileNotFoundException {
 		a1.aniadirCancionAlbum(c1);
-		//a2.aniadirCancionAlbum(c2);
+		a2.aniadirCancionAlbum(c2);
 		l1.aniadirCancionALista(c3);
 		assertTrue(l1.aniadirAlbumALista(a1));
-		//assertTrue(l1.aniadirAlbumALista(a2));
+		assertTrue(l1.aniadirAlbumALista(a2));
 		a1.aniadirCancionAlbum(c3);
 		assertFalse(l1.aniadirAlbumALista(a1));
 	}
@@ -111,11 +111,11 @@ public class ListasReproduccionesTest {
 	@Test
 	public void testReproducirLista() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		a1.aniadirCancionAlbum(c3);
-		//a1.aniadirCancionAlbum(c2);
+		a1.aniadirCancionAlbum(c1);
 		l1.aniadirAlbumALista(a1);
-		//l1.aniadirCancionALista(c1);
+		l1.aniadirCancionALista(c2);
 		int a= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
-		//l1.reproducir();
+		l1.reproducir();
 		int b= Sistema.getInstance().getUsuarioEnSesion().getReproducciones();
 		assertTrue(b>a);
 	}
