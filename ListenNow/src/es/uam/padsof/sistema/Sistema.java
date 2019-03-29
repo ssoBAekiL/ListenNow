@@ -1,22 +1,22 @@
 package es.uam.padsof.sistema;
 
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
-
 import es.uam.padsof.objetoreproducible.*;
-import es.uam.padsof.sistema.Notificacion.TipoNotificacion;
 import es.uam.padsof.usuario.*;
-import pads.musicPlayer.Mp3Player;
-import pads.musicPlayer.exceptions.Mp3PlayerException;
 import java.io.*;
 
 /**
  * Clase sistema (principal)
  */
-public class Sistema {
+public class Sistema implements Serializable {
+	/**
+	 * Identificador serial utilizado para serializar la clase
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	/**
 	 * Variable Sistema
 	 */
@@ -80,13 +80,13 @@ public class Sistema {
 	private ArrayList<Cancion> cancionesValidadas;
 
 	/**
-	 * Lista de notificaciones para el usuario que ha realizado el login
+	 * Lista de tadas las notificaciones del sistema
 	 */
 	private ArrayList<Notificacion> notificaciones;
 	
 	
 	/**
-	 * Canciones notificadas
+	 * Canciones notificadas como plagio
 	 */
 	private ArrayList<Cancion> cancionesNotificadas;
 
@@ -105,7 +105,6 @@ public class Sistema {
 	 * Variable para poder generar ids de forma automatica
 	 */
 	private AtomicLong generador=new AtomicLong(1);
-	
 	
 	
 	/**
@@ -152,42 +151,108 @@ public class Sistema {
 	
 	
 	/**
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 * 
+	 * Funcion que se ejecuta al inicializar el sistema y carga tdos los datos guadrados en la sesion anterior.
+	 * A continuacion borra las canciones que hayan sido rechazadas hace mas de 3 dias, desbloquea a los usuarios
+	 * que llevan mas de 30 dias bloqueados y quita el premium a los usuarios que lo tengan desde mas de 30 dias
 	 */
-	public void inicializarSistema() {
+	public void inicializarSistema() throws ClassNotFoundException, IOException {
+		readObject();
+		for (Cancion c: cancionesRechazadas) {
+			c.borradoTrasTercerDia();
+		}
 		for (UsuarioRegistrado u: usuarios) {
 			if (u.getBloqueado() == true && u.getBloqueoPermanente() == false)
-				desbloquearUsuario(u);
-			if (u.EsPremium() == true) {
-				caducaPremium(u);
-			}
+				u.desbloquearUsuario();
+			if(u.EsPremium() == true)
+				u.caducaPremium();
 		}
 	}
 	
 	/**
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * 
+	 * Funcion que lee de un fichero datos guardados de la clase sistema y los carga en el sistema
+	 */
+	public void readObject() throws IOException, ClassNotFoundException {
+		try {
+		FileInputStream is = new FileInputStream("guardarSistema.dat");
+		ObjectInputStream ois = new ObjectInputStream(is);
+		Sistema s = (Sistema) ois.readObject();
+		
+		this.reproduccionesNoRegistrados = s.reproduccionesNoRegistrados;
+		this.nRepAnonimas = s.nRepAnonimas;
+		this.nRepRecompensa = s.nRepRecompensa;
+		this.nRepRegistrado = s.nRepRegistrado;
+		this.usuarios = s.usuarios;
+		System.out.println(s.usuarios.get(0));
+		this.cancionesNotificadas = s.cancionesNotificadas;
+		this.cancionesRechazadas = s.cancionesRechazadas;
+		this.cancionesValidadas = s.cancionesValidadas;
+		this.cancionesValidar = s.cancionesValidar;
+		this.albunes = s.albunes;
+		this.notificaciones = s.notificaciones;		
+		
+		ois.close();
+		is.close();
+		}
+		catch (IOException e) {e.printStackTrace();}
+	}
+	
+	/**
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * 
+	 * Funcion que guarda en un fichero todos los datos de la instancia actual de sistema
+	 */
+	public void guardarSistema() throws FileNotFoundException, IOException {
+		try {
+			FileOutputStream fos = new FileOutputStream("guardarSistema.dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			// write object to file
+			oos.writeObject(this);
+			// closing resources
+			oos.close();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+		 
+	/**
 	 * @param titulo de la cancion que se quiere buscar
+	 * 
+	 * Funcion que busca una cancion a partir de su titulo
+	 * 
 	 * @return cancion buscada si se encuentra en la lista, null si no se encuentra
 	 */
 	public Cancion buscarCancion(String titulo) {
 		for (Cancion c: cancionesValidadas) {
-			if (c.getTitulo() == titulo)
+			if (c.getTitulo().equals(titulo))
 				return c;
 		}
 		return null;
 	}
 
 	/**
-	 * @param album 
-	 * @return
+	 * @param titulo del album que se quiere buscar
+	 * 	
+	 *  Funcion que busca un album a partir de su titulo 
+	 *  
+	 * @return album buscado si se encuentra en la lista, null si no se encuentra
 	 */
 	public Album buscarAlbum(String titulo) {
 		for (Album a: albunes) {
-			if (a.getTitulo() == titulo)
+			if (a.getTitulo().equals(titulo))
 				return a;
 		}
 		return null;
 	}
-
+	
+	
 	/**
 	 * @param autor 
 	 * @return
@@ -195,11 +260,8 @@ public class Sistema {
 	public ArrayList<Cancion> buscarAutor(String autor) {
 		ArrayList<Cancion> cancionesAutor = new ArrayList<Cancion>();
 		for (Cancion c: cancionesValidadas)
-			if (c.getAutor().getNombre() == autor)
+			if (c.getAutor().getNombre().equals(autor))
 				cancionesAutor.add(c);
-		/*for (UsuarioRegistrado u: usuarios)
-			if (u.getNombre() == autor)
-				return u.getCanciones();*/
 		return cancionesAutor;
 	}
 
@@ -219,7 +281,7 @@ public class Sistema {
 	public boolean login(String usuario, String contrasena) {
 		if (conectado == false) {
 			for (UsuarioRegistrado u: usuarios) {
-				if (u.getNombre().equals(usuario) && u.getContrasena() == contrasena && u.getBloqueado() == false) {
+				if (u.getNombre().equals(usuario) && u.getContrasena().equals(contrasena) && u.getBloqueado() == false) {
 					usuarioEnSesion = u;
 					conectado = true;
 					mostrarNotificacion();
@@ -252,81 +314,30 @@ public class Sistema {
 	/**
 	 * @param reproducible
 	 */
-	public void borrarReproducible(ObjetoReproducible reproducible) {
-		if (reproducible instanceof Cancion && (usuarioEnSesion == reproducible.getAutor() || usuarioEnSesion.equals(Sistema.getInstance().getAdmin()))) {
+	public boolean borrarReproducible(ObjetoReproducible reproducible ) {
+		
+		if(conectado == true && (usuarioEnSesion.getNombre().equals(reproducible.getAutor().getNombre()) || usuarioEnSesion.getNombre().equals(admin.getNombre()))) {
+		if (reproducible instanceof Cancion) {
 			if (cancionesValidadas.contains(reproducible))
 				cancionesValidadas.remove(reproducible);
-			else if (cancionesValidar.contains(reproducible))
+			if (cancionesValidar.contains(reproducible))
 				cancionesValidar.remove(reproducible);
-			else if(cancionesNotificadas.contains(reproducible))
+			if(cancionesNotificadas.contains(reproducible))
 				cancionesNotificadas.remove(reproducible);
-			else if(cancionesRechazadas.contains(reproducible)) 
-				cancionesRechazadas.contains(reproducible);
+			if(cancionesRechazadas.contains(reproducible)) 
+				cancionesRechazadas.remove(reproducible);
+			
+			File fichero = new File(reproducible.getRuta());
+			if(fichero.delete())
+				return true;
 		}
-		else if (reproducible instanceof Album && usuarioEnSesion == reproducible.getAutor()) {
+		else if (reproducible instanceof Album) {
 			albunes.remove(reproducible);
+			return true;
 		}
+		}
+		return false;
 		
-	}
-
-	/**
-	 * 
-	 * @param usuario
-	 */
-	public void recompensaPremium(UsuarioRegistrado usuario) {
-		LocalDate fecha = LocalDate.now();
-		int reproducciones = 0;
-		for (Cancion c: usuario.getCanciones()) {
-			reproducciones += c.getNreproducciones();
-		}
-		if (reproducciones >= nRepRecompensa && usuario.EsPremium() == false) {
-			usuario.setEsPremium(true);
-			usuario.setFechaPremium(fecha);
-		}
-	}
-
-	/**
-	 * 
-	 */
-	public void caducaPremium(UsuarioRegistrado usuario) {
-		LocalDate fecha = LocalDate.now().minusDays(29);
-		if(fecha.isAfter(usuario.getFechaPremium())) {
-			usuario.setEsPremium(false);
-			usuario.setFechaPremium(null);
-		}
-	}
-	
-	
-	
-
-	/**
-	 * @param usuario
-	 */
-	public void bloquearUsuario(UsuarioRegistrado usuario, boolean permanente) {
-		if(usuarioEnSesion == admin) {
-			if (permanente == false) {
-				usuario.setBloqueado(true);
-				usuario.setFechaBloqueo(LocalDate.now());
-			}
-			else
-				usuario.setBloqueoPermanente();
-		}
-	}
-
-	/**
-	 * Metodo que permite desbloquear un usuario
-	 * @param usuario
-	 */
-	public void desbloquearUsuario(UsuarioRegistrado usuario) {
-		LocalDate fecha = LocalDate.now().minusDays(29);
-		if (usuario.getBloqueado() == true && usuario.getBloqueoPermanente() == false) {
-			if (fecha.isAfter(usuario.getFechaBloqueo())) {
-				usuario.setBloqueado(false);
-			}
-			else if (usuarioEnSesion == admin)
-				usuario.setBloqueado(false);
-		}
-		else return;
 	}
 	
 	/**

@@ -1,14 +1,20 @@
 package es.uam.padsof.objetoreproducible;
 
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 
+import es.uam.padsof.sistema.Sistema;
 import es.uam.padsof.usuario.UsuarioRegistrado;
 import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
-public abstract class ObjetoReproducible {
+public abstract class ObjetoReproducible implements Serializable {
 	
-	protected Mp3Player player;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected transient Mp3Player player; 
 	protected String ruta;
 	protected String titulo;
 	protected UsuarioRegistrado autor;
@@ -83,7 +89,10 @@ public abstract class ObjetoReproducible {
 	 * @param titulo the titulo to set
 	 */
 	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+		if(this instanceof Cancion && Sistema.getInstance().getCancionesValidadas().contains(this))
+			return;
+		else
+			this.titulo = titulo;
 	}
 
 
@@ -99,7 +108,10 @@ public abstract class ObjetoReproducible {
 	 * @param autor the autor to set
 	 */
 	public void setAutor(UsuarioRegistrado autor) {
-		this.autor = autor;
+		if(this instanceof Cancion && Sistema.getInstance().getCancionesValidadas().contains(this))
+			return;
+		else
+			this.autor = autor;
 	}
 	
 	

@@ -1,7 +1,19 @@
 package es.uam.padsof.objetoreproducible;
 
+import java.nio.file.*;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+<<<<<<< HEAD
+import java.io.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.io.Serializable;
+=======
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -16,7 +28,11 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  * 
  * Esta clase se encarga de gestionar el objeto Cancion 
  */
-public class Cancion extends ObjetoComentable{
+public class Cancion extends ObjetoComentable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private int nreproducciones;
 	private boolean aceptada_mas18;
@@ -50,6 +66,20 @@ public class Cancion extends ObjetoComentable{
 		this.ruta=ruta;
 	}
 	
+	
+	/**
+	 * Funcion que copia una cancion al sistema
+	 * @return
+	 * @throws IOException
+	 */
+	public boolean copiaCancionASistema() throws IOException {
+	    Path FROM = Paths.get(this.getRuta());
+	    Path TO = Paths.get("\\CancionesSistema\\to.mp3"); 
+	    Files.copy(FROM, TO, StandardCopyOption.COPY_ATTRIBUTES);
+		return false;
+	}
+
+
 	
 	/**
 	 * Fecha de rechazo de la cancion
@@ -105,8 +135,7 @@ public class Cancion extends ObjetoComentable{
 	 */
 	public void borradoTrasTercerDia(){
 		LocalDate fecha1 = LocalDate.now().minusDays(3);
-		if(this.rechazada=true && fecha1.isAfter(this.fechaRechazo)) {
-			Sistema.getInstance().getCancionesRechazadas().remove(this);
+		if(this.rechazada=true && fecha1.isAfter(this.fechaRechazo) ) {
 			Sistema.getInstance().borrarReproducible(this);
 		}
 	}
@@ -277,6 +306,11 @@ public class Cancion extends ObjetoComentable{
 		}
 		return false;
 	}
+	
+	
+	
+	
+	
 	
 	
 	/**

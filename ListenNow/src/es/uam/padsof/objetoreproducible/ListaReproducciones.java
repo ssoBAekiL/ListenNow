@@ -1,6 +1,7 @@
 package es.uam.padsof.objetoreproducible;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
 import es.uam.padsof.sistema.Sistema;
@@ -13,8 +14,13 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  * 
  * Esta clase se encarga de gestionar el objeto ListaReproducciones
  */
-public class ListaReproducciones extends ObjetoReproducible{
+public class ListaReproducciones extends ObjetoReproducible {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/** The Lista canciones. */
 	private ArrayList <Cancion> ListaCanciones;
 	
@@ -196,6 +202,7 @@ public class ListaReproducciones extends ObjetoReproducible{
 		return numeroDeCanciones;
 	}
 
+<<<<<<< HEAD
 
 	/**
 	 * Metodo parar reprod
@@ -206,6 +213,33 @@ public class ListaReproducciones extends ObjetoReproducible{
 				player.add(this.ruta);
 				player.stop();
 			}
+=======
+//
+//	/**
+//<<<<<<< HEAD
+//	 * Metodo parar reprod
+//	 */
+//	@Override
+//	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+//		for(Cancion c: this.ListaCanciones) {
+//			c.pararReproduccion();
+//		}
+//		for(Album a: this.ListaAlbumes) {
+//			a.pararReproduccion();
+//=======
+//	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
+//	 */
+	
+	
+	@Override
+	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+		for(Cancion c: this.ListaCanciones) {
+			c.pararReproduccion();
+		}
+		for(Album a: this.ListaAlbumes) {
+			a.pararReproduccion();
+		}
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 	}
 
 

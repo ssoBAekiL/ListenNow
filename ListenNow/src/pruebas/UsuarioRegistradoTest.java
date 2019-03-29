@@ -7,7 +7,9 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -139,5 +141,60 @@ public class UsuarioRegistradoTest {
 		assertTrue(u2.getSeguidores().contains(u1));
 	}
 
+	/**
+	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#bloquearUsuario(es.uam.padsof.usuario.UsuarioRegistrado)}.
+	 */
+	@Test
+	public void testBloquearUsuario() {
+		u1.bloquearUsuario(false);
+		assertFalse(u1.getBloqueado());
+		assertFalse(u1.getBloqueoPermanente());
+		sys.login("ADMIN", "soyadmin");
+		u1.bloquearUsuario(false);
+		assertTrue(u1.getBloqueado());
+		assertFalse(u1.getBloqueoPermanente());
+		u2.bloquearUsuario(true);
+		assertTrue(u2.getBloqueado());
+		assertTrue(u2.getBloqueoPermanente());
+		u2.desbloquearUsuario();
+		assertTrue(u2.getBloqueado());
+		
+	}
 
-}
+	/**
+	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#desbloquearUSuario(es.uam.padsof.usuario.UsuarioRegistrado)}.
+	 */
+	@Test
+	public void testDesbloquearUsuario() {
+		sys.login("ADMIN", "soyadmin");
+		u1.bloquearUsuario(false);
+		u2.bloquearUsuario(true);
+		u1.setFechaBloqueo(LocalDate.now().minusDays(14));
+		sys.logout();
+		u1.desbloquearUsuario();
+		assertTrue(u1.getBloqueado());
+		u1.setFechaBloqueo(LocalDate.now().minusDays(30));
+		u1.desbloquearUsuario();
+		assertFalse(u1.getBloqueado());
+		sys.login("ADMIN", "soyadmin");
+		u1.bloquearUsuario(false);
+		u1.setFechaBloqueo(LocalDate.now().minusDays(14));
+		u1.desbloquearUsuario();
+		assertFalse(u1.getBloqueado());
+	}
+
+	/**
+	 * Test method for {@link es.uam.padsof.usuario.UsuarioRegistrado#caducaPremium(es.uam.padsof.usuario.UsuarioRegistrado)}.
+	 */
+	@Test
+	public void testCaducaPremium() throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException {
+		u1.setEsPremium(true);
+		u1.setFechaPremium(LocalDate.now().minusDays(14));
+		u1.caducaPremium();
+		assertTrue(u1.EsPremium());
+		u1.setFechaPremium(LocalDate.now().minusDays(30));
+		u1.caducaPremium();
+		assertFalse(u1.EsPremium());
+	}
+	
+} 

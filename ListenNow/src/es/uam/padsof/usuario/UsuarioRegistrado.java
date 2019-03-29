@@ -1,6 +1,7 @@
 package es.uam.padsof.usuario;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -16,7 +17,14 @@ import es.uam.padsof.sistema.*;
  * @author Carlos Miret, Pablo Borrelli y Julian Espada
  *
  */
-public class UsuarioRegistrado {
+public class UsuarioRegistrado implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+
 	/**
 	 * Metodo constructor de UsuarioRegistrado
 	 * @param numTarjeta Numero de tarjeta del usuario
@@ -375,6 +383,16 @@ public class UsuarioRegistrado {
 			return false;
 	}
 	
+	/**
+	 * 
+	 */
+	public void caducaPremium() {
+		LocalDate fecha = LocalDate.now().minusDays(29);
+		if(fecha.isAfter(this.getFechaPremium())) {
+			this.setEsPremium(false);
+			this.setFechaPremium(null);
+		}
+	}
 	
 	/**
 	 * Este metodo comprueba que un usuario puede reproducir una cacnion o no dependiendo de su estado
@@ -491,9 +509,40 @@ public class UsuarioRegistrado {
 	 */
 	@Override
 	public String toString() {
-		return "UsuarioRegistrado [" + nombre + "]: ";
+		return "UsuarioRegistrado [" + nombre + "]: " + contrasena;
+	}
+	
+	/**
+	 * @param usuario
+	 */
+	public void bloquearUsuario(boolean permanente) {
+		if(Sistema.getInstance().getUsuarioEnSesion().getNombre().equals(Sistema.getInstance().getAdmin().getNombre())) {
+			if (permanente == false) {
+				this.bloqueado = true;
+				this.setFechaBloqueo(LocalDate.now());
+			}
+			else
+				this.setBloqueoPermanente();
+		}
 	}
 
+
+	/**
+	 * Metodo que permite desbloquear un usuario
+	 * @param usuario
+	 */
+	public void desbloquearUsuario() {
+		LocalDate fecha = LocalDate.now().minusDays(29);
+		if (this.bloqueado == true && this.bloqueoPermanente == false) {
+			if (fecha.isAfter(this.fechaBloqueo)) {
+				this.bloqueado = false;
+			}
+			else if (Sistema.getInstance().getUsuarioEnSesion() == Sistema.getInstance().getAdmin())
+				this.bloqueado = false;
+		}
+		else return;
+	}
+	
 
 
 }

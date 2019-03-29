@@ -1,5 +1,6 @@
 package es.uam.padsof.sistema;
 
+import java.io.Serializable;
 import java.util.*;
 import es.uam.padsof.objetoreproducible.*;
 import es.uam.padsof.usuario.*;
@@ -9,8 +10,14 @@ import es.uam.padsof.usuario.*;
  * @author Carlos Miret, Pablo Borrelli y Julian Espada
  *
  */
-public class Notificacion {
+public class Notificacion implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	public enum TipoNotificacion {PLAGIO, NUEVACANCION, NUEVOSEGUIDOR}
 	
 	private TipoNotificacion tipo = null; 
@@ -75,6 +82,36 @@ public class Notificacion {
 		else if (tipo == TipoNotificacion.NUEVOSEGUIDOR)
 			return "NOTIFICACION NUEVO SEGUIDOR: " + texto;
 		return null;
+	}
+
+
+
+	public TipoNotificacion getTipo() {
+		return tipo;
+	}
+
+
+
+	public void setTipo(TipoNotificacion tipo) {
+		this.tipo = tipo;
+	}
+
+
+
+	public String getTexto() {
+		return texto;
+	}
+
+
+
+	public void setTexto(String texto) {
+		this.texto = texto;
+	}
+
+
+
+	public void setUsuariosNotificados(ArrayList<UsuarioRegistrado> usuariosNotificados) {
+		this.usuariosNotificados = usuariosNotificados;
 	}
 
 }

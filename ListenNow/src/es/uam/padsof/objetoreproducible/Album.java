@@ -1,6 +1,7 @@
 package es.uam.padsof.objetoreproducible;
 
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import es.uam.padsof.sistema.Sistema;
@@ -14,7 +15,12 @@ import pads.musicPlayer.exceptions.Mp3PlayerException;
  *
  * Esta clase se encarga de gestionar el objeto Album
  */
-public class Album extends ObjetoComentable{
+public class Album extends ObjetoComentable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private double duracionAcumulada;
 	
 	/** Canciones del album*/

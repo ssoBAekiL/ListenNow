@@ -21,7 +21,6 @@ public class ListasReproduccionesTest {
 	private Cancion c2;
 	private Cancion c3;
 	private ListaReproducciones l;
-	private Comentario comment;
 	
 
 	@Before
@@ -37,7 +36,7 @@ public class ListasReproduccionesTest {
 	}
 
 	/*
-	 * Test de añadir cancion a lista de reproduccion
+	 * Test de aï¿½adir cancion a lista de reproduccion
 	 */
 	@Test
 	public void testAniadirCancionLista() {
