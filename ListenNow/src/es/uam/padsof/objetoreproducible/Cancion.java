@@ -321,13 +321,9 @@ public class Cancion extends ObjetoComentable {
 	 * @throws IOException
 	 */
 	public boolean copiarCancionASistema() throws IOException {
-		try {
 			File original=new File (this.getRuta());
 			Files.copy(original.toPath(), FileSystems.getDefault().getPath("cancionesSistema", this.getRuta()));
 			return true;
-		}catch(Exception e) {System.out.println("Error al hacer la copia del archivo");}
-	
-		return false;
 	}
 	
 	/**

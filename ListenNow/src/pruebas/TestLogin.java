@@ -8,12 +8,12 @@ import es.uam.padsof.usuario.UsuarioRegistrado;
 public class TestLogin {
 	
 	public static void main(String[] args) {
-		String usuario = "Gianchi";
+		String usuario = "ususario2";
 		String contrasena = "54321";
 		ArrayList<UsuarioRegistrado> usuarios =  new ArrayList<UsuarioRegistrado>();
 	//(String nombre, String contrasena, boolean esPremium, LocalDate fechaPremium,int reproducciones, boolean bloqueado)
-		UsuarioRegistrado a = new UsuarioRegistrado("Pablo", "12345", false, null, 0, false);
-		UsuarioRegistrado b = new UsuarioRegistrado("Gianchi", "54321", false, null, 0, false);
+		UsuarioRegistrado a = new UsuarioRegistrado("ususario1", "12345", false, null, 0, false);
+		UsuarioRegistrado b = new UsuarioRegistrado("usuario2", "54321", false, null, 0, false);
 		UsuarioRegistrado c = new UsuarioRegistrado("Admin", "asdfg", false, null, 0, true);
 		usuarios.add(a);
 		usuarios.add(b);

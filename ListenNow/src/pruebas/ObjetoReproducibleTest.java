@@ -34,13 +34,13 @@ public class ObjetoReproducibleTest {
 	 */
 	@Before
 	public void testObjetoComentable() throws Mp3PlayerException, IOException{
-		u1=new UsuarioRegistrado("1234567891234567","carlos","6253", false,false);
+		u1=new UsuarioRegistrado("carlos","6253", false,false);
 		sys.addUsuario(u1);
 		//login();
-		u2=new UsuarioRegistrado("98092735671891927","julian","837382", false,false);
+		u2=new UsuarioRegistrado("julian","837382", false,false);
 		sys.addUsuario(u2);
 		obj_commentA=new Cancion("Album111111111", u1, "lib");
-		obj_commentB=new ListaReproducciones("Cancion93282", u2, "lib");
+		obj_commentB=new ListaReproducciones("Cancion93282", u2);
 		comment=new Comentario("Me gusta!", u1, LocalDate.now(), 8);
 	}
 	

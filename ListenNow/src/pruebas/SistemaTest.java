@@ -22,7 +22,7 @@ import es.uam.padsof.usuario.UsuarioRegistrado;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 public class SistemaTest {
-	Sistema sys = Sistema.getInstance();
+	Sistema sys = Sistema.getInstance() ;
 	private UsuarioRegistrado u1;
 	private UsuarioRegistrado u2;
 	private Cancion c1;
@@ -36,7 +36,7 @@ public class SistemaTest {
 	private Notificacion n3;
 	
 	@Before
-	public void setUp() throws IOException, Mp3PlayerException, ClassNotFoundException {
+	public void setUp() throws IOException, Mp3PlayerException {
 		u1 = new UsuarioRegistrado("usuario1", "pass", false, false);
 		u2 = new UsuarioRegistrado("usuario2", "pass123", false, false);
 		sys.addUsuario(u1);
@@ -48,7 +48,7 @@ public class SistemaTest {
 		sys.setCancionValidada(c1);
 		sys.setCancionValidada(c2);
 		sys.setCancionValidada(c3);
-		u1.setCanciones(c1);//sin querer quite setCanciones de la clase usuario, añadela PABLO por favor
+		u1.setCanciones(c1);
 		u1.setCanciones(c3);
 		u2.setCanciones(c2);
 		a1 = new Album("Album 1", u1);
@@ -65,9 +65,6 @@ public class SistemaTest {
 		sys.setNotificaciones(n1);
 		sys.setNotificaciones(n2);
 		sys.setNotificaciones(n3);
-//		sys.guardarSistema();
-//		sys.reset();
-//		sys.readObject();
 	}
 	
 	@After
@@ -78,37 +75,38 @@ public class SistemaTest {
 	@Test
 	public void testInicializarSistema() throws InvalidCardNumberException, FailedInternetConnectionException, OrderRejectedException, ClassNotFoundException, IOException {
 		assertTrue(sys.login("ADMIN", "soyadmin"));
-		u2.bloquearUsuario(false);
-		u1.setEsPremium(true);
-		u1.setFechaPremium(LocalDate.now().minusDays(10));
-		u2.setFechaBloqueo(LocalDate.now().minusDays(10));
+		sys.getUsuarios().get(2).bloquearUsuario(false);
+		sys.getUsuarios().get(1).setEsPremium(true);
+		sys.getUsuarios().get(1).setFechaPremium(LocalDate.now().minusDays(10));
+		sys.getUsuarios().get(2).setFechaBloqueo(LocalDate.now().minusDays(10));
 		sys.logout();
 		sys.guardarSistema();
 		sys.reset();
 		sys.inicializarSistema();
-		assertTrue(u1.EsPremium());
-		assertTrue(u2.getBloqueado());
+		assertTrue(sys.getUsuarios().get(1).EsPremium());
+		assertTrue(sys.getUsuarios().get(2).getBloqueado());
 		assertTrue(sys.login("ADMIN", "soyadmin"));
-		u2.bloquearUsuario(false);
-		u1.setEsPremium(true);
-		u1.setFechaPremium(LocalDate.now().minusDays(30));
-		u2.setFechaBloqueo(LocalDate.now().minusDays(30));
+		sys.getUsuarios().get(2).bloquearUsuario(false);
+		sys.getUsuarios().get(1).setEsPremium(true);
+		sys.getUsuarios().get(1).setFechaPremium(LocalDate.now().minusDays(30));
+		sys.getUsuarios().get(2).setFechaBloqueo(LocalDate.now().minusDays(30));
 		sys.logout();
+		sys.guardarSistema();
 		sys.inicializarSistema();
-		assertFalse(u1.EsPremium());
-		assertFalse(u2.getBloqueado());
+		assertFalse(sys.getUsuarios().get(1).EsPremium());
+		assertFalse(sys.getUsuarios().get(2).getBloqueado());
 		
 	}
 	
 	
 	
 	@Test
-	public void testReadObject() throws FileNotFoundException, IOException, ClassNotFoundException {
+	public void testLeerSistema() throws FileNotFoundException, IOException, ClassNotFoundException {
 		assertTrue(sys.getUsuarios().size() > 1);
 		sys.guardarSistema();
 		reset();
 		assertTrue(sys.getUsuarios().size() == 1);
-		sys.readObject();
+		sys.leerSistema();
 		assertTrue(sys.getUsuarios().size() > 1);
 	}
 
@@ -127,7 +125,7 @@ public class SistemaTest {
 
 	@Test
 	public void testBuscarAutor() { 
-		assertTrue(sys.buscarAutor("usuario1").containsAll(u1.getCanciones()));
+		assertTrue(sys.buscarAutor("usuario1").containsAll(sys.getUsuarios().get(0).getCanciones()));
 	}
 
 	@Test

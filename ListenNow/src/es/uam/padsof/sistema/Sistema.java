@@ -117,8 +117,20 @@ public class Sistema implements Serializable {
 	
 	/**
 	 * Metodo constructor de sistema
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
 	private Sistema() {
+		if (new File("datosSistema.dat").exists()) {
+			try {
+				inicializarSistema();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
 		this.reproduccionesNoRegistrados = 0;
 		this.conectado = false;
 		this.nRepAnonimas = 10;
@@ -134,6 +146,7 @@ public class Sistema implements Serializable {
 		this.admin=(new UsuarioRegistrado("ADMIN"/*nombre*/, "soyadmin"/*contrasena*/, true/*premium*/, true));
 		this.admin.setFechaPremium(LocalDate.now());
 		this.addUsuario(admin);
+		}
 	}
 
 	
@@ -167,7 +180,7 @@ public class Sistema implements Serializable {
 	 * que llevan mas de 30 dias bloqueados y quita el premium a los usuarios que lo tengan desde mas de 30 dias
 	 */
 	public void inicializarSistema() throws ClassNotFoundException, IOException {
-		readObject();
+		leerSistema();
 		for (Cancion c: cancionesRechazadas) {
 			c.borradoTrasTercerDia();
 		}
@@ -185,9 +198,9 @@ public class Sistema implements Serializable {
 	 * 
 	 * Funcion que lee de un fichero datos guardados de la clase sistema y los carga en el sistema
 	 */
-	public void readObject() throws IOException, ClassNotFoundException {
+	public void leerSistema() throws IOException, ClassNotFoundException {
 		try {
-		FileInputStream is = new FileInputStream("guardarSistema.dat");
+		FileInputStream is = new FileInputStream("datosSistema.dat");
 		ObjectInputStream ois = new ObjectInputStream(is);
 		Sistema s = (Sistema) ois.readObject();
 		
@@ -196,13 +209,15 @@ public class Sistema implements Serializable {
 		this.nRepRecompensa = s.nRepRecompensa;
 		this.nRepRegistrado = s.nRepRegistrado;
 		this.usuarios = s.usuarios;
-		System.out.println(s.usuarios.get(0));
 		this.cancionesNotificadas = s.cancionesNotificadas;
 		this.cancionesRechazadas = s.cancionesRechazadas;
 		this.cancionesValidadas = s.cancionesValidadas;
 		this.cancionesValidar = s.cancionesValidar;
 		this.albunes = s.albunes;
-		this.notificaciones = s.notificaciones;		
+		this.notificaciones = s.notificaciones;
+		this.conectado = false;
+		this.admin=(new UsuarioRegistrado("ADMIN"/*nombre*/, "soyadmin"/*contrasena*/, true/*premium*/, true));
+		this.admin.setFechaPremium(LocalDate.now());
 		
 		ois.close();
 		is.close();
@@ -218,11 +233,11 @@ public class Sistema implements Serializable {
 	 */
 	public void guardarSistema() throws FileNotFoundException, IOException {
 		try {
-			FileOutputStream fos = new FileOutputStream("guardarSistema.dat");
+			File ruta = new File("datosSistema.dat");
+			ruta.delete();
+			FileOutputStream fos = new FileOutputStream("datosSistema.dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			// write object to file
 			oos.writeObject(this);
-			// closing resources
 			oos.close();
 			fos.close();
 		} catch (IOException e) {
