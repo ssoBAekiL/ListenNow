@@ -233,8 +233,6 @@ public class Sistema implements Serializable {
 	 */
 	public void guardarSistema() throws FileNotFoundException, IOException {
 		try {
-			File ruta = new File("datosSistema.dat");
-			ruta.delete();
 			FileOutputStream fos = new FileOutputStream("datosSistema.dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(this);

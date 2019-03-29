@@ -32,6 +32,7 @@ public class PruebaAlbum{
 		c2 = new Cancion("Cancion 2", u1, "hive.mp3");
 		comment = new Comentario("INCREIBLE", sys.getUsuarioEnSesion(), LocalDate.now(), 8);
 		album = new Album ("Album 1", sys.getUsuarioEnSesion());
+		sys.getInstance().getUsuarioEnSesion().pue
 	}
 
 	/*
@@ -48,7 +49,7 @@ public class PruebaAlbum{
 	}
 	
 	/*
-	 * Test de añadir una cancion a un album
+	 * Test de aï¿½adir una cancion a un album
 	 */
 	@Test
 	public void testAniadirCancionAlbum() throws FileNotFoundException {
@@ -74,7 +75,7 @@ public class PruebaAlbum{
 	}
 	
 	/*
-	 * Test de añadir comentario a album correctamente
+	 * Test de aï¿½adir comentario a album correctamente
 	 */
 	@Test
 	public void testAniadirComentarioAlbum() {

@@ -45,7 +45,7 @@ public class Album extends ObjetoComentable {
 	 * @return true en caso de todo correcto
 	 */
 	public boolean anadirComentario(Comentario c) {
-		if(Sistema.getInstance().getUsuarioEnSesion().puedeComentar()) {
+		if(Sistema.getInstance().getUsuarioEnSesion().puedeComentar()==true) {
 			super.comentarios.add(c);
 			return true;
 		}
