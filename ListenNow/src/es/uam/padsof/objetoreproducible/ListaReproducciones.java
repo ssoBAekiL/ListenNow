@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
+import es.uam.padsof.sistema.Sistema;
 import es.uam.padsof.usuario.UsuarioRegistrado;
 import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
@@ -47,7 +48,7 @@ public class ListaReproducciones extends ObjetoReproducible{
 
 
 	/**
-	 * Devuelve las canciones.
+	 * Devuelve las canciones que contiene la lista de reproducciones.
 	 * @return ListaCanciones Las canciones que tiene la lista de reproduccion
 	 */
 	public ArrayList<Cancion> getListaCanciones() {
@@ -104,6 +105,7 @@ public class ListaReproducciones extends ObjetoReproducible{
 	 * @param c La cancion nueva a introducir en la lista de reproduccion
 	 */
 	public boolean aniadirCancionALista(Cancion c) {
+<<<<<<< HEAD
 		int i, j;
 		for(i=0; i<ListaCanciones.size(); i++) {
 			if(ListaCanciones.get(i)==c) {
@@ -117,13 +119,17 @@ public class ListaReproducciones extends ObjetoReproducible{
 				}
 			}
 		}
+=======
+		if(this.ListaCanciones.contains(c))
+			return false;
+>>>>>>> branch 'v.2' of https://github.com/ssoBAekiL/ListenNow.git
 		ListaCanciones.add(c);
 		this.numeroDeCanciones++;
 		return true;
 	}
 	
 	/**
-	 * A�ade un album a la lista de reproduccion 
+	 * Anade un album a la lista de reproduccion 
 	 * 
 	 * @param a El album nuevo a introducir en la lista de reproduccion
 	 */
@@ -161,14 +167,17 @@ public class ListaReproducciones extends ObjetoReproducible{
 	 * Elimina un album de una lista de reproduccion
 	 * @param a Album a borrar
 	 */
-	public void borrarAlbumALista(Album a) {
-		ListaAlbumes.remove(a);
-		return;
+	public boolean borrarAlbumALista(Album a) {
+		if(Sistema.getInstance().getUsuarioEnSesion().equals(a.getAutor())) {
+			ListaAlbumes.remove(a);
+			return true;
+		}
+		return false;
 	}
 	
 	
 	/**
-	 * 
+	 * Metodo reproducir  --->  reproduce una lista de reproduccion
 	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#reproducir()
 	 */
 	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
@@ -189,16 +198,14 @@ public class ListaReproducciones extends ObjetoReproducible{
 
 
 	/**
-	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#pararReproduccion()
+	 * Metodo parar reprod
 	 */
-	@Override
-	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
-		for(Cancion c: this.ListaCanciones) {
-			c.pararReproduccion();
-		}
-		for(Album a: this.ListaAlbumes) {
-			a.pararReproduccion();
-		}
+	public void pararReproduccion()throws FileNotFoundException, Mp3PlayerException, InterruptedException {
+		for(int i=0;i<this.ListaCanciones.size();i++)	
+			if(Mp3Player.isValidMp3File(ruta)==true) {
+				player.add(this.ruta);
+				player.stop();
+			}
 	}
 
 
