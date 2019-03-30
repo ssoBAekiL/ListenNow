@@ -12,9 +12,9 @@ public class TestLogin {
 		String contrasena = "54321";
 		ArrayList<UsuarioRegistrado> usuarios =  new ArrayList<UsuarioRegistrado>();
 	//(String nombre, String contrasena, boolean esPremium, LocalDate fechaPremium,int reproducciones, boolean bloqueado)
-		UsuarioRegistrado a = new UsuarioRegistrado("ususario1", "12345", false, null, 0, false);
-		UsuarioRegistrado b = new UsuarioRegistrado("usuario2", "54321", false, null, 0, false);
-		UsuarioRegistrado c = new UsuarioRegistrado("Admin", "asdfg", false, null, 0, true);
+		UsuarioRegistrado a = new UsuarioRegistrado("ususario1", "12345", false, false);
+		UsuarioRegistrado b = new UsuarioRegistrado("usuario2", "54321", false, false);
+		UsuarioRegistrado c = new UsuarioRegistrado("Admin", "asdfg", false, true);
 		usuarios.add(a);
 		usuarios.add(b);
 		usuarios.add(c);
