@@ -1,14 +1,13 @@
 package es.uam.padsof.objetoreproducible;
 
 import java.nio.file.*;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import es.uam.padsof.sistema.Notificacion;
 import es.uam.padsof.sistema.Sistema;
@@ -17,14 +16,14 @@ import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 /**
- * @author Julian Espada, Pablo Borrelli y Carlos Miret
- * 
  * Esta clase se encarga de gestionar todas
  * las caracteristicas referentes a cancion
+ * 
+ * @author Julian Espada, Pablo Borrelli y Carlos Miret
  */
-public class Cancion extends ObjetoComentable {
+public class Cancion extends ObjetoComentable implements Serializable {
 	/**
-	 * 
+	 * ID de serializacion
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
@@ -65,13 +64,17 @@ public class Cancion extends ObjetoComentable {
 	 */
 	private boolean marcada_plagio;
 	
-
+	/**
+	 * Fecha de rechazo de la cancion
+	 */
+	private LocalDate fechaRechazo;
+	
 	/**
 	 * Metodo constructor de la clase Cancion
 	 * 
-	 * @param titulo
-	 * @param autor
-	 * @param ruta
+	 * @param titulo titulo de la cancion
+	 * @param autor autor de la cancion
+	 * @param ruta ruta de la cancion
 	 * @throws IOException
 	 * @throws Mp3PlayerException
 	 */
@@ -87,16 +90,14 @@ public class Cancion extends ObjetoComentable {
 		this.fechaRechazo=null;
 		this.setMarcada_plagio(false);
 		this.ruta=ruta;
-		//meter copiar cancion
+		this.duracion = Mp3Player.getDuration(ruta);
+		this.copiarCancionASistema();/*CADA VEZ QUE SE CREE UNA CANCION, ESTA SERA COPIADA A UNA CARPETA ESPECIFICA*/
+		File f = new File(ruta);
+		this.ruta = "cancionesSistema"+File.separator+ f.getName();//reproduciremos aquellas canciones pertenecientes al directorio de cancionesSitema
 	}
 
 	
-	
-	/**
-	 * Fecha de rechazo de la cancion
-	 */
-	private LocalDate fechaRechazo;
-	
+
 	
 	/**
 	 * Metodo getter de la fecha de rechazo
@@ -108,7 +109,7 @@ public class Cancion extends ObjetoComentable {
 
 	/**
 	 * Esta clase se encarga de devolver el id de una cancion
-	 * @return id 
+	 * @return long ID de la cancion 
 	 */
 	public long getId() {
 		return id;
@@ -124,7 +125,7 @@ public class Cancion extends ObjetoComentable {
 	}
 	
 	/**
-	 * Metodo que incrementa las reproducciones de una cancion de
+	 * Metodo que incrementa las reproducciones de una cancion
 	 */
 	public void incrementaReproducciones() {
 		this.nreproducciones++;
@@ -140,6 +141,8 @@ public class Cancion extends ObjetoComentable {
 		this.id = id;
 	}
 
+	
+	
 	/**
 	 * Este metodo devuelve el numero de reproducciones de la cancion
 	 * @return nreproducciones
@@ -162,10 +165,10 @@ public class Cancion extends ObjetoComentable {
 	/**
 	 * Metodo rechazar, que actuara sobre el objeto cancion y actualizara los diferentes arrays de
 	 * estados de canciones en el sistema 
-	 * @return true en caso correcto
+	 * @return true en caso correcto (cancion rechaza con exito)
 	 */
 	public boolean rechazar() {
-		if(Sistema.getInstance().getUsuarioEnSesion()==Sistema.getInstance().getAdmin()) {
+		if(Sistema.getInstance().getUsuarioEnSesion().getNombre().equals(Sistema.getInstance().getAdmin().getNombre())) {
 			this.rechazada=true;
 			this.fechaRechazo=LocalDate.now();
 			Sistema.getInstance().getCancionesValidar().remove(this);
@@ -204,13 +207,6 @@ public class Cancion extends ObjetoComentable {
 		this.aceptada_mas18 = aceptada_mas18;
 	}
 	
-	/**
-	 * @return the comentarios
-	 */
-	public ArrayList<Comentario> getComentarios() {
-		return comentarios;
-	}
-
 	
 	/**
 	 * Metodo que permite al usuario admin validar + 18 una cancion pasada por parametro
@@ -231,16 +227,17 @@ public class Cancion extends ObjetoComentable {
 	 */
 	public boolean validarCancion() {
 		/*********CHEQUEO SI EL USUARIO EN SESION ES EL ADMIN*******/
-		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin()) == true &&
-				 Sistema.getInstance().getCancionesValidar().contains(this)) {
-			Sistema.getInstance().getCancionesValidadas().add(this);
-			Sistema.getInstance().getCancionesValidar().remove(this);
+		if(Sistema.getInstance().getUsuarioEnSesion().getNombre().equals(Sistema.getInstance().getAdmin().getNombre()) == true &&
+				 Sistema.getInstance().getCancionesValidar().contains(this) && this.aceptada_mas18 != true) {
+			Sistema.getInstance().getCancionesValidadas().add(this);//aniado al array de canciones validadas
+			Sistema.getInstance().getCancionesValidar().remove(this);//aniado el array de canciones por validar
 			aceptada = true;
 			pendiente_verificacion = false;
-			Sistema.getInstance().setNotificaciones(new Notificacion(this, this.autor.getSeguidores()));
+			Sistema.getInstance().setNotificaciones(new Notificacion(this, this.autor.getSeguidores()));//notifico a los seguidores
 			autor.anadirCancion(this);
 			return true;
 		}
+			
 		return false;
 	}
 	
@@ -252,29 +249,33 @@ public class Cancion extends ObjetoComentable {
 	 * Metodo que reproduce una cancion, dicha cancion sera reproducida si 
 	 * satisface diferentes condiciones (estrictas)
 	 */
-	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
+	public boolean reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
+		Mp3Player player = new Mp3Player();
 		if(Mp3Player.isValidMp3File(ruta)==true && this.marcada_plagio==false) {
 			if(Sistema.getInstance().getConectado()==true &&(Sistema.getInstance().getUsuarioEnSesion().puedeReproducir())) {
 				player.add(ruta);
 				player.play();/*Reproducimos la cancion*/
 				Sistema.getInstance().getUsuarioEnSesion().incrementaReproducciones();/*se incrementa el numero de reproducciones del usuario en sesion*/
 				this.autor.incrementaNumReproduccionesPropias();/*Se incrementa el numero de reproducciones del autor*/
-				if(this.autor.EsPremium()==false && this.autor.getNumReproduccionDeCancionesPropias()>100)
+				if(this.autor.EsPremium()==false && this.autor.getNumReproduccionDeCancionesPropias()> Sistema.getInstance().getnRepRecompensa())
 					this.autor.promocionarUsuario();/*PROMOCIONAMOS AL USUARIO EN CASO DE SUPERAR LAS 100 REPRODUCCIONES*/
 				Thread.sleep((long)Mp3Player.getDuration(ruta)*1000);
 				this.nreproducciones++;/*AUMENTAMOS EL NUMERO DE REPRODUCCIONES DE ESTA CANCION*/
+				return true;
 			}
 			else if(Sistema.getInstance().getConectado()==false && Sistema.getInstance().getReproduccionesNoRegistrados()<Sistema.getInstance().getnRepAnonimas()){
 				player.add(ruta);
 				player.play();/*Reproducimos la cancion*/
 				Thread.sleep((long)Mp3Player.getDuration(ruta)*1000);
 				this.autor.incrementaNumReproduccionesPropias();/*Se incrementa el numero de reproducciones del autor, para poder determinar una futura suscripcion Premium*/
-				if(this.autor.EsPremium()==false && this.autor.getNumReproduccionDeCancionesPropias()>100)
+				if(this.autor.EsPremium()==false && this.autor.getNumReproduccionDeCancionesPropias()>Sistema.getInstance().getnRepRecompensa())
 					this.autor.promocionarUsuario();/*PROMOCIONAMOS AL USUARIO EN CASO DE SUPERAR LAS 100 REPRODUCCIONES*/
 				Sistema.getInstance().incremetareproduccionesNoRegistrados();
 				this.nreproducciones++;/*AUMENTAMOS EL NUMERO DE REPRODUCCIONES DE ESTA CANCION*/
+				return true;
 			}
 		}
+		return false;
 	}
 	
 	
@@ -285,6 +286,8 @@ public class Cancion extends ObjetoComentable {
 	public void pararReproduccion()throws FileNotFoundException, Mp3PlayerException, InterruptedException {
 		if(Mp3Player.isValidMp3File(ruta)==true) {
 			player.add(ruta);
+			player.play();
+			Thread.sleep(1500);
 			player.stop();
 		}
 	}
@@ -294,7 +297,7 @@ public class Cancion extends ObjetoComentable {
 	 * Metodo que permite a un usuario notificar ccomo plagio una cancion
 	 */
 	public void notificarPlagio() {
-		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin())) {
+		if(Sistema.getInstance().getConectado() == true) {
 			this.setNotificada_plagio(true);
 			Sistema.getInstance().getCancionesNotificadas().add(this);
 			Sistema.getInstance().setNotificaciones(new Notificacion(this));
@@ -304,11 +307,13 @@ public class Cancion extends ObjetoComentable {
 	
 	/**
 	 * Metodo que permite la revision de una cancion
-	 * @return
+	 * @return true en xaso correcto
 	 */
 	public boolean revisarNotificacion() {
-		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin())) {
+		if(Sistema.getInstance().getUsuarioEnSesion().getNombre().equals(Sistema.getInstance().getAdmin().getNombre())) {
 			this.setNotificada_plagio(false);
+			Sistema.getInstance().getCancionesValidadas().add(this);
+			Sistema.getInstance().getCancionesNotificadas().remove(this);
 			return true;
 		}
 		return false;
@@ -320,11 +325,12 @@ public class Cancion extends ObjetoComentable {
 	 * @return true en caso correcto
 	 * @throws IOException
 	 */
-	public boolean copiarCancionASistema() throws IOException {
+	public void copiarCancionASistema() throws IOException {
+		try {
 			File original=new File (this.getRuta());
-			Files.copy(original.toPath(), FileSystems.getDefault().getPath("cancionesSistema", this.getRuta()));
-			return true;
-	}
+			Files.copy(original.toPath(), FileSystems.getDefault().getPath("cancionesSistema"+File.separator, original.getName()));
+		}catch(FileAlreadyExistsException e) {};
+		}
 	
 	/**
 	 * Funcion que unicamente permite al usuario ADMIN marcar una funcion como plagio
@@ -332,7 +338,7 @@ public class Cancion extends ObjetoComentable {
 	 */
 	public boolean marcarComoPlagio() {
 		/*SI EL USUARIO EN SESION ES EL ADMIN*/
-		if(Sistema.getInstance().getUsuarioEnSesion().equals(Sistema.getInstance().getAdmin())) {
+		if(Sistema.getInstance().getUsuarioEnSesion().getNombre().equals(Sistema.getInstance().getAdmin().getNombre())) {
 			if (Sistema.getInstance().getCancionesRechazadas().contains(this) == false)
 				Sistema.getInstance().getCancionesRechazadas().add(this);
 				this.setMarcada_plagio(true);
@@ -351,7 +357,7 @@ public class Cancion extends ObjetoComentable {
 	 */
 	public boolean anadirComentario(Comentario c) {
 		if(Sistema.getInstance().getUsuarioEnSesion().puedeComentar()) {
-			super.comentarios.add(c);
+			this.getComentarios().add(c);
 			return true;
 		}
 		return false;
@@ -365,36 +371,50 @@ public class Cancion extends ObjetoComentable {
 
 	/**
 	 * 
-	 * @return
+	 * @return si el estado de la cancion ha sido marcad como plagio o no
 	 */
 	public boolean isNotificada_plagio() {
 		return notificada_plagio;
 	}
 	
+	/**
+	 * 
+	 * @param notificada_plagio
+	 */
 	public void setNotificada_plagio(boolean notificada_plagio) {
 		this.notificada_plagio = notificada_plagio;
 	}
 	
 	/**
 	 * 
-	 * @return
+	 * @return si esta pendiente de verificacion
 	 */
 	public boolean isPendiente_verificacion() {
 		return pendiente_verificacion;
 	}
 
+	
+	/**
+	 * Metodo que cambia el estado de pendiente_verificacion de la cancion
+	 * @param pendiente_verificacion, estado de verificacion de la cancion
+	 */
 	public void setPendiente_verificacion(boolean pendiente_verificacion) {
 		this.pendiente_verificacion = pendiente_verificacion;
 	}
 
 	/**
-	 * 
+	 * Metodo getter de la "flag" aceptada
 	 * @return
 	 */
 	public boolean isAceptada() {
 		return aceptada;
 	}
 
+	
+	/**
+	 * Metodo setter de "flag" aceptacion de la cancion
+	 * @param aceptada cambia el estado de aceptacion  de la cancion
+	 */
 	public void setAceptada(boolean aceptada) {
 		this.aceptada = aceptada;
 	}
@@ -406,7 +426,11 @@ public class Cancion extends ObjetoComentable {
 	public boolean isMarcada_plagio() {
 		return marcada_plagio;
 	}
-
+	
+	/**
+	 * Metodo setter de la flag marcada como plagio de la cancion
+	 * @param marcada_plagio Estado a cambiar de tipo de marcado de la cancion
+	 */
 	public void setMarcada_plagio(boolean marcada_plagio) {
 		this.marcada_plagio = marcada_plagio;
 	}
@@ -433,19 +457,13 @@ public class Cancion extends ObjetoComentable {
 	 * Funcion que muestra por pantalla todos los atributos caracteristicos de una cancion
 	 */
 	public String toString(){
-		return "Autor: "+this.getAutor()+"\n"+"Titulo: "+this.getTitulo()+"\n";
+		return "ID: [" + this.id + "] Autor: "+this.getAutor()+"		\n"+"Titulo: "+this.getTitulo()+"		\n status +18: "+aceptada_mas18+"		\nruta: "+ruta+"\n";
 	}
 
-
-
 	@Override
-	public boolean moverCancionASistema() throws IOException {
-		// TODO Auto-generated method stub
+	public boolean anadirCancion(ObjetoComentable c) {
 		return false;
 	}
 
 
-
-	
-	
 }

@@ -3,19 +3,16 @@ package es.uam.padsof.sistema;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
+
 import es.uam.padsof.objetoreproducible.*;
 import es.uam.padsof.usuario.*;
 import java.io.*;
 
+
 /**
- * Clase sistema (principal)
- */
-/**
- * @author pablo
- *
- */
-/**
- * @author pablo
+ * Clase Sistema, que posee todos las caracteristicas propias 
+ * de un sistema (principal clase del proyecto) al igual que funciones que trabajan sobre este
+ * @author Carlos Miret, Pablo Borrelli y Julian Espada
  *
  */
 public class Sistema implements Serializable {
@@ -75,6 +72,11 @@ public class Sistema implements Serializable {
 	 * Lista de canciones en el sistema rechazadas
 	 */
 	private ArrayList<Cancion> cancionesRechazadas;
+	
+	/**
+	 * Lista de listas de reproducciones en el sistema
+	 */
+	private ArrayList<ListaReproducciones> listas;
 	
 	/**
 	 * Lista de albunes en el sistema
@@ -143,6 +145,7 @@ public class Sistema implements Serializable {
 		this.cancionesNotificadas = new ArrayList<Cancion>();
 		this.notificaciones = new ArrayList<Notificacion>();
 		this.usuarios = new ArrayList<UsuarioRegistrado>();
+		this.listas = new ArrayList<ListaReproducciones>();
 		this.admin=(new UsuarioRegistrado("ADMIN"/*nombre*/, "soyadmin"/*contrasena*/, true/*premium*/, true));
 		this.admin.setFechaPremium(LocalDate.now());
 		this.addUsuario(admin);
@@ -175,7 +178,7 @@ public class Sistema implements Serializable {
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 * 
-	 * Funcion que se ejecuta al inicializar el sistema y carga tdos los datos guadrados en la sesion anterior.
+	 * Funcion que se ejecuta al inicializar el sistema y carga todos los datos guardados en la sesion anterior.
 	 * A continuacion borra las canciones que hayan sido rechazadas hace mas de 3 dias, desbloquea a los usuarios
 	 * que llevan mas de 30 dias bloqueados y quita el premium a los usuarios que lo tengan desde mas de 30 dias
 	 */
@@ -193,10 +196,10 @@ public class Sistema implements Serializable {
 	}
 	
 	/**
+	 * Funcion que lee de un fichero datos guardados de la clase sistema y los carga en el sistema
+	 * 
 	 * @throws IOException
 	 * @throws ClassNotFoundException
-	 * 
-	 * Funcion que lee de un fichero datos guardados de la clase sistema y los carga en el sistema
 	 */
 	public void leerSistema() throws IOException, ClassNotFoundException {
 		try {
@@ -209,6 +212,7 @@ public class Sistema implements Serializable {
 		this.nRepRecompensa = s.nRepRecompensa;
 		this.nRepRegistrado = s.nRepRegistrado;
 		this.usuarios = s.usuarios;
+		this.listas = s.listas;
 		this.cancionesNotificadas = s.cancionesNotificadas;
 		this.cancionesRechazadas = s.cancionesRechazadas;
 		this.cancionesValidadas = s.cancionesValidadas;
@@ -223,6 +227,18 @@ public class Sistema implements Serializable {
 		is.close();
 		}
 		catch (IOException e) {e.printStackTrace();}
+	}
+	
+	/**
+	 * Funcion que se encarga de cerrar la aplicacion/sistema y que a su vez guarda los datos de
+	 * clase principal
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public void cerrarSistema() throws FileNotFoundException, IOException {
+		if (this.conectado == true)
+			logout();
+		guardarSistema();
 	}
 	
 	/**
@@ -244,9 +260,8 @@ public class Sistema implements Serializable {
 	}
 		 
 	/**
-	 * @param titulo de la cancion que se quiere buscar
-	 * 
 	 * Funcion que busca una cancion a partir de su titulo
+	 * @param titulo de la cancion que se quiere buscar
 	 * 
 	 * @return cancion buscada si se encuentra en la lista, null si no se encuentra
 	 */
@@ -259,9 +274,8 @@ public class Sistema implements Serializable {
 	}
 
 	/**
+	 * Funcion que busca un album a partir de su titulo 
 	 * @param titulo del album que se quiere buscar
-	 * 	
-	 *  Funcion que busca un album a partir de su titulo 
 	 *  
 	 * @return album buscado si se encuentra en la lista, null si no se encuentra
 	 */
@@ -275,10 +289,8 @@ public class Sistema implements Serializable {
 	
 	
 	/**
-	 * @param autor 
-	 * 
 	 * Funcion que busca un array de canciones a partir de su autor
-	 * 
+	 * @param author autor al que se quiere buscar
 	 * @return array de canciones si el autor tiene alguna, null si no
 	 */
 	public ArrayList<Cancion> buscarAutor(String autor) {
@@ -293,21 +305,24 @@ public class Sistema implements Serializable {
 
 
 	/**
-	 * @param usuario
-	 * 
 	 * Funcion que permite a un usuario registrarse anadiendolo al array de usuarios registrados.
+	 * @param usuario Usuario que se registra
+	 * 
 	 */
-	public void registrarse(UsuarioRegistrado usuario) {
-		usuarios.add(usuario);
+	public boolean registrarse(UsuarioRegistrado usuario) {
+		if (this.usuarios.contains(usuario) == false) { // control no puede registrarse un usuario si ya existe uno con su mismo nombre
+			usuarios.add(usuario);
+			return true;
+		}
+		return false;
 	}
 	
 
 	/**
-	 * @param usuario 
+	 * Funcion que realiza el login comparando el nombre de usuario y la contrasena introducidos con el array
+	 * de usuarios registrados	 * @param usuario 
 	 * @param contrasena
 	 * 
-	 * Funcion que realiza el login comparando el nombre de usuario y la contrasena introducidos con el array
-	 * de usuarios registrados
 	 * 
 	 * @return true en caso de exito, false si no
 	 */
@@ -334,21 +349,28 @@ public class Sistema implements Serializable {
 	}
 
 	/**
-	 * @param reproducible
-	 * @throws IOException
-	 * 
 	 * Funcion que anade un reproducible al sistema.
 	 * Si se trata de una cancion la anade al array de canciones en espera de ser validadas y copia el archivo mp3 a la carpeta del programa
-	 * Si se trata de un album lo anade al array de albunes
-	 *
+	 * Si se trata de un album lo anade al array de albunes	 * @param reproducible
+	 * 
+	 * @throws IOException
 	 */
-	public void anadirReproducible(ObjetoReproducible reproducible) throws IOException {
+	public boolean anadirReproducible(ObjetoReproducible reproducible) throws IOException {
 		if (reproducible instanceof Cancion && conectado == true) {
 			cancionesValidar.add((Cancion) reproducible);
-			//reproducible.copiarCancionASistema();
+			return true;
 		}
-		else if (reproducible instanceof Album && conectado == true)
+		else if (reproducible instanceof Album && conectado == true) {
 			albunes.add((Album) reproducible);
+			usuarioEnSesion.anadirAlbum((Album) reproducible);
+			return true;
+		}
+		else if (reproducible instanceof ListaReproducciones && conectado == true) {
+			listas.add((ListaReproducciones) reproducible);
+			usuarioEnSesion.anadirListaReproduccion((ListaReproducciones) reproducible);
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -371,6 +393,7 @@ public class Sistema implements Serializable {
 					cancionesNotificadas.remove(reproducible);
 				if(cancionesRechazadas.contains(reproducible)) 
 					cancionesRechazadas.remove(reproducible);
+				usuarioEnSesion.getCanciones().remove(reproducible);
 
 			File fichero = new File(reproducible.getRuta());
 				if(fichero.delete())
@@ -378,6 +401,12 @@ public class Sistema implements Serializable {
 			}
 			else if (reproducible instanceof Album) {
 				albunes.remove(reproducible);
+				usuarioEnSesion.getAlbunes().remove(reproducible);
+				return true;
+			}
+			else if (reproducible instanceof ListaReproducciones) {
+				listas.remove(reproducible);
+				usuarioEnSesion.getLista_reproducciones().remove(reproducible);
 				return true;
 			}
 		}
@@ -386,9 +415,9 @@ public class Sistema implements Serializable {
 	}
 	
 	/**
+	 * Funcion que elimina a un usuario del sistema
 	 * @param usuario
 	 * 
-	 * Funcion que elimina a un usuario del sistema
 	 */
 	public void darDeBaja(UsuarioRegistrado usuario) {
 		usuarios.remove(usuario);
@@ -403,13 +432,29 @@ public class Sistema implements Serializable {
 		if(conectado == true) {
 			ArrayList<Notificacion> notificaciones = new ArrayList<Notificacion>();
 			for (Notificacion n: this.notificaciones) {
-				if(n.getUsuariosNotificados().contains(usuarioEnSesion))
-					notificaciones.add(n);
+				for (UsuarioRegistrado u: n.getUsuariosNotificados())
+					if (this.usuarioEnSesion.getNombre().equals(u.getNombre()))
+						notificaciones.add(n);
 			}
 			return notificaciones;
 		}
 		return null;
 	}
+
+	/**
+	 * Funcion que reocge todos los datos caracteristicos de Sistema y lo devuelve en forma de String
+	 * @see java.lang.Object#toString()
+	 * @return String con los datos caracteristicos
+	 */
+	@Override
+	public String toString() {
+		return "Sistema [reproduccionesNoRegistrados=" + reproduccionesNoRegistrados + "	\nRepAnonimas=" + nRepAnonimas
+				+ "		\nRepRegistrado=" + nRepRegistrado + "		\nRepRecompensa=" + nRepRecompensa + "	\nusuarios=" + usuarios
+				+ "	\ncancionesValidar=" + cancionesValidar + "	\ncancionesRechazadas=" + cancionesRechazadas
+				+ "	\nlistas=" + listas + ", albunes=" + albunes + "	\ncancionesValidadas=" + cancionesValidadas
+				+ " \ncancionesNotificadas=" + cancionesNotificadas+"]";
+	}
+
 
 	/**
 	 * Funcion geter del array de usuarios
@@ -421,7 +466,7 @@ public class Sistema implements Serializable {
 	}
 
 	/**
-	 * @param usuarios the usuarios to set
+	 * @param usuarios Funcion setter del array de usuarios
 	 * 
 	 * Funcion seter de usuarios que anade un nuevo usuario al array de usuarios
 	 */
@@ -430,9 +475,9 @@ public class Sistema implements Serializable {
 	}
 
 	/**
-	 * Funcion geter del numero maximo de reproducciones anonimas que es posible realizar
+	 * Funcion getter del numero maximo de reproducciones anonimas que es posible realizar
 	 * 
-	 * @return nRepAnonimas
+	 * @return nRepAnonima
 	 */
 	public int getnRepAnonimas() {
 		return nRepAnonimas;
@@ -467,35 +512,35 @@ public class Sistema implements Serializable {
 	}
 	
 	/**
-	 * @param nRepAnonimas
-	 * 
 	 * Funcion seter del limite maximo de reproducciones anonimas que es posible realizar
 	 * Esta funcion solo se ejecuta para el usuario admin
+	 * @param nRepAnonimas
+	 * 
 	 */
 	public void setnRepAnonimas(int nRepAnonimas) {
-		if(this.getUsuarioEnSesion().equals(this.admin))
+		if(this.getUsuarioEnSesion().getNombre().equals(this.admin.getNombre()))
 			this.nRepAnonimas = nRepAnonimas;
 	}
 
 	/**
-	 * @param nRepRegistrado
-	 * 
 	 * Funcion seter del limite maximo de reproducciones que un usuario registrado puede realizar
 	 * Esta funcion solo se ejecuta para el usuario admin
+	 * @param nRepRegistrado
+	 * 
 	 */
 	public void setnRepRegistrado(int nRepRegistrado) {
-		if(this.getUsuarioEnSesion().equals(this.admin))
+		if(this.getUsuarioEnSesion().getNombre().equals(this.admin.getNombre()))
 			this.nRepRegistrado = nRepRegistrado;
 	}
 
 	/**
+	 * Funcion setter del tope minimo de reproducciones que hay que recibir para recibir la recompensa de premium
+	 * Esta funcion solo se ejecuta para el usuario admin
 	 * @param nRepRecompensa
 	 * 
-	 * Funcion seter del tope minimo de reproducciones que hay que recibir para recibir la recompensa de premium
-	 * Esta funcion solo se ejecuta para el usuario admin
 	 */
 	public void setnRepRecompensa(int nRepRecompensa) {
-		if(this.getUsuarioEnSesion().equals(this.admin))
+		if(this.getUsuarioEnSesion().getNombre().equals(this.admin.getNombre()))
 			this.nRepRecompensa = nRepRecompensa;
 	}
 
@@ -546,10 +591,8 @@ public class Sistema implements Serializable {
 
 
 	/**
-	 * @param i
-	 * 
-	 * Funcion geter que devuelve un usuario registrado dentro del Sistema de la aplicacion
-	 * 
+	 * Funcion getter que devuelve un usuario registrado dentro del Sistema de la aplicacion
+	 * @param i iterador
 	 * @return el UsuarioRegistrado del array usuarios que se encuentra en la posicion i
 	 */
 	public UsuarioRegistrado getUsuarioItera(int i) {
@@ -591,14 +634,14 @@ public class Sistema implements Serializable {
 	/**
 	 * @param u
 	 * 
-	 * Funcion seter que anade el UsuarioRegistrado u al array de usuarios
+	 * Funcion setter que anade el UsuarioRegistrado u al array de usuarios
 	 */
 	public void addUsuario(UsuarioRegistrado u) {
 		this.usuarios.add(u);
 	}
 
 	/**
-	 * Funcion geter del array canciones por validar
+	 * Funcion getter del array canciones por validar
 	 * 
 	 * @return cancionesValidar
 	 */
@@ -659,6 +702,15 @@ public class Sistema implements Serializable {
 	 */
 	public ArrayList<Album> getAlbunes() {
 		return albunes;
+	}
+	
+	/**
+	 * Funcion geter del array de listas de reproducciones
+	 * 
+	 * @return listas
+	 */
+	public ArrayList<ListaReproducciones> getListas() {
+		return listas;
 	}
 
 

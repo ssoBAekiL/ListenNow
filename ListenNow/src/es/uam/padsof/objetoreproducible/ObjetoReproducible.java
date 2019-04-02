@@ -1,26 +1,51 @@
 package es.uam.padsof.objetoreproducible;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.Serializable;
 
-import es.uam.padsof.sistema.Sistema;
 import es.uam.padsof.usuario.UsuarioRegistrado;
 import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
+
+/**
+ * 
+ * Clase ObjetoReproducible, que posee todos las caracteristicas propias 
+ * de un objeto reproducible al igual que funciones que trabajan sobre este
+ * @author Julian Espada, Carlos Miret y Pablo Borrelli
+ *
+ */
 public abstract class ObjetoReproducible implements Serializable {
 	
 	/**
-	 * 
+	 * ID de serializacion
 	 */
 	private static final long serialVersionUID = 1L;
-	protected transient Mp3Player player; 
-	protected String ruta;
-	protected String titulo;
-	protected UsuarioRegistrado autor;
 	
 	/**
+	 * Reproductor del reproducible
+	 */
+	protected transient Mp3Player player; 
+	
+	/**
+	 * Ruta del reproducible
+	 */
+	protected String ruta;
+	
+	/**
+	 * Titulo del reproducible
+	 */
+	protected String titulo;
+	
+	/**
+	 * Autor del reproducible
+	 */
+	protected UsuarioRegistrado autor;
+	
+	
+	
+	/**
+	 * Metodo constructor del objeto reproducible
 	 * @param titulo
 	 * @param autor
 	 * @param ruta
@@ -36,52 +61,35 @@ public abstract class ObjetoReproducible implements Serializable {
 		
 	
 	/**
-	 * @param reproducible
+	 * Metodo que reproduce un objeto reproducible, haciendo uso de la libreria Mp3Player
 	 */
-	public abstract void reproducir()throws FileNotFoundException, Mp3PlayerException, InterruptedException; 
+	public abstract boolean reproducir()throws FileNotFoundException, Mp3PlayerException, InterruptedException; 
 		
 
 	/**
-	 * @param reproducible
+	 * Metodo que para la reproduccion de un objeto reproducible, haciendo uso de la libreria Mp3Player
 	 */
 	public abstract void pararReproduccion()throws FileNotFoundException, Mp3PlayerException, InterruptedException;
 
 	/**
+	 * metodo getter del reproductor de este objeto reproducible
 	 * @return the player
 	 */
 	public Mp3Player getPlayer() {
 		return player;
 	}
 
-	/**
-	 * @return
-	 * @throws IOException
-	 */
-	public abstract boolean moverCancionASistema() throws IOException;
-
-	/**
-	 * @param player the player to set
-	 */
-	public void setPlayer(Mp3Player player) {
-		this.player = player;
-	}
 
 
 	/**
-	 * @return the ruta
+	 * Metodo getter de la ruta del reproducible
+	 * @return String ruta del archivo
 	 */
 	public String getRuta() {
 		return ruta;
 	}
 
-
-	/**
-	 * @param ruta the ruta to set
-	 */
-	public void setRuta(String ruta) {
-		this.ruta = ruta;
-	}
-
+	
 
 	/**
 	 * @return the titulo
@@ -92,34 +100,12 @@ public abstract class ObjetoReproducible implements Serializable {
 
 
 	/**
-	 * @param titulo the titulo to set
-	 */
-	public void setTitulo(String titulo) {
-		if(this instanceof Cancion && Sistema.getInstance().getCancionesValidadas().contains(this))
-			return;
-		else
-			this.titulo = titulo;
-	}
-
-
-	/**
+	 * Metodo getter del autor del objeto reproducible
 	 * @return the autor
 	 */
 	public UsuarioRegistrado getAutor() {
 		return autor;
 	}
-
-
-	/**
-	 * @param autor the autor to set
-	 */
-	public void setAutor(UsuarioRegistrado autor) {
-		if(this instanceof Cancion && Sistema.getInstance().getCancionesValidadas().contains(this))
-			return;
-		else
-			this.autor = autor;
-	}
-	
 	
 	
 	

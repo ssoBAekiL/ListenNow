@@ -1,26 +1,25 @@
 package es.uam.padsof.objetoreproducible;
 
 import java.io.FileNotFoundException;
-import java.io.Serializable;
 import java.util.*;
 
 import es.uam.padsof.usuario.UsuarioRegistrado;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 /**
- * Esta clase es la clase padre que
- * @author carlosmiret
+ * Clase ObjetoComentable, que posee todos las caracteristicas propias 
+ * de un objeto comentable al igual que funciones que trabajan sobre este
+ * @author Julian Espada, Carlos Miret y Pablo Borrelli
  *
  */
-public abstract class ObjetoComentable extends ObjetoReproducible {
-	
+public abstract class ObjetoComentable extends ObjetoReproducible {	//podemos observar como esta clase hereda de ObjetoReproducible
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Array de comentarios que tiene un album
+	 * Array de comentarios que tiene un objeto comentable
 	 */
 	protected ArrayList<Comentario> comentarios;
 	
@@ -45,10 +44,16 @@ public abstract class ObjetoComentable extends ObjetoReproducible {
 	public abstract boolean anadirComentario(Comentario c);
 
 	
+	/**
+	 * Metodo que anyade una cancion a un objeto comentable (album)
+	 * @param c
+	 */
+	public abstract boolean anadirCancion(ObjetoComentable c);
+	
 	
 	/**
 	 * Funcion getter de comentarios
-	 * @return the comentarios
+	 * @return ArrayList comentarios
 	 */
 	public ArrayList<Comentario> getComentarios() {
 		return comentarios;

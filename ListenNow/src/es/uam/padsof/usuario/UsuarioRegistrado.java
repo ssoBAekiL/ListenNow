@@ -207,6 +207,7 @@ public class UsuarioRegistrado implements Serializable {
 	 */
 	public void promocionarUsuario() {
 		this.setEsPremium(true);
+		this.fechaPremium = LocalDate.now();
 	}
 	
 	/**
@@ -368,6 +369,7 @@ public class UsuarioRegistrado implements Serializable {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd. MM. yyyy");
 			if(saldo<10){
 				//System.out.println("NO EXISTEN FONDOS SUFICIENTES PARA REALIZAR LA OPERACION\n");
+				return false;
 			}
 			else {
 				this.saldo=saldo-10;
@@ -417,7 +419,7 @@ public class UsuarioRegistrado implements Serializable {
 	 * @return true en caso de que sea apto para comentar, ya se sea un album o cancion
 	 */
 	public boolean puedeComentar() {
-		if(Sistema.getInstance().getUsuarios().contains(this))
+		if(Sistema.getInstance().getUsuarios().contains(this) && this.bloqueado == false)
 			return true;
 		return false;/*llega aqui en el caso de usuario no registrado*/
 	}
@@ -500,12 +502,11 @@ public class UsuarioRegistrado implements Serializable {
 	 * @param UsuarioRegistrado seguido
 	 * @return true en caso de poder realizar la accion de forma correcta
 	 */
-	@SuppressWarnings("unused")
 	public boolean follows(UsuarioRegistrado seguido) {
 		if (Sistema.getInstance().getUsuarios().contains(seguido) == true) {
 			this.seguidos.add(seguido);
 			seguido.seguidores.add(this);
-			Notificacion n = new Notificacion(this, seguido);
+			Sistema.getInstance().setNotificaciones(new Notificacion(this, seguido));
 			return true;
 		}
 		return false;
@@ -513,10 +514,11 @@ public class UsuarioRegistrado implements Serializable {
 
 	/**
 	 * Metodo que imprime por pantalla todos aquellos valores caracteristicos de UsuarioRegistrado
+	 * @return String con los datos caracteristicos
 	 */
 	@Override
 	public String toString() {
-		return "UsuarioRegistrado [" + nombre + "]: " + contrasena;
+		return "UsuarioRegistrado: " + nombre + " cuentaPremium: " + this.esPremium + " bloqueado: " + this.bloqueado + " bloqueado permanente: " + this.bloqueoPermanente;
 	}
 	
 	/**
@@ -524,7 +526,7 @@ public class UsuarioRegistrado implements Serializable {
 	 * @param permanente que modifica el estado en el que se encuentra el usuario
 	 */
 	public void bloquearUsuario(boolean permanente) {
-		if(Sistema.getInstance().getUsuarioEnSesion().getNombre().equals(Sistema.getInstance().getAdmin().getNombre())) {
+		if(Sistema.getInstance().getConectado() == true && Sistema.getInstance().getUsuarioEnSesion().getNombre().equals(Sistema.getInstance().getAdmin().getNombre())) {
 			if (permanente == false) {
 				this.bloqueado = true;
 				this.setFechaBloqueo(LocalDate.now());
@@ -532,6 +534,7 @@ public class UsuarioRegistrado implements Serializable {
 			else
 				this.setBloqueoPermanente();
 		}
+		else return;
 	}
 
 
@@ -544,12 +547,19 @@ public class UsuarioRegistrado implements Serializable {
 			if (fecha.isAfter(this.fechaBloqueo)) {
 				this.bloqueado = false;
 			}
-			else if (Sistema.getInstance().getUsuarioEnSesion() == Sistema.getInstance().getAdmin())
+			else if (Sistema.getInstance().getConectado() == true && Sistema.getInstance().getUsuarioEnSesion().getNombre().equals(Sistema.getInstance().getAdmin().getNombre()))
 				this.bloqueado = false;
 		}
 		else return;
 	}
 	
-
+	
+	/**
+	 * Metodo setter de las canciones del usuario
+	 * @param canciones
+	 */
+	public void setCanciones(ArrayList<Cancion> canciones) {
+		this.canciones = canciones;
+	}
 
 }

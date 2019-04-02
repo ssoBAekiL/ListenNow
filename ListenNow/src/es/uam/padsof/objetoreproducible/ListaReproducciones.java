@@ -1,39 +1,48 @@
 package es.uam.padsof.objetoreproducible;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.*;
 
 import es.uam.padsof.usuario.UsuarioRegistrado;
-import pads.musicPlayer.Mp3Player;
 import pads.musicPlayer.exceptions.Mp3PlayerException;
 
 /**
+ * Clase ListaDeReproducciones, que posee todos las caracteristicas propias 
+ * de una lista de reproducciones al igual que funciones que trabajan sobre este
  * @author Julian Espada, Carlos Miret y Pablo Borrelli
  * 
- * Esta clase se encarga de gestionar el objeto ListaReproducciones
  */
 public class ListaReproducciones extends ObjetoReproducible {
 	
 	/**
-	 * 
+	 * ID de serializacion
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/** The Lista canciones. */
-	private ArrayList <Cancion> ListaCanciones;
+	/** 
+	 * Array de canciones que contiene una lista de reproducciones
+	 */
+	private ArrayList <Cancion> listaCanciones;
 	
-	/** The Lista albumes. */
-	private ArrayList <Album> ListaAlbumes;
+	/**
+	 * Array de albunes que tiene una lista de reproducciones
+	 */
+	private ArrayList <Album> listaAlbunes;
 	
-	/** The Listas. */
+	/**
+	 * Array de listas que puede tener una lista de reproducciones
+	 */
 	private ArrayList <ListaReproducciones> Listas;
 	
-	
-	/**Numero de canciones de la lista*/
+	/**
+	 * Numero de canciones que tiene una lista de reprodcuccion
+	 */
 	private int numeroDeCanciones;
 	
-	/** Duracion de la lista de reproduccion*/
+	
+	/**
+	 *	Duracion acumulada de una lista de reproducciones
+	 */
 	private double duracionAcumulada;
 	
 	/**
@@ -45,8 +54,8 @@ public class ListaReproducciones extends ObjetoReproducible {
 	 */
 	public ListaReproducciones (String titulo, UsuarioRegistrado autor)throws IOException, Mp3PlayerException {
 		super(titulo, autor, null);
-		this.ListaCanciones=new ArrayList<Cancion>();
-		this.ListaAlbumes=new ArrayList<Album>();
+		this.listaCanciones=new ArrayList<Cancion>();
+		this.listaAlbunes=new ArrayList<Album>();
 		this.Listas=new ArrayList<ListaReproducciones>();
 		this.numeroDeCanciones=0;
 		this.duracionAcumulada=0;
@@ -54,77 +63,55 @@ public class ListaReproducciones extends ObjetoReproducible {
 
 
 	/**
-	 * Devuelve las canciones.
-	 * @return ListaCanciones Las canciones que tiene la lista de reproduccion
+	 * Devuelve las canciones de ua lista de reproducciones.
+	 * @return listaCanciones Las canciones que tiene la lista de reproduccion
 	 */
 	public ArrayList<Cancion> getListaCanciones() {
-		return ListaCanciones;
+		return listaCanciones;
 	}
 
-	/**
-	 * Modifica la lista de canciones.
-	 *
-	 * @param listaCanciones La nueva lista de canciones
-	 */
-	public void setListaCanciones(ArrayList<Cancion> listaCanciones) {
-		ListaCanciones = listaCanciones;
-	}
 
 	/**
-	 * Devuelve el array de albumes que tendra la lista
-	 * @return ListaAlbumes El array de albumes de la lista
+	 * Devuelve el array de Albunes que tendra la lista
+	 * @return listaAlbunes El array de Albunes de la lista
 	 */
-	public ArrayList<Album> getListaAlbumes() {
-		return ListaAlbumes;
+	public ArrayList<Album> getListaAlbunes() {
+		return listaAlbunes;
 	}
 
-	/**
-	 * Modifica el array de albumes de la lista.
-	 *
-	 * @param listaAlbumes Es el nuevo array de albumes 
-	 */
-	public void setListaAlbumes(ArrayList<Album> listaAlbumes) {
-		ListaAlbumes = listaAlbumes;
-	}
 
 	/**
 	 * Devuelve las listas de reproduccion que tiene a su vez la lista de reproduccion principal.
 	 *
-	 * @return Listas El array de listas de reproducciones que tendr� la lista de reproduccion principal
+	 * @return Listas El array de listas de reproducciones que tendra la lista de reproduccion principal
 	 */
 	public ArrayList<ListaReproducciones> getListas() {
 		return Listas;
 	}
 
-	/**
-	 * Modifica la lista de reproduccion.
-	 *
-	 * @param listas El nuevo array de lista de reproduccion
-	 */
-	public void setListas(ArrayList<ListaReproducciones> listas) {
-		Listas = listas;
-	}
 	
 	/**
-	 * A�ade una cancion a la lista de reproduccion 
+	 * Aniade una cancion a la lista de reproduccion 
 	 * 
 	 * @param c La cancion nueva a introducir en la lista de reproduccion
+	 * @return true en caso de todo correcto
 	 */
 	public boolean aniadirCancionALista(Cancion c) {
 		int i, j;
-		if(ListaCanciones.contains(c)) {
+		if(listaCanciones.contains(c)) {
 			return false;
 		}
 		
-		for(i=0; i<this.ListaAlbumes.size(); i++) {
-			for(j=0; j<this.ListaAlbumes.get(i).getGetTamanioAlbum(); j++) {
-				if(this.ListaAlbumes.get(i).getCanciones().contains(c)) {
+		for(i=0; i<this.listaAlbunes.size(); i++) {
+			for(j=0; j<this.listaAlbunes.get(i).getGetTamanioAlbum(); j++) {
+				if(this.listaAlbunes.get(i).getCanciones().contains(c)) {
 					return false;
 				}
 			}
 		}
-		ListaCanciones.add(c);
+		listaCanciones.add(c);
 		this.numeroDeCanciones++;
+		this.duracionAcumulada += c.getDuracion();
 		return true;
 	}
 	
@@ -132,18 +119,22 @@ public class ListaReproducciones extends ObjetoReproducible {
 	 * Anade un album a la lista de reproduccion 
 	 * 
 	 * @param a El album nuevo a introducir en la lista de reproduccion
+	 * 
+	 * @return true en caso de todo correcto
+	 * @throws FileNotFoundException 
 	 */
-	public boolean aniadirAlbumALista(Album a) {
-		if(this.ListaAlbumes.contains(a)) {
+	public boolean aniadirAlbumALista(Album a) throws FileNotFoundException {
+		if(this.listaAlbunes.contains(a)) {
 			return false;	
 		}
-		for(int i=0;i<this.ListaCanciones.size();i++) {
-			if(a.getCanciones().contains(this.ListaCanciones.get(i))==true) {
+		for(int i=0;i<this.listaCanciones.size();i++) {
+			if(a.getCanciones().contains(this.listaCanciones.get(i))==true) {
 			/*forma indirecta de encontrar una cancion en una lista a traves de un album*/ 
 				return false;
 			}
 		}
-		ListaAlbumes.add(a);
+		listaAlbunes.add(a);
+		this.duracionAcumulada += a.getDuracionAcumulada();
 		return true;
 	}
 	
@@ -153,11 +144,14 @@ public class ListaReproducciones extends ObjetoReproducible {
 	 * Anade una lista a la lista de reproduccion 
 	 * 
 	 * @param l
+	 * @return true en caso de todo correcto
+	 * @throws FileNotFoundException 
 	 */
-	public boolean aniadirListaALista(ListaReproducciones l) {
-		if(this.Listas.contains(l) || this.Listas.contains(this))
+	public boolean aniadirListaALista(ListaReproducciones l) throws FileNotFoundException {
+		if(this.Listas.contains(l))
 			return false;
 		Listas.add(l);
+		this.duracionAcumulada += l.getDuracionAcumulada();
 		return true;
 	}
 	
@@ -166,10 +160,14 @@ public class ListaReproducciones extends ObjetoReproducible {
 	/**
 	 * Elimina un album de una lista de reproduccion
 	 * @param a Album a borrar
+	 * @return true en caso de todo correcto
 	 */
-	public void borrarAlbumALista(Album a) {
-		ListaAlbumes.remove(a);
-		return;
+	public boolean borrarAlbumALista(Album a) {
+		if(this.listaAlbunes.contains(a)) {
+			listaAlbunes.remove(a);
+			return true;
+		}
+		return false;
 	}
 	
 	
@@ -177,9 +175,12 @@ public class ListaReproducciones extends ObjetoReproducible {
 	 * Elimina una cancion de una lista de reproduccion
 	 * @param a cancion a borrar
 	 */
-	public void borrarCancionLista(Cancion c) {
-		ListaCanciones.remove(c);
-		return;
+	public boolean borrarCancionLista(Cancion c) {
+		if(listaCanciones.contains(c)) {
+			listaCanciones.remove(c);
+			return true;
+		}
+		return false;
 	}
 	
 	
@@ -187,17 +188,21 @@ public class ListaReproducciones extends ObjetoReproducible {
 	 * Funcion reproducir de la clase lista de reproducciones
 	 * @see es.uam.padsof.objetoreproducible.ObjetoReproducible#reproducir()
 	 */
-	public void reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
-		for(Cancion c: this.ListaCanciones) {
+	public boolean reproducir() throws FileNotFoundException, Mp3PlayerException, InterruptedException{
+		for(Cancion c: this.listaCanciones) {
 			c.reproducir();
 		}
-		for(Album a: this.ListaAlbumes) {
+		for(Album a: this.listaAlbunes) {
 			a.reproducir();
 		}
+		for(ListaReproducciones l: this.Listas) {
+			l.reproducir();
+		}
+		return true;
 	}
 	
 	/**
-	 * Funcion getter
+	 * Funcion getter del numero de canciones de una lista de reproduccion
 	 * @return the numeroDeCanciones
 	 */
 	public int getNumeroDeCanciones() {
@@ -212,35 +217,32 @@ public class ListaReproducciones extends ObjetoReproducible {
 	 */
 	@Override
 	public void pararReproduccion() throws FileNotFoundException, Mp3PlayerException, InterruptedException {
-		for(Cancion c: this.ListaCanciones) {
+		for(Cancion c: this.listaCanciones) {
 			c.pararReproduccion();
 		}
-		for(Album a: this.ListaAlbumes) {
+		for(Album a: this.listaAlbunes) {
 			a.pararReproduccion();
 		}
+
 	}
 
 
 	/**
 	 * Setter de la duracion acumulada en una lista de reproduccion
 	 * @throws FileNotFoundException
+	 * @return duracion acumulada de la lista de reproducciones
 	 */
 	public double getDuracionAcumulada() throws FileNotFoundException {
-		for(Cancion c: ListaCanciones) {
-			duracionAcumulada=duracionAcumulada+Mp3Player.getDuration(c.ruta);
-		}
-		for(Album a: ListaAlbumes) {
-			duracionAcumulada = duracionAcumulada+a.getDuracionAcumulada();
-		}
 		return duracionAcumulada;
 	}
-
-
-	@Override
-	public boolean moverCancionASistema() throws IOException {
-		// TODO Auto-generated method stub
-		return false;
+	/**
+	 * Metodo que devuelve todos los datos caracteristicos del objeto Lista de reproducciones
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return "[Lista de reproducciones: " + this.titulo + "	\nduracion: " + this.duracionAcumulada+"]";
 	}
+
 
 	
 }

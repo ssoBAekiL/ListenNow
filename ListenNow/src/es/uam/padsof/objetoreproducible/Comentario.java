@@ -13,12 +13,12 @@ import es.uam.padsof.usuario.UsuarioRegistrado;
  */
 public class Comentario implements Serializable {
 	/**
-	 * 
+	 * ID de serializacion
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * cuerpo o texto del comentario
+	 * Cuerpo o texto del comentario
 	 */
 	private String texto;
 
@@ -55,7 +55,7 @@ public class Comentario implements Serializable {
 	
 	
 	/**
-	 * Metodo que muestra por pantalla las principales
+	 * Funcion que muestra por pantalla todos los atributos caracteristicos de un comentario
 	 * 
 	 * @return cadena de caracteres
 	 */
