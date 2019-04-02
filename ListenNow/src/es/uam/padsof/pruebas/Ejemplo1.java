@@ -16,7 +16,7 @@ public class Ejemplo1 {
 		Container contenedor = ventana.getContentPane();
 		contenedor.setLayout(new FlowLayout());
 		// crear componentes
-		JLabel etiqueta = new JLabel("BIENVENIDO. DISFRUTA DE LA MUSICA QUE MAS TE GUSTA");
+		JLabel etiqueta = new JLabel("BIENV ENIDO. DISFRUTA DE LA MUSICA QUE MAS TE GUSTA");
 		//paneles con cardlayout
 		final JTextField campo = new JTextField(10);
 		
