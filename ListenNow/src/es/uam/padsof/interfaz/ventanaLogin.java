@@ -1,10 +1,8 @@
-package es.uam.padsof.ventanas;
+package es.uam.padsof.interfaz;
 
 import java.awt.Container;
 
 import javax.swing.JFrame;
-
-import es.uam.padsof.interfaz.LoginGUI;
 
 public class ventanaLogin extends JFrame{
 	/**

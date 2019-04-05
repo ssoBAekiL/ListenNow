@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
@@ -16,16 +17,21 @@ import org.jdatepicker.impl.UtilDateModel;
 
 public class RegistrarseGUI extends JPanel {
 
-	public RegistrarseGUI() {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
+	public RegistrarseGUI() {
+		this.setLayout(new SpringLayout());
 		
 		JLabel l_nombre = new JLabel("Nombre:");
 		JTextField nombre = new JTextField(20);
 		JLabel l_fechaNac = new JLabel("Fecha de nacimiento:");
-		//JTextField fechaNac = new JTextField(10);
-		UtilDateModel model = new UtilDateModel();
-		JDatePanelImpl datePanel = new JDatePanelImpl(model, null);
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, null);
+		JTextField fechaNac = new JTextField(10);
+//		UtilDateModel model = new UtilDateModel();
+//		JDatePanelImpl datePanel = new JDatePanelImpl(model, null);
+//		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, null);
 		JLabel l_contrasena = new JLabel("Contrasena:");
 		JPasswordField contrasena = new JPasswordField(20);
 		JLabel l_confContrasena = new JLabel("Confirmar contrasena:");
@@ -39,7 +45,7 @@ public class RegistrarseGUI extends JPanel {
 		this.add(l_nombre);
 		this.add(l_fechaNac);
 		this.add(nombre);
-		this.add(datePicker);
+		this.add(fechaNac);
 		this.add(b_registrarse);
 		this.add(confContrasena);
 		this.add(contrasena);

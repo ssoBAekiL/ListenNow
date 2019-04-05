@@ -1,6 +1,6 @@
 package es.uam.padsof.pruebas;
 
-import es.uam.padsof.ventanas.ventanaLogin;
+import es.uam.padsof.interfaz.ventanaLogin;
 
 public class LoginGUITest {
 
